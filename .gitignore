@@ -4,6 +4,14 @@
 # Log file
 *.log
 
+#Target
+target/
+
+# Webapp
+src/main/webapp/upload
+src/main/webapp/download/xls
+src/main/webapp/download/zip
+
 # BlueJ files
 *.ctxt
 

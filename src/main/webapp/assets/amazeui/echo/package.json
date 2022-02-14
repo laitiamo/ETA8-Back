@@ -1,0 +1,48 @@
+{
+  "name": "amazeui-echo",
+  "version": "1.7.3",
+  "description": "echo.js 结合 Amaze UI 使用示例",
+  "keywords": [
+    "amazeui",
+    "AMUI",
+    "lazy-loading",
+    "amazeui-plugin"
+  ],
+  "author": "@toddmotto",
+  "license": "MIT",
+  "homepage": "http://amazeui.github.io/echo/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/toddmotto/echo.git"
+  },
+  "main": "echo.min.js",
+  "devDependencies": {
+    "amazeui-doc-util": "^0.7.1",
+    "browser-sync": "^2.13.0",
+    "browserify": "^13.0.1",
+    "browserify-shim": "^3.8.2",
+    "del": "^2.2.1",
+    "gulp": "^3.8.10",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-csso": "^2.0.0",
+    "gulp-gh-pages": "^0.5.4",
+    "gulp-less": "^3.1.0",
+    "gulp-load-plugins": "^1.2.4",
+    "gulp-rename": "^1.2.0",
+    "markit-json": "^0.2.1",
+    "run-sequence": "^1.0.2",
+    "through2": "^2.0.1",
+    "vinyl-transform": "^1.0.0"
+  },
+  "dependencies": {
+    "amazeui": "^2.7.0"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "jquery": "global:jQuery"
+  }
+}

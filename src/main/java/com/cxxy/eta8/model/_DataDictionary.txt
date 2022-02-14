@@ -1,0 +1,508 @@
+Table: s_belong
+------------+--------------+------+-----+---------+---------
+ Field      | Type         | Null | Key | Default | Remarks 
+------------+--------------+------+-----+---------+---------
+ id         | INT(10)      | NO   | PRI |         | id      
+ BelongName | VARCHAR(255) | NO   |     |         | 等级名称    
+------------+--------------+------+-----+---------+---------
+
+Table: s_contract
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ typename | VARCHAR(255) | NO   |     |         |         
+----------+--------------+------+-----+---------+---------
+
+Table: s_cooperate
+---------------+--------------+------+-----+---------+---------
+ Field         | Type         | Null | Key | Default | Remarks 
+---------------+--------------+------+-----+---------+---------
+ id            | INT(10)      | NO   | PRI |         |         
+ CooperateName | VARCHAR(255) | NO   |     |         | 项目来源    
+---------------+--------------+------+-----+---------+---------
+
+Table: s_economic
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ TypeName | VARCHAR(255) | NO   |     |         |         
+ SecondId | INT(10)      | NO   |     |         |         
+----------+--------------+------+-----+---------+---------
+
+Table: s_entrust
+-------------+--------------+------+-----+---------+---------
+ Field       | Type         | Null | Key | Default | Remarks 
+-------------+--------------+------+-----+---------+---------
+ id          | INT(10)      | NO   | PRI |         |         
+ entrustName | VARCHAR(255) | NO   |     |         |         
+-------------+--------------+------+-----+---------+---------
+
+Table: s_first
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ TypeName | VARCHAR(255) | NO   |     |         |         
+ RankId   | INT(10)      | NO   |     |         |         
+----------+--------------+------+-----+---------+---------
+
+Table: s_property
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ TypeName | VARCHAR(255) | NO   |     |         |         
+----------+--------------+------+-----+---------+---------
+
+Table: s_rank
+----------+-------------+------+-----+---------+---------
+ Field    | Type        | Null | Key | Default | Remarks 
+----------+-------------+------+-----+---------+---------
+ id       | INT(10)     | NO   | PRI |         | id      
+ rankName | VARCHAR(50) | NO   |     |         | 等级名称    
+----------+-------------+------+-----+---------+---------
+
+Table: s_research
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ TypeName | VARCHAR(255) | NO   |     |         | 项目来源    
+----------+--------------+------+-----+---------+---------
+
+Table: s_second
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ TypeName | VARCHAR(255) | NO   |     |         |         
+ FirstId  | INT(10)      | NO   |     |         |         
+----------+--------------+------+-----+---------+---------
+
+Table: s_source
+------------+--------------+------+-----+---------+---------
+ Field      | Type         | Null | Key | Default | Remarks 
+------------+--------------+------+-----+---------+---------
+ id         | INT(10)      | NO   | PRI |         |         
+ SourceName | VARCHAR(255) | NO   |     |         | 项目来源    
+ levelId    | INT(10)      | NO   |     |         |         
+------------+--------------+------+-----+---------+---------
+
+Table: s_technical
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ TypeName | VARCHAR(255) | NO   |     |         |         
+----------+--------------+------+-----+---------+---------
+
+Table: s_topic
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ TypeName | VARCHAR(255) | NO   |     |         |         
+----------+--------------+------+-----+---------+---------
+
+Table: s_type
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ TypeName | VARCHAR(255) | NO   |     |         | 项目来源    
+ BelongId | INT(10)      | NO   |     |         |         
+----------+--------------+------+-----+---------+---------
+
+Table: sys_url
+-------+--------------+------+-----+---------+---------
+ Field | Type         | Null | Key | Default | Remarks 
+-------+--------------+------+-----+---------+---------
+ id    | INT(10)      | NO   | PRI |         |         
+ url   | VARCHAR(100) | NO   |     |         |         
+-------+--------------+------+-----+---------+---------
+
+Table: sys_url_role
+--------+---------+------+-----+---------+---------
+ Field  | Type    | Null | Key | Default | Remarks 
+--------+---------+------+-----+---------+---------
+ id     | INT(10) | NO   | PRI |         | id      
+ urlId  | INT(10) | NO   |     |         | urlId   
+ roleId | INT(10) | NO   |     |         | 角色Id    
+--------+---------+------+-----+---------+---------
+
+Table: t_assistant_link_student
+-------------+-------------+------+-----+---------+---------
+ Field       | Type        | Null | Key | Default | Remarks 
+-------------+-------------+------+-----+---------+---------
+ id          | INT(10)     | NO   | PRI |         |         
+ classId     | INT(10)     | NO   |     |         | 所管班级id  
+ assistantId | VARCHAR(20) | NO   |     |         | 学生助理id  
+-------------+-------------+------+-----+---------+---------
+
+Table: t_award
+-------------+--------------+------+-----+-------------------+---------
+ Field       | Type         | Null | Key | Default           | Remarks 
+-------------+--------------+------+-----+-------------------+---------
+ id          | INT(10)      | NO   | PRI |                   | id      
+ awardName   | VARCHAR(100) | NO   |     |                   | 奖项名称    
+ awardTypeId | INT(10)      | NO   |     |                   | 奖项类型    
+ createAt    | DATETIME(26) | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updateAt    | DATETIME(26) | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+-------------+--------------+------+-----+-------------------+---------
+
+Table: t_award_type
+----------+-------------+------+-----+---------+---------
+ Field    | Type        | Null | Key | Default | Remarks 
+----------+-------------+------+-----+---------+---------
+ id       | INT(10)     | NO   | PRI |         |         
+ typeName | VARCHAR(50) | NO   |     |         | 类型名称    
+----------+-------------+------+-----+---------+---------
+
+Table: t_candidate
+---------------+-------------+------+-----+---------+---------
+ Field         | Type        | Null | Key | Default | Remarks 
+---------------+-------------+------+-----+---------+---------
+ id            | INT(10)     | NO   | PRI |         |         
+ CandidateType | VARCHAR(50) | NO   |     |         | 类型名称    
+---------------+-------------+------+-----+---------+---------
+
+Table: t_class
+-----------+-------------+------+-----+---------+---------
+ Field     | Type        | Null | Key | Default | Remarks 
+-----------+-------------+------+-----+---------+---------
+ id        | INT(10)     | NO   | PRI |         | id      
+ className | VARCHAR(50) | NO   |     |         | 班级名称    
+ classNo   | INT(10)     | NO   |     | 0       | 班号      
+ majorId   | INT(10)     | NO   |     |         | 专业id    
+ gradeId   | INT(10)     | NO   |     |         | 年级id    
+-----------+-------------+------+-----+---------+---------
+
+Table: t_gender
+------------+-------------+------+-----+---------+---------
+ Field      | Type        | Null | Key | Default | Remarks 
+------------+-------------+------+-----+---------+---------
+ id         | INT(10)     | NO   | PRI |         | id      
+ genderName | VARCHAR(50) | NO   |     |         | 性别名称    
+------------+-------------+------+-----+---------+---------
+
+Table: t_grade
+-----------+-------------+------+-----+---------+---------
+ Field     | Type        | Null | Key | Default | Remarks 
+-----------+-------------+------+-----+---------+---------
+ id        | INT(10)     | NO   | PRI |         | id      
+ gradeName | VARCHAR(50) | NO   |     |         | 年级名称    
+-----------+-------------+------+-----+---------+---------
+
+Table: t_inform
+---------+--------------+------+-----+---------+---------
+ Field   | Type         | Null | Key | Default | Remarks 
+---------+--------------+------+-----+---------+---------
+ id      | INT(10)      | NO   | PRI |         | 主键      
+ title   | VARCHAR(100) | NO   |     |         | 消息标题    
+ content | VARCHAR(255) | NO   |     |         | 消息内容    
+---------+--------------+------+-----+---------+---------
+
+Table: t_instructor_link_student
+--------------+-------------+------+-----+---------+---------
+ Field        | Type        | Null | Key | Default | Remarks 
+--------------+-------------+------+-----+---------+---------
+ id           | INT(10)     | NO   | PRI |         |         
+ classId      | INT(10)     | NO   |     |         | 所管班级id  
+ instructorId | VARCHAR(20) | NO   |     |         | 辅导员id   
+--------------+-------------+------+-----+---------+---------
+
+Table: t_log_review
+--------------+--------------+------+-----+---------+---------
+ Field        | Type         | Null | Key | Default | Remarks 
+--------------+--------------+------+-----+---------+---------
+ id           | INT(10)      | NO   | PRI |         |         
+ awardlogId   | VARCHAR(255) | NO   |     |         | 审核奖项id  
+ reviewerName | VARCHAR(255) | NO   |     |         | 审核人名字   
+ reviewTypeId | INT(10)      | NO   |     |         |         
+--------------+--------------+------+-----+---------+---------
+
+Table: t_log_type
+------------+--------------+------+-----+---------+---------
+ Field      | Type         | Null | Key | Default | Remarks 
+------------+--------------+------+-----+---------+---------
+ id         | INT(10)      | NO   | PRI |         |         
+ reviewType | VARCHAR(255) | YES  |     |         |         
+------------+--------------+------+-----+---------+---------
+
+Table: t_major
+-----------+-------------+------+-----+---------+---------
+ Field     | Type        | Null | Key | Default | Remarks 
+-----------+-------------+------+-----+---------+---------
+ id        | INT(10)     | NO   | PRI |         | id      
+ majorName | VARCHAR(50) | NO   |     |         | 专业名称    
+-----------+-------------+------+-----+---------+---------
+
+Table: t_notice
+---------+--------------+------+-----+---------+---------
+ Field   | Type         | Null | Key | Default | Remarks 
+---------+--------------+------+-----+---------+---------
+ id      | INT(10)      | NO   | PRI |         | 主键      
+ content | VARCHAR(255) | YES  |     |         | 公告内容    
+---------+--------------+------+-----+---------+---------
+
+Table: t_paper_link_teacher
+-------------+---------+------+-----+---------+---------
+ Field       | Type    | Null | Key | Default | Remarks 
+-------------+---------+------+-----+---------+---------
+ id          | INT(10) | NO   | PRI |         | id      
+ PaperId     | INT(10) | NO   |     |         | 项目id    
+ UserId      | INT(10) | NO   |     |         | 参与者id   
+ CandidateId | INT(10) | NO   |     |         | 参与者类型   
+-------------+---------+------+-----+---------+---------
+
+Table: t_paper_rank
+----------+-------------+------+-----+---------+---------
+ Field    | Type        | Null | Key | Default | Remarks 
+----------+-------------+------+-----+---------+---------
+ id       | INT(10)     | NO   | PRI |         | id      
+ rankName | VARCHAR(50) | NO   |     |         | 等级名称    
+ typeId   | INT(10)     | NO   |     |         |         
+----------+-------------+------+-----+---------+---------
+
+Table: t_picture
+-----------+--------------+------+-----+---------+---------
+ Field     | Type         | Null | Key | Default | Remarks 
+-----------+--------------+------+-----+---------+---------
+ id        | INT(10)      | NO   | PRI |         | 主键      
+ imagePath | VARCHAR(255) | NO   |     |         | 图片路径地址  
+ writing   | VARCHAR(100) | NO   |     |         | 图片内容    
+-----------+--------------+------+-----+---------+---------
+
+Table: t_rank
+----------+-------------+------+-----+---------+---------
+ Field    | Type        | Null | Key | Default | Remarks 
+----------+-------------+------+-----+---------+---------
+ id       | INT(10)     | NO   | PRI |         | id      
+ rankName | VARCHAR(50) | NO   |     |         | 等级名称    
+----------+-------------+------+-----+---------+---------
+
+Table: t_review
+------------+-------------+------+-----+---------+---------
+ Field      | Type        | Null | Key | Default | Remarks 
+------------+-------------+------+-----+---------+---------
+ id         | INT(10)     | NO   | PRI |         | id      
+ reviewName | VARCHAR(50) | NO   |     |         | 审核状态名称  
+------------+-------------+------+-----+---------+---------
+
+Table: t_role
+------------+-------------+------+-----+---------+---------
+ Field      | Type        | Null | Key | Default | Remarks 
+------------+-------------+------+-----+---------+---------
+ id         | INT(10)     | NO   | PRI |         | id      
+ roleName   | VARCHAR(50) | NO   |     |         | 角色名称    
+ roleNameEn | VARCHAR(50) | NO   |     |         | 角色英文名称  
+------------+-------------+------+-----+---------+---------
+
+Table: t_student
+----------+-------------+------+-----+---------+---------
+ Field    | Type        | Null | Key | Default | Remarks 
+----------+-------------+------+-----+---------+---------
+ id       | INT(10)     | NO   | PRI |         | id      
+ stuNo    | VARCHAR(20) | NO   |     |         | 学号      
+ stuName  | VARCHAR(50) | NO   |     |         | 姓名      
+ genderId | INT(10)     | NO   |     |         | 性别ID    
+ classId  | INT(10)     | NO   |     |         | 班级ID    
+----------+-------------+------+-----+---------+---------
+
+Table: t_subject_horizon
+--------------------+--------------+------+-----+---------+---------
+ Field              | Type         | Null | Key | Default | Remarks 
+--------------------+--------------+------+-----+---------+---------
+ id                 | INT(10)      | NO   | PRI |         |         
+ SubjectId          | INT(10)      | NO   |     |         |         
+ Introduction       | VARCHAR(255) | YES  |     |         |         
+ RelyCenterSubject  | VARCHAR(255) | YES  |     |         |         
+ ContractName       | VARCHAR(255) | NO   |     |         |         
+ CooperatePrincipal | VARCHAR(255) | NO   |     |         |         
+ ContractNum        | VARCHAR(255) | NO   |     |         |         
+ FundNum            | VARCHAR(255) | NO   |     |         |         
+ EntrustPlaceId     | INT(10)      | NO   |     |         |         
+ CooperateId        | INT(10)      | NO   |     |         |         
+ ContractId         | INT(10)      | NO   |     |         |         
+ ContractFund       | INT(10)      | NO   |     |         |         
+ BankName           | VARCHAR(255) | NO   |     |         |         
+ BankAccount        | VARCHAR(255) | NO   |     |         |         
+ isDutyFree         | INT(10)      | NO   |     |         |         
+ DutyFreeId         | VARCHAR(255) | YES  |     |         |         
+ isPromote          | INT(10)      | NO   |     |         |         
+ ContractDuty       | VARCHAR(255) | NO   |     |         |         
+ PayId              | INT(10)      | NO   |     |         |         
+ EconomicId         | INT(10)      | NO   |     |         |         
+ SocietyId          | INT(10)      | NO   |     |         |         
+ SourceId           | INT(10)      | NO   |     |         |         
+ TechnicalId        | INT(10)      | NO   |     |         |         
+ PropertyId         | INT(10)      | NO   |     |         |         
+--------------------+--------------+------+-----+---------+---------
+
+Table: t_subject_link_teacher
+-------------+---------+------+-----+---------+---------
+ Field       | Type    | Null | Key | Default | Remarks 
+-------------+---------+------+-----+---------+---------
+ id          | INT(10) | NO   | PRI |         | id      
+ SubjectId   | INT(10) | NO   |     |         | 项目id    
+ UserId      | INT(10) | NO   |     |         | 参与者id   
+ CandidateId | INT(10) | NO   |     |         | 参与者类型   
+-------------+---------+------+-----+---------+---------
+
+Table: t_subject_rank
+----------+-------------+------+-----+---------+---------
+ Field    | Type        | Null | Key | Default | Remarks 
+----------+-------------+------+-----+---------+---------
+ id       | INT(10)     | NO   | PRI |         | id      
+ rankName | VARCHAR(50) | NO   |     |         | 等级名称    
+----------+-------------+------+-----+---------+---------
+
+Table: t_subject_school
+-------------+---------+------+-----+---------+---------
+ Field       | Type    | Null | Key | Default | Remarks 
+-------------+---------+------+-----+---------+---------
+ id          | INT(10) | NO   | PRI |         |         
+ SubjectId   | INT(10) | NO   |     |         | 项目id    
+ EconomicId  | INT(10) | NO   |     |         | 国民经济行业id
+ SocietyId   | INT(10) | NO   |     |         | 社会经济服务目标id
+ SourceId    | INT(10) | NO   |     |         | 项目来源id  
+ BelongId    | INT(10) | NO   |     |         | 统计归属id  
+ TypeId      | INT(10) | NO   |     |         | 一级学科id  
+ ResearchId  | INT(10) | NO   |     |         | 研究方向id  
+ CooperateId | INT(10) | NO   |     |         | 合作单位id  
+ PaperType   | INT(10) | NO   |     |         | 成果形式id  
+ PaperId     | INT(10) | YES  |     |         | 绑定成果id  
+-------------+---------+------+-----+---------+---------
+
+Table: t_subject_sponsored
+--------------------+--------------+------+-----+---------+---------
+ Field              | Type         | Null | Key | Default | Remarks 
+--------------------+--------------+------+-----+---------+---------
+ id                 | INT(10)      | NO   | PRI |         |         
+ SubjectId          | INT(10)      | NO   |     |         |         
+ ResearchId         | INT(10)      | NO   |     |         |         
+ isSecrecy          | INT(10)      | NO   |     |         |         
+ isVoucher          | INT(10)      | NO   |     |         |         
+ isSubmitFill       | INT(10)      | NO   |     |         |         
+ isPromote          | INT(10)      | NO   |     |         |         
+ isDutyFree         | INT(10)      | NO   |     |         |         
+ DutyFreeId         | INT(10)      | YES  |     |         |         
+ BelongId           | INT(10)      | NO   |     |         |         
+ TypeId             | INT(10)      | NO   |     |         |         
+ EntrustPlaceId     | INT(10)      | NO   |     |         |         
+ TopicId            | INT(10)      | NO   |     |         |         
+ MainProjectName    | VARCHAR(255) | YES  |     |         |         
+ ApplicationCode    | VARCHAR(255) | YES  |     |         |         
+ Introduction       | VARCHAR(255) | NO   |     |         |         
+ Remarks            | VARCHAR(255) | YES  |     |         |         
+ CooperateId        | INT(10)      | NO   |     |         |         
+ ContractNum        | VARCHAR(255) | NO   |     |         |         
+ FundNum            | VARCHAR(255) | NO   |     |         |         
+ ContractName       | VARCHAR(255) | NO   |     |         |         
+ ContractId         | INT(10)      | NO   |     |         |         
+ ContractFund       | VARCHAR(255) | NO   |     |         |         
+ CooperatePrincipal | VARCHAR(255) | NO   |     |         |         
+ BankName           | VARCHAR(255) | NO   |     |         |         
+ BankAccount        | VARCHAR(255) | NO   |     |         |         
+ ContractDuty       | VARCHAR(255) | NO   |     |         |         
+ PayId              | INT(10)      | NO   |     |         |         
+ EconomicId         | INT(10)      | NO   |     |         |         
+ SocietyId          | INT(10)      | NO   |     |         |         
+ SourceId           | INT(10)      | NO   |     |         |         
+ TechnicalId        | INT(10)      | NO   |     |         |         
+ PropertyId         | INT(10)      | NO   |     |         |         
+--------------------+--------------+------+-----+---------+---------
+
+Table: t_teacher
+----------+-------------+------+-----+---------+---------
+ Field    | Type        | Null | Key | Default | Remarks 
+----------+-------------+------+-----+---------+---------
+ id       | INT(10)     | NO   | PRI |         | id      
+ teaNo    | VARCHAR(20) | NO   |     |         | 教师号     
+ teaName  | VARCHAR(50) | NO   |     |         | 姓名      
+ genderId | INT(10)     | NO   |     |         | 性别id    
+ userId   | INT(10)     | NO   |     |         | 教师对应的user表id
+----------+-------------+------+-----+---------+---------
+
+Table: t_type
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ typeName | VARCHAR(255) | NO   |     |         |         
+----------+--------------+------+-----+---------+---------
+
+Table: t_user
+----------+--------------+------+-----+-------------------+---------
+ Field    | Type         | Null | Key | Default           | Remarks 
+----------+--------------+------+-----+-------------------+---------
+ id       | INT(10)      | NO   | PRI |                   |         
+ username | VARCHAR(20)  | NO   |     |                   | 用户名     
+ password | VARCHAR(50)  | NO   |     |                   | 密码      
+ createAt | DATETIME(26) | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updateAt | DATETIME(26) | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+----------+--------------+------+-----+-------------------+---------
+
+Table: t_user_award
+------------+--------------+------+-----+-------------------+---------
+ Field      | Type         | Null | Key | Default           | Remarks 
+------------+--------------+------+-----+-------------------+---------
+ id         | INT(10)      | NO   | PRI |                   |         
+ awardTime  | DATE(10)     | NO   |     |                   | 获奖时间    
+ awardPlace | VARCHAR(50)  | NO   |     |                   | 获奖名次    
+ createAt   | DATETIME(26) | NO   |     | CURRENT_TIMESTAMP | 上传时间    
+ reviewAt   | DATETIME(26) | YES  |     |                   | 审核时间    
+ imagePath  | VARCHAR(255) | NO   |     |                   | 图片路径    
+ userId     | INT(10)      | NO   |     |                   | 用户id    
+ awardId    | INT(10)      | NO   |     |                   | 奖项id    
+ rankId     | INT(10)      | NO   |     |                   | 级别id    
+ reviewId   | INT(10)      | NO   |     |                   | 审核状态id  
+------------+--------------+------+-----+-------------------+---------
+
+Table: t_user_paper
+------------+--------------+------+-----+-------------------+---------
+ Field      | Type         | Null | Key | Default           | Remarks 
+------------+--------------+------+-----+-------------------+---------
+ id         | INT(10)      | NO   | PRI |                   |         
+ paperName  | VARCHAR(255) | NO   |     |                   | 奖项名称    
+ paperTime  | DATE(10)     | NO   |     |                   | 获奖时间    
+ paperPlace | VARCHAR(50)  | NO   |     |                   | 获奖名次    
+ createAt   | DATETIME(26) | NO   |     | CURRENT_TIMESTAMP | 上传时间    
+ reviewAt   | DATETIME(26) | YES  |     |                   | 审核时间    
+ imagePath  | VARCHAR(255) | NO   |     |                   | 图片路径    
+ rankId     | INT(10)      | NO   |     |                   | 级别id    
+ reviewId   | INT(10)      | NO   |     |                   | 审核状态id  
+ typeId     | INT(10)      | NO   |     |                   | 奖项类型id  
+------------+--------------+------+-----+-------------------+---------
+
+Table: t_user_role
+--------+---------+------+-----+---------+---------
+ Field  | Type    | Null | Key | Default | Remarks 
+--------+---------+------+-----+---------+---------
+ id     | INT(10) | NO   | PRI |         |         
+ userId | INT(10) | YES  |     |         | 用户id    
+ roleId | INT(10) | YES  |     |         | 角色id    
+--------+---------+------+-----+---------+---------
+
+Table: t_user_subject
+--------------+--------------+------+-----+-------------------+---------
+ Field        | Type         | Null | Key | Default           | Remarks 
+--------------+--------------+------+-----+-------------------+---------
+ id           | INT(10)      | NO   | PRI |                   |         
+ subjectNum   | VARCHAR(255) | NO   |     |                   | 项目审批号   
+ subjectName  | VARCHAR(255) | NO   |     |                   | 项目名称    
+ subjectTime  | DATE(10)     | NO   |     |                   | 立项时间    
+ startTime    | DATE(10)     | NO   |     |                   | 开始时间    
+ FinishTime   | DATE(10)     | NO   |     |                   | 计划结项时间  
+ createAt     | DATETIME(26) | NO   |     | CURRENT_TIMESTAMP | 上传时间    
+ reviewAt     | DATETIME(26) | YES  |     |                   | 审核时间    
+ imagePath    | VARCHAR(255) | NO   |     |                   | 图片路径    
+ rankId       | INT(10)      | NO   |     |                   | 项目类别id  
+ levelId      | INT(10)      | NO   |     |                   | 项目级别id  
+ reviewId     | INT(10)      | NO   |     |                   | 审核状态id  
+ subjectPlace | VARCHAR(255) | NO   |     |                   | 项目来源单位  
+ subjectFund  | INT(10)      | NO   |     |                   | 项目经费    
+--------------+--------------+------+-----+-------------------+---------
+

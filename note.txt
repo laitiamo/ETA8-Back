@@ -1,0 +1,972 @@
+项目记录笔记：
+1.配置文件的使用：
+如果换数据库名字或者密码就不用去改程序，直接改配置文件；
+调用：WebConfig里PropKit.use("config.properties");
+devMode：设置开发模式
+调用： me.setDevMode(PropKit.getBoolean("devMode", false));
+不让freemarker即时刷新 减少一些调试信息 给定一个默认的缓存时间 减轻访问数据库的压力
+devMode = true就是 freemarker 在开发模式下没缓存 即时刷新
+写入数据库用户名和密码
+2.关于数据缓存：
+ehcache.xml的详细使用视情况而定，以看懂理解之后实战为基准操作
+有关缓存写入的地方：log4j.properties里、WebConfig里、pom.xml里
+3.log4j.properties:
+这里是关于shiro权限框架生成日志并设置一定格式的程序调用代码并在控制台内输出出来
+4.eta.sql此项实际为方便在部署写入的一个数据库sql文件
+5.web.sql：
+为方便管理sql文件，事先写好相应查询语句 使用时需要在WebConfig的configPlugin方法里配置才能实用
+具体相关的配置代码在WebConfig里有进一步的注解，另外官方文档也提供了更为详细的解释
+其中:#sql 指令: 通过#sql指令可以定义sql语句
+Model.getSql()在自身所对应的ActiveRecordPlugin的sql模板中去取sql
+Db.getSql()在主ActiveRecordPlugin的sql模板中去取sql
+可通过Db.use(…).getSql(…) 实现Model.getSql()相同功能
+#para 指令:#para 指令用于生成 sql 中的问号占位符以及问号占位符所对应的参数值，两者分别保存在 SqlPara对象的 sql 和 paraList 属性之中
+所对应的java后端代码必须调用getSqlPara(String key, Object… paras)
+ 
+ 
+ WebConfig.java：
+ 基于JFinal的web项目需要创建一个继承自JFinalConfig类的子类，该类用于对整个web项目进行配置
+ 1.基础路径的配置，调用BasePathHandler() 在其他路径设置的文件下设置相对路径，考虑兼容问题，为了能更好的部署项目
+ 2.例外关于在configPlugin加入两个数据库配置，第一个是为了操作数据库加入的，还有一个是为了记录数据库表加入的
+ ActiveRecordPlugin arp2 = new ActiveRecordPlugin("system", dp2);给其一个配置名"system"，便于DbRecord.java区分使用数据库语言
+ information_schema.key_column_usage 表可以查看索引列上的约束；
+ #sql("KEY_COLUMN_USAGE")为了方便查询数据库中具体表的外键做查询的
+ 3.information_schema.key_column_usage 的常用列：
+　　1、constraint_catalog：约束类型这个永远是def
+
+　　2、constraint_schema：约束所在的数据库名
+
+　　3、constraint_name：约束名
+
+　　4、table_catalog：表类型这个永远是def
+
+　　5、table_schema：表所在的数据库名
+
+　　6、column_name：索引所在的列名
+
+　　7、referenced_table_schema：被引用表所在的数据库名
+
+　　8、referenced_table_name：被引用的表名
+
+　　9、referenced_column_name：被引用表的列名
+冗余删除的代码,之前写代码写的:
+#sql("findUser")
+SELECT
+v_user_info.userId,
+v_user_info.username,
+v_user_info.password,
+v_user_info.roleId,
+v_user_info.roleName,
+v_user_info.roleNameEn
+FROM
+v_user_info
+#end
+
+#sql("findStudentInfo")
+SELECT
+v_student_info.userId,
+v_student_info.username,
+v_student_info.createAt,
+v_student_info.updateAt,
+v_student_info.roleId,
+v_student_info.roleName,
+v_student_info.roleNameEn,
+v_student_info.stuNo,
+v_student_info.stuName AS name,
+v_student_info.className,
+v_student_info.genderName,
+v_student_info.gradeName,
+v_student_info.majorName,
+v_student_info.genderId,
+v_student_info.classId,
+v_student_info.gradeId,
+v_student_info.majorId
+FROM
+v_student_info
+#end
+
+#sql("findTeacherInfo")
+SELECT
+v_teacher_info.userId,
+v_teacher_info.username,
+v_teacher_info.createAt,
+v_teacher_info.updateAt,
+v_teacher_info.roleId,
+v_teacher_info.roleName,
+v_teacher_info.roleNameEn,
+v_teacher_info.teaNo,
+v_teacher_info.teaName AS name,
+v_teacher_info.genderName,
+v_teacher_info.genderId
+FROM
+v_teacher_info
+#end
+
+#sql("findAward")
+SELECT
+t_award.*
+FROM
+t_award
+#end
+
+#sql("findRank")
+SELECT
+eta4.t_rank.*
+FROM
+eta4.t_rank
+#end
+
+#sql("findUserAward")
+SELECT
+t_award.awardName,
+t_review.reviewName,
+t_rank.rankName,
+t_user_award.id,
+t_user_award.awardTime,
+t_user_award.awardPlace,
+t_user_award.createAt,
+t_user_award.reviewAt
+FROM
+t_user_award
+INNER JOIN t_review ON t_user_award.reviewId = t_review.id
+INNER JOIN t_award ON t_user_award.awardId = t_award.id
+INNER JOIN t_rank ON t_user_award.rankId = t_rank.id
+#end
+
+#sql("findStudentAward")
+SELECT
+v_student_award.id,
+v_student_award.awardTime,
+v_student_award.awardPlace,
+v_student_award.createAt,
+v_student_award.reviewAt,
+v_student_award.imagePath,
+v_student_award.awardName,
+v_student_award.rankName,
+v_student_award.reviewName,
+v_student_award.username,
+v_student_award.stuNo,
+v_student_award.stuName,
+v_student_award.className,
+v_student_award.genderName,
+v_student_award.gradeName,
+v_student_award.majorName,
+v_student_award.userId,
+v_student_award.awardId,
+v_student_award.rankId,
+v_student_award.reviewId,
+v_student_award.genderId,
+v_student_award.classId,
+v_student_award.gradeId,
+v_student_award.majorId
+FROM
+v_student_award
+#end
+
+#sql("findTeacherAward")
+SELECT
+v_teacher_award.id,
+v_teacher_award.awardTime,
+v_teacher_award.awardPlace,
+v_teacher_award.createAt,
+v_teacher_award.reviewAt,
+v_teacher_award.imagePath,
+v_teacher_award.awardName,
+v_teacher_award.rankName,
+v_teacher_award.reviewName,
+v_teacher_award.username,
+v_teacher_award.teaNo,
+v_teacher_award.teaName,
+v_teacher_award.genderName,
+v_teacher_award.userId,
+v_teacher_award.awardId,
+v_teacher_award.rankId,
+v_teacher_award.reviewId,
+v_teacher_award.genderId
+FROM
+v_teacher_award
+#end
+
+#sql("findGrade")
+SELECT
+eta4.t_grade.*
+FROM
+eta4.t_grade
+#end
+
+#sql("findMajor")
+SELECT
+eta4.t_major.*
+FROM
+eta4.t_major
+#end
+
+#sql("findClass")
+SELECT
+eta4.t_class.*
+FROM
+eta4.t_class
+#end
+4.删去	public static final String CACHE_NAME = "WebCache";
+
+WebRealm.java:shiro框架需要用到的域定义类 用于获取安全数据
+控制台输出两遍#sql("KEY_COLUMN_USAGE")
+WebRealm.java文件里调用了两次include
+主要分为授权与认证
+因为过于重要，这里把所有注释直接代码中写好复制到此：
+public class WebRealm extends AuthorizingRealm {
+	//从数据库中获取安全数据
+	@Override
+	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();  //授权信息
+		String username = (String) principals.getPrimaryPrincipal();  //将object强转为string
+		Record user = new DbRecord(DbConfig.T_USER_ROLE).whereEqualTo("username", username).include("userId")
+				.include("roleId").queryFirst(); //查询当前用户在数据库的记录
+		info.addRole(user.getStr("roleNameEn"));//将数据库中查询的角色放置到当前角色当中
+		return info;
+	}  //授权
+
+	/**
+	 * 1.doGetAuthenticationInfo 获取认证消息，如果数据库中没有数据，返回null,如果得到正确的用户名和密码，返回指定类型的对象
+	 * 
+	 * 2.AuthenticationInfo 可以使用SimpleAuthenticationInfo实现类，封装给正确的用户名和密码
+	 * 
+	 * 3.token参数，就是我们需要认证的token
+	 */
+	@Override
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+		// 1. 把 AuthenticationToken 转换为 UsernamePasswordToken
+		UsernamePasswordToken uToken = (UsernamePasswordToken) token;
+
+		// 2. 从 UsernamePasswordToken 中获取 username
+		String username = uToken.getUsername();
+
+		// 3. 调用Model层方法，从数据库中查询记录
+		if (!StrKit.isBlank(username)) {
+			Record user = new DbRecord(DbConfig.T_USER).whereEqualTo("username", username).queryFirst();
+			if (user != null) {
+				// 4. 如果找到对应记录，就构建 AuthenticationInfo 对象并返回
+				return new SimpleAuthenticationInfo(username, user.getStr("password"), this.getName());
+				//进行相应用户名的密码比对，shiro内部自动帮我们完成  doCredentialsMatch(token,info)
+			}
+		}
+		return null;
+	}  //认证
+}
+
+Controller类+对应Validator详解：
+一.AwardAddController.java
+奖项添加类：
+功能：用于添加奖项
+AddAwardValidator.java
+用作奖项添加的拦截功能
+1.setShortCircuit(true);短路校验设置，发现拦截中有一个地方错误就输出打印相应的信息，不验证下面时是否有错，
+只存在上面验证正确之后再去验证下下面代码是否正确。
+2.validateRequiredString:验证String类型的文本输入框是否为空的
+  validateInteger:验证Int类型文本输入框是否为空转为对应泛型
+  protected void handleError(Controller c)里 c.renderJson(new AjaxResult(AjaxResult.CODE_ERROR, c.getAttrForStr("msg")));
+   返回json形式的数据供前端使用 其中c.getAttrForStr("msg")把msg对象转成String类型调用才行
+  
+二.AwardController.java
+奖项列表类：
+功能：用来审查所有教师奖与学生奖，可做删除操作
+1.分页list()方法
+renderJson(new LayUITableResult<Record>(AjaxResult.CODE_SUCCESS, "", p.getTotalRow(), p.getList()));
+返回的json数据格式需要符合layuitable结果集的规范格式：
+默认接受的数据格式layui.code
+{
+  code: 0,   AjaxResult.CODE_SUCCESS
+  msg: "",  ""
+  count: 1000, p.getTotalRow(),
+  data: []  p.getList())
+}  
+2.页面上修改奖项名称 update()方法 
+以及UpdateAwardValidator.java与之前代码讲解记载类似，不再赘述
+3.奖项的删除 delete()方法
+DeleteAwardValidator.java里没什么好讲的，看代码就能看懂
+Db.tx事务 为一段代码添加事务 Db.tx 做事务的好处是控制粒度更细，并且可以通过  return false 进行回滚，也即不必抛出异常即可回滚。
+java中内部类中匿名类的使用:
+1、内部类方法可以访问该类定义所在的作用域中的数据，包括私有的数据；
+2、内部类可以对同一个包中的其他类隐藏起来；
+3、使用匿名内部类定义回调函数,节省代码；
+4、使用内部类可以非常方便的编写事件驱动程序。
+循环做批量删除操作(有更加优良的写法，但项目较小这样写也行，可以自行忽略)
+
+三、DetailStuController.java
+学生奖项详情查看类：
+功能：主要查看学生上传奖项的具体信息
+1.Integer id = getParaToInt("id");是根据QueryStuController.java中detail()方法重定向送过来的，在界面上是通过点击工具条事件得到的
+2.查询数据，通过V_STUDENT_AWARD视图表查询，Map键值对形式保存数据，以便根据key快速查找添加value
+3.attrMap.put("time", new SimpleDateFormat("yyyy/MM/dd").format(r.getDate("awardTime")));
+format的用法 是将当前时间格式转换为指定格式，
+setAttrs(attrMap);发送请求，将数据传递到view层并在view层上显示出来
+
+四、DetailTeaController.java
+教师奖项详情查看类：
+功能：主要查看教师上传奖项的具体信息
+1.查询的视图表不一样，其余原理与DetailStuController.java相同
+
+五、HomeController.java
+主页：
+功能：登录界面进去之后的界面
+为了做首页的，这边没有写，后期再做相关的讨论。
+
+六、ImportAwardController.java
+导入奖项类：
+功能：导入学生教师奖项
+1.download方法
+从指定文件库中获取下载文件
+File.separator文件分隔符 为适应不同系统而设置的
+renderFile(templateFile); 渲染名为templateFile的文件，一般用于文件下载
+PathKit.getWebRootPath() 获取下载路径文件位置
+2.upload方法
+File xls = getFile().getFile(); getFile()是从前端得到文件后再去处理，文件必须先传过来再做判断
+第一个getfile() Upload形式 得到上传过来的文件 输出的应该是内存中的地址
+第二个getfile() File形式 从上传文件目录下我获取文件全名地址
+xls.delete删除上传过来的不符合规范的文件
+try catch 如果得到文件本身就发生未知异常，直接catch
+否则try里面调用ImportService.me.importAward(xls)进一步判断
+提示注意：关于java类创建自身静态对象的好处，在该类外调用该类中方法时，不用再去创建该类新的对象，可以直接调用
+关于ImportService.me.iimportAward(File xls) ImportService.java里再去详细讲解
+
+七、ImportStuController.java
+导入学生信息类:
+功能：用来导入学生信息
+1.setAttr("grade", new DbRecord(DbConfig.T_GRADE).orderByASC("id").query());
+  setAttr("major", new DbRecord(DbConfig.T_MAJOR).orderByASC("id").query());
+  设置年级和专业显示，download方法与ImportAwardController.java类似，不再赘述
+2.ImportStuValidator.java主要用来判断是否有传入上传文件与班级的
+3.upload方法
+同样是先得到文件，不过多了班级添加的条件（注意：班级手动添加）
+关于ImportService.me.importStu(xls, classId) ImportService.java里再去详细讲解
+4.listClass方法
+主要是为了在前端显示班级列表的
+List<Record> result = new DbRecord(DbConfig.T_CLASS).whereEqualTo("gradeId", gradeId)
+				.whereEqualTo("majorId", majorId).query();
+把查询的数据放到list里面然后renderJson(result);
+
+八、ImportTeaController.java
+导入教师信息类：
+功能：用来导入教师信息的
+代码内容与ImportStuController.java类似，不再赘述
+ImportService.me.importTea(xls) ImportService.java里再去详细讲解
+（尝试着做一些修改，修改方向往进度条方面下手）
+
+九、LoginController.java
+登录类:
+功能：登录处理
+登录界面的处理
+1.LoginValidator.java拦截器，主要验证用户名、密码、验证码是否为空、验证码是否正确。
+  c.keepPara();如果有写入错误，保持原来的输入信息，返回登录界面
+2.login方法
+UserService.me.login(getPara("username"), getPara("password"))验证用户名密码是否正确，这边交给shiro处理的
+如果正确，进入首页，否则拦截让其停留在登录界面
+关于如何验证，后面UserService.java里做详细分析
+
+十、LogoutController.java
+登出类：
+功能：登出处理
+UserService.me.logout()主要交给shiro做
+如果正确，退出登录返回登录界面，否则，报错
+关于如何验证，后面UserService.java里做详细分析
+
+十一、MineController.java
+我的奖项类：
+功能：用来查看自己上传的奖项，查看是否审核，是否通过
+1.list方法里查看自己奖项是采用分页形式处理的
+但查询的方法过于繁琐先把原来的语句
+Page<Record> p = new DbRecord(DbConfig.T_USER_AWARD).join(DbConfig.T_AWARD, "awardId", "id")
+			.join(DbConfig.T_RANK, "rankId", "id").join(DbConfig.T_REVIEW, "reviewId", "id")
+			.whereEqualTo("userId", UserService.me.getCurrentUser().getInt("id")).page(page, limit);
+替换成现在的语句
+Page<Record> p = new DbRecord(SecurityUtils.getSubject().hasRole(UserService.ROLE_STUDENT)?DbConfig.V_STUDENT_AWARD:DbConfig.V_TEACHER_AWARD)
+		.whereEqualTo("userId", UserService.me.getCurrentUser().getInt("id")).page(page, limit);
+这样直接查视图还保证了安全性
+经过再次审查，有点小问题，因为V_STUDENT_AWARD视图表已经被修改过了，因为多了个辅导员id对应的缘故，所以在删除辅导员id身份时，当没有教师对应该班级就会产生无管理的班级状态，从而看不到信息
+（对应应该不会产生多大的问题）
+2.SecurityUtils.getSubject().hasRole(UserService.ROLE_STUDENT)
+判断当前角色是否为学生，如果是，身份验证成功可以，查看自己的相关学生奖项信息，如果不是，则判断当前角色为老师，可以查看自己相关的教师奖项信息
+关联WEB-INF下的shiro.ini，然后根据域所在位置(WebRealm)看授权方法里是否有对应的角色的信息然后再作进一步处理
+3.detail方法
+通过点击查询按钮，进入相应查询界面的，如果符合角色身份进入相应查询界面，传入新的id重定向到detail界面
+
+十二、PasswordController.java
+修改密码类：
+功能：用来修改个人密码
+UpdatePasswordValidator.java
+该拦截器是用来拦截验证密码修改情况的
+1.!c.getPara("old-pass").equals(UserService.me.getCurrentUser().getStr("password"))判断是否旧密码输入的与之前的一样
+UserService.me.getCurrentUser()返回的是一条record记录，所以可以从中获取对应字段信息作对比
+2.validateRegex("new-pass", "^[a-zA-Z0-9]{6,20}+$", true, "msg", "密码格式不符合要求！");判断新密码设置是否符合要求
+   限定密码长度6-20位且必须是非标点符号类型的密码
+3.c.getPara("old-pass").equals(c.getPara("new-pass-v")) 用法类似，是用来让新密码不能与旧密码相同的
+其他地方与之前的拦截器用法一致
+4.UserService.me.updatePassword(id, newPass) 这个方法在UserService.java里再去做详情介绍
+
+十三、QueryStuController.java
+查询学生奖项类：
+功能：用来查询学生奖项的 并可以对查询出来的信息进行导入与导出
+1.index方法里
+setAttr("review", new DbRecord(DbConfig.T_REVIEW).whereEqualTo("id", WebConfig.REVIEW_UNREAD).query());
+之前是可以选择看未审核的，但显然这样不合理，现将其改动：
+setAttr("review", new DbRecord(DbConfig.T_REVIEW).whereEqualTo("id", WebConfig.REVIEW_PASS).query());
+只要看审核通过的奖项就满足需要了
+但貌似这句话不需要了，删掉，因为没有可以查询未审核还是审核不通过的了
+2.另外list方法以及exportXLS、exportZIP里reviewId "2"显得十分的唐突，不符合规范改成调用WebConfig.REVIEW_PASS统一化起来比较好
+  list方法：Page<Record> p = new DbRecord(DbConfig.V_STUDENT_AWARD).whereEqualTo("gradeId", gradeId)
+				.whereEqualTo("majorId", majorId).whereEqualTo("classId", classId).whereEqualTo("rankId", rankId)
+				.whereEqualTo("reviewId", WebConfig.REVIEW_PASS).whereEqualTo("username", keyUsername).whereContains("name", keyName)
+				.page(page, limit);
+   用来检索查询和动态显示表单数据的，如果查询的有一个值为空，就返回当前调用的对象Dbrecord，换句话说可以做连续拼接查询是一点问题都没有的
+3.detail()跟之前一样，略
+4.listClass()查询班级的，前提是在选中了gradeId与majorId此方法才会被进一步调用
+5.exportXLS()方法 导出学生获奖信息表  
+  File downloadFile = null;  先创建下载文件
+  downloadFile = ExportService.me.exportStudentAward(records);  
+    将之前表格查询显示的记录放到里面去调用ExportService.me.exportStudentAward(records)方法
+    具体解释见ExportService.java
+  renderFile(downloadFile);不用多说返回下载文件的
+6.exportZIP()方法 将导出的学生信息表放入压缩包  
+  从前端得到相应字段的值，查询之后放到List<record>中,然后在前端做一下小处理(不然这边会报一个错),try catch进行合理的处理，不行就报异常
+  File downloadFile = ExportService.me.exportStudentZIP(records);进行压缩操作 具体怎么做的
+  到后面ExportService.java里再去做详细的解释
+  if (downloadFile != null) {
+				renderFile(downloadFile);
+} 感觉这句话处理有问题，基本可以直接做renderFile(downloadFile);了，因为前端已经处理了文件得到是空数据的情况了，但考虑到可能会有未考虑到的bug在里面，所以还是先暂时留住
+
+十四、QueryTeaController.java
+查询教师奖项类：
+功能: 用来查询教师奖项的 并可以对查询出来的信息进行导入与导出
+首先存在跟查询学生奖项类一样的问题：空数据时导出图片zip会出bug，所以这边同样在前端做拦截，具体操作见html详解
+其他操作与QueryStuController.java类似，相应的 ExportService.me.exportTeacherAward(records)与ExportService.me.exportTeacherZIP(records);
+具体解释见ExportService.java
+
+十五、ReviewController.java
+学生奖项审核类：
+功能：身份为系统管理员或者辅导员的可以审核学生奖项，但辅导员只能审核自己班学生的奖项的说(因为设置角色那边有所改动，记得做下测试)
+另外做权限管理的时候也有所改动过
+1.list方法里
+  调用Record info = UserService.me.getCurrentUserInfo();为了方便获取当前用户信息，
+  if(info.getInt("roleId") == 1)判断角色是否具有系统管理员的身份的，如果有是可以对所有学生进行获奖审核的，如果没有就判定为辅导员进行审核
+  但只能对自己班学生进行审核操作
+  但这段代码不是很亲民，改一下在webconfig里添加静态常量，调用一下即可：info.getStr("roleNameEn") == WebConfig.ROLE_ADMIN
+  但存在问题：
+  比较两个字符串是否相同的表达式是“==” ，但在 Java 中不能这么写
+  if(info.getStr("roleNameEn").equals(WebConfig.ROLE_ADMIN))换成这个才是正确的
+2.pass方法
+  审核奖项通过
+  得到对应行数据的id,将其从审核未通过变成审核通过，并且设置审核通过时间
+  r.set("reviewAt", new Date(System.currentTimeMillis()));
+  System.currentTimeMillis())精确到秒为单位 返回的获得的是自1970-1-01 00:00:00.000 到当前时刻的时间距离,类型为long
+  Db.update(DbConfig.T_USER_AWARD, "id", r)对相应记录进行更新操作
+3.nopass方法
+  审核奖项不通过
+  与pass方法的代码一致
+4.detail方法略
+
+十六、UploadController.java
+上传奖项类：
+功能：自己按要求上传学生奖项或教师奖项
+1.UploadValidator.java
+  上传奖项拦截器
+  如果未上传图片，未填写奖项名称、奖项等级等内容为空进行拦截并在页面给出相应的提示阻止提交
+2.upload方法过于重要这边全部复制做详细解释
+public void upload() {
+		Record user = UserService.me.getCurrentUserInfo();
+		// 获取上传原始文件
+		File originFile = getFile("file").getFile();
+
+		// 重命名元素: 用户名
+		String username = (String) SecurityUtils.getSubject().getPrincipal();
+
+		// 重命名元素: 上传时间
+		Date now = new Date(System.currentTimeMillis());
+		String uploadDateTime = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(now); //时间格式化 拼接String
+
+		// 目标文件路径
+		String webPath = null;
+		if (SecurityUtils.getSubject().hasRole(WebConfig.ROLE_STUDENT)) {
+			// 重命名元素：班级ID
+			int classId = user.getInt("classId");
+			webPath = File.separator + "upload" + File.separator + classId + File.separator + username + "_"
+					+ uploadDateTime;
+		} else {
+			webPath = File.separator + "upload" + File.separator + "teacher" + File.separator + username + "_"
+					+ uploadDateTime;
+		}//File.separator文件分隔符 正反斜杠
+		File targetFile = new File(PathKit.getWebRootPath() + webPath); //考虑兼容问题
+		try {
+			// 保存文件信息至数据库
+			UserAward ua = new UserAward(); //这边直接调用的是底层model对象拿过来使用
+			ua.setAwardId(getParaToInt("awardId"));
+			ua.setAwardPlace(getPara("awardPlace"));
+			ua.setAwardTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("awardTime")));//parse方法可解析一个日期时间字符串，并返回 1970/1/1 午夜距离该日期时间的毫秒数
+			ua.setImagePath(webPath + ".jpeg");
+			ua.setRankId(getParaToInt("rankId"));
+			ua.setUserId(UserService.me.getCurrentUser().getInt("id"));
+			if (SecurityUtils.getSubject().hasRole(WebConfig.ROLE_STUDENT)) {
+				// 如果当前用户是学生，需要进行审核
+				ua.setReviewId(WebConfig.REVIEW_UNREAD);
+			} else {
+				// 如果当前用户是教师，不需要进行审核
+				ua.setReviewId(WebConfig.REVIEW_PASS);
+			}
+			if (ua.save()) {
+				// 保存目标文件
+				if (!targetFile.getParentFile().exists()) {
+					targetFile.getParentFile().mkdirs();  //递归创建父类文件夹
+				}
+				Thumbnails.of(originFile).size(1280, 720).outputQuality(0.5F).outputFormat("jpeg").toFile(targetFile);
+				//将文件转化成目标文件存放，形式统一转成的大小为12809*720的质量为原来一半的jpeg文件
+			}
+			renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功，等待审核..."));
+		} catch (Exception e) {
+			e.printStackTrace();
+			renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
+		}
+		// 删除原始文件
+		originFile.delete();
+	}
+3.listAward()方法
+  奖项显示类，if (SecurityUtils.getSubject().hasRole(WebConfig.ROLE_STUDENT))判断角色身份属于学生显示学生奖，显示教师显示教师奖，最后返回layui分页表格要求的json数据格式
+
+十七、StudentController.java
+学生管理类：
+功能：管理学生的，可对学生进行名字修改，重置密码操作
+1.ResetValidator.java
+  判断是否有选择重置密码的对象数据传入后台的
+2.reset()方法重置密码：
+  调用UserService.me.resetPassword(ids)，可以进行批量重置操作，具体解释见UserService.java
+3.listClass()筛选班级的方法
+  List<Record> result = new DbRecord(DbConfig.T_CLASS).whereEqualTo("gradeId", gradeId)
+				.whereEqualTo("majorId", majorId).query();
+  根据专业年级进行班级筛选，最后返回
+4.UpdateUserValidator.java（增添的方法）
+  判断修改名字是否为空的
+5.update()方法（新增）
+  修改个人名字的 boolean success = new Student().setId(ID).setStuName(newName).update(); 
+  根据得到的Id与newName设置一下做更新操作
+  
+十八、UserTeaController.java
+教师管理类：
+功能：管理教室的，可对教师设置不同的角色，对辅导员角色进行班级管理连接，重置密码、修改名字操作
+1.index/list方法里代码与之前一样不一一介绍 
+  唯一改动：（使其更符合代码规范）
+  setAttr("role", new DbRecord(DbConfig.T_ROLE).whereNotEqualTo("id", WebConfig.ROLE_STUDENT_ID).query());
+2.ResetValidator.java
+   重置密码拦截器，主要是判断有没有选择重置密码的数据段
+  调用UserService.me.resetPassword(ids)进行密码重置，具体解释见UserService.java
+3.SetRoleValidator.java
+  设置角色拦截器（有修改）
+  新增的代码是针对设置的角色为辅导员时的操作
+  Integer roleId = c.getParaToInt("roleId");
+		Integer[] classIds = c.getParaValuesToInt("classIds[]");
+		if ((roleId == WebConfig.ROLE_INSTRUCTOR_ID && classIds == null) || (roleId == WebConfig.ROLE_INSTRUCTOR_ID && classIds.length == 0)) {
+			addError("msg", "至少选择一个管理的班级");
+		}else if (roleId == WebConfig.ROLE_INSTRUCTOR_ID && ids.length !=1) {
+			addError("msg", "设置该角色不能批量操作");
+		}
+4.setRole()方法
+  主要针对辅导员对应班级管理的设置做出来相应的改动
+  Integer[] oldroleIds = getParaValuesToInt("oldroleIds[]");
+   得到原来角色身份，主要是为了班级-辅导员对应连接表减少冗余数据的
+  Integer[] classIds = getParaValuesToInt("classIds[]");
+  得到选中的管理班级的Ids
+  String[] InstructorIds = getParaValues("usernames[]");
+  得到辅导员的教工号（表设计关联时用的是教工号对应管理班级号）
+  UserService.me.setRole(ids, roleId)设置角色
+  UserService.me.addLink(classIds, InstructorIds, oldroleIds)增加辅导员连接班级的关系
+  UserService.me.delLink(oldroleIds, InstructorIds)删除辅导员连接班级的关系
+具体解释见UserService.java
+5.update/updatevalidator/listClass与之前类似，不再赘述
+
+db类详解：
+一.DbConfig.java
+数据库表配置类
+功能：配置写入各个表名，方便一次性调用
+二、.DbRecord.java
+数据库语句模板类
+功能：方便写入数据库语句的，不用繁琐的在程序里写sql语句，可以直接调用，非常方便
+1.private static final long serialVersionUID = -205027140960773323L; 
+  //序列化时为了保持版本的兼容性，即在版本升级时反序列化仍保持对象的唯一性 eclipse自动生成
+  序列化就是把一个类的对象转换成二进制字节数组，便于在网络传输
+2.  private StringBuilder sqlBuilder;方便做数据库语句的拼接
+	StringBuilder：适用于单线程下在字符缓冲区进行大量操作的情况 
+3.DbRecord(String tableName)
+  得到表名，现将表传入，然后拼接
+4.sqlBuilder.toString();
+   将StringBuilder类对象转为String类型原因：StringBuilder只是输出字符串内容而已！字符串是不变对象，你改变内容就会创建新对象，
+   但你频繁修改字符串时候，可能会有内存泄漏的风险，
+  StringBuilder类是为频繁修改字符串操作而提供的类，所以需要将String类型传入StringBuilder进行安全修改
+  sqlBuilder.toString();在转回String类型，
+    这样此次修改的字符串对象就不会创建新对象了
+5. whereEqualTo方法
+  if (value == null || StrKit.isBlank(value.toString()))
+			return this;
+   如果查询数字字段值或者字符串值是否为空value.toString()转成字符串类型判断是否为空
+  !sqlBuilder.toString().toLowerCase().contains("where") 
+  判断Dbrecord对象中是否含有"where"有就加"and",没有就加上
+  toLowerCase()//toLowerCase()对大小写不敏感
+  sqlBuilder.append(column + " = " + value);最后做查询，字段对应相应的值并返回DbRecord对象
+6.whereNotEqualTo方法
+  5是查询是否等于的，6相应就是查询不等于的 sqlBuilder.append(column + " <> " + value);
+7.whereContains方法
+   是用来做模糊查询的
+  sqlBuilder.append(column + " LIKE '%" + key + "%'");
+8.include(String foreignKey)
+  外键查询类
+  这边就用到了WebConfig里的第二个数据库配置，通过查询数据库系统表，直接获得外键
+  方便部署
+ Record record = Db.use("system").findFirst(Db.getSql("KEY_COLUMN_USAGE"), tableName, foreignKey);
+ 查询的数据表在系统中记录的数据字段，
+ String targetSchema = record.getStr("targetSchema");//获取约束所在的数据库名
+ String targetTable = record.getStr("targetTable"); //获取表所在的数据库名
+ String targetColumn = record.getStr("targetColumn"); //获取索引所在的列名
+ sqlBuilder.insert(sqlBuilder.toString().toLowerCase().indexOf("from") + "from".length(),
+				" " + targetSchema + "." + targetTable + ",");
+  在原来的from。。。。。位置后插入查询外键表名  "from".length(),(空出from个位置)
+  后面操作与上面一致
+  sqlBuilder.append(tableName + "." + foreignKey + " = " + targetTable + "." + targetColumn);
+9.join(String targetTable, String onColumn, String targetColumn)
+   是做表关联的，方便查询多个表
+  （程序中部分代码是写入join的，但是因为查询的比较繁琐，就改成统一看视图表了，join没怎么用到）
+  	public DbRecord join(String targetTable, String onColumn, String targetColumn) {
+		sqlBuilder.insert(sqlBuilder.toString().toLowerCase().indexOf("from") + "from".length(),
+				" " + targetTable + ",");
+		if (!sqlBuilder.toString().toLowerCase().contains("where")) {
+			sqlBuilder.append(" WHERE ");
+		} else {
+			sqlBuilder.append(" AND ");
+		}
+		sqlBuilder.append(tableName + "." + onColumn + " = " + targetTable + "." + targetColumn);
+		return this;
+	}（删除）
+  考虑到安全性问题，查视图表比较合适，但更新修改什么的都在原表上操作
+10.orderByASC升序操作
+11.orderByDESC降序操作
+12.	public Page<Record> page(Integer pageNumber, Integer pageSize) {
+		return Db.paginate(pageNumber, pageSize, new SqlPara().setSql(sqlBuilder.toString()));
+	}
+	jfinal分页显示数据操作，详细解释见官方文档
+	简单解释里面参数的意义：当前页的页号、每页数据条数、sql语句的select部分
+13.public List<Record> query() {
+		return Db.find(sqlBuilder.toString());
+	}
+	是list多条数据记录的用这个方法
+14.public Record queryFirst() {
+		return Db.findFirst(sqlBuilder.toString());
+	}
+	查询是record单条数据记录的话用这个方法
+	
+
+handler类详解
+一、BasePathHandler.java
+基础路径处理器类
+功能：设置基地址 方便作部署
+jfinal的入口是jfinalFilter,而下一步接管请求的就是handler
+1.String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/"
+				+ request.getContextPath();
+  得到解决次请求的方案:request.getScheme()，http/https,
+  得到执行请求的服务器名字:request.getServerName(),
+  得到请求服务器的端口号:request.getServerPort(),
+  获取web项目的根路径:request.getContextPath()
+  换句话说获取的是项目的工程名
+  写完之后放入request中
+  然后交给下一个处理器去处理接下来的请求（创建对动作调度器）
+  next.handle(target, request, response, isHandled);
+  
+intercept拦截器类详解：
+一、AuthInterceptor.java
+权限拦截器类：
+功能：权限验证拦截的，即不同身份的人只能看到与自己身份相对应的界面，否则会显示拒绝访问
+List<Record> records = new DbRecord(DbConfig.SYS_URL_ROLE).include("urlId").include("roleId")
+				.whereEqualTo("url", "'" + inv.getControllerKey() + "'").query();
+现将查询出来的什么身份的人应能访问的资源符地址相关记录找出来放入list里，然再依次遍历
+Record r : records java中特有的写法
+SecurityUtils.getSubject().hasRole(r.getStr("roleNameEn"))判断查询的记录角色身份与当前登录的角色身份是否匹配
+如果匹配，就让其访问该资源，否则返回"无法访问的相应界面"
+
+二、DetailStuInterceptor.java
+学生奖项详情拦截类：(新增)
+功能：对于一些非法的操作做一些拦截，使用户只能看到自己权限范围类的相关信息，保证个人隐私
+调用Record info = UserService.me.getCurrentUserInfo();
+info.getInt("roleId") != WebConfig.ROLE_STUDENT_ID如果不是学生，学生奖项详情界面可以看，如果不是，只能看自己对应的奖项获取信息，否则就拒绝访问
+List<Record> records = new DbRecord(DbConfig.V_STUDENT_AWARD)
+				.whereEqualTo("username", SecurityUtils.getSubject().getPrincipal()).query();
+		for(Record r:records) {
+			if (r.getInt("id") == inv.getController().getParaToInt("id")) {
+				success = true;
+				break;
+			}
+		}
+
+三、DetailTeaInterceptor.java
+教师奖项详情拦截类：(新增)
+功能：同样对一些非法操作，使用户只能看到自己权限范围类的信息，保证隐私
+info.getInt("roleId") == WebConfig.ROLE_ADMIN_ID||info.getInt("roleId") == WebConfig.ROLE_LEADER_ID 
+判断权限信息是否是系统管理员或者是领导，如果是，就可以全部看，
+否则判断权限信息是否是辅导员或者教师，如果是，只能看自己对应范围内的奖项详情信息
+以上都不是，不让访问
+
+四、MainLayoutInterceptor.java
+主要弹出层拦截类
+功能：公用模板那边用来显示登录用户的个人详细来着的
+Map<String, Object> attrMap = new HashMap<String, Object>();//创建map类对象
+attrMap.put("l_name", info.getStr("name")); //将相关的个人记录以键值对形式存入，方便获取与调用
+c.setAttrs(attrMap);//获取
+inv.invoke();//继续执行接下来的操作
+
+model类+basemodel类详解
+一、_JFinalDemoGenerator.java
+jfinal提供的代码生成器，运行之后自动创建model对象和basemodel，数据库只要有一小点改动，点击重新运行，就可以自动生成相关model文件
+（只要会用即可，不需要掌握太细）
+二、_MappingKit.java
+自动映射、 主键/复合主键配置
+三、所有model继承Basemodel
+四、所有Basemodel拥有getter/setter方法
+五、DataDictionary字典文件也是自动生成的 
+含有项目所含数据库的所有详情信息，特别方便轻松易于使用
+
+路由类详解：
+一、IndexRoute.java
+基础路由类：
+setBaseViewPath("/view");
+设置基础视图路径，做好相应配置
+add("/", LoginController.class, "/");根目录下访问登录界面，不添加任何路由级别的拦截器可以直接进去访问
+
+二、MainRoute.java
+主体路由类：
+功能：设置访问除登录界面之外的路径配置，并添加路由级别的拦截器
+		addInterceptor(new MainLayoutInterceptor()); //主目录的拦截器
+		addInterceptor(new AuthInterceptor());   //权限认证
+其余没什么好说的，与之前相类似
+
+service服务类(重点分析)（有改动）：
+此分类都是饿汉式单例模式的调用，没有多线程与通信方面的知识，因为项目比较小，访问的人数不是很多就是了
+一、ExportService.java
+1.public static final ExportService me = new ExportService();//在自己内部定义自己的一个实例，只供内部调用
+  private ExportService() {}//这里提供了一个供外部访问本class的静态方法，可以直接访问
+  饿汉单例模式中me属性被添加了final关键字，这就确保了该实例是个常量，不允许修改。
+  饿汉模式，它的特点是加载类的时候比较慢，但运行时获得对象的速度比较快。它从加载到应用结束会一直占用资源。
+  单例模式也是一种比较常见的设计模式，它到底能带给我们什么好处呢？其实无非是三个方面的作用：
+  第一、控制资源的使用，通过线程同步来控制资源的并发访问；
+  第二、控制实例产生的数量，达到节约资源的目的。
+  第三、作为通信媒介使用，也就是数据共享，它可以在不建立直接关联的条件下，让多个不相关的两个线程或者进程之间实现通信。
+2.public static final String BASE_DOWNLOAD_PATH = PathKit.getWebRootPath() + File.separator + "download";
+  设置基础下载路径，本机上的根目录（D:\Program Files\eta8\eta8\src\main\webapp）+文件分隔符+文件夹（download)
+ public static final String XLS_PATH = BASE_DOWNLOAD_PATH + File.separator + "xls";//表格导出所在文件夹
+ public static final String ZIP_PATH = BASE_DOWNLOAD_PATH + File.separator + "zip";//压缩包导出所在文件夹
+3.File exportStudentAward(List<Record> records) 学生奖项表格导出方法
+  用的是Apache poi框架
+  HSSFWorkbook workbook = new HSSFWorkbook();//创建一个工作簿
+  HSSFSheet sheet = workbook.createSheet();//创建一个工作表
+  HSSFRow headerRow = sheet.createRow(0);//创建一个标题栏
+
+  HSSFCellStyle headerStyle = workbook.createCellStyle(); //创建单元格样式 万物皆对象
+  HSSFFont headerFont = workbook.createFont(); //创建字体对象
+  headerFont.setBold(true); //设置字体加粗
+  headerFont.setFontHeightInPoints((short) 10);  //创建字体大小 短整型强转
+  headerStyle.setFont(headerFont);//将设置好的字体风格放入
+  headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);  //垂直类型
+  headerRow.setHeightInPoints(20f);//设置行高
+
+  String[] headerTile = { "学号", "姓名", "性别", "年级", "专业", "班级", "奖项级别", "奖项名称", "获奖名次", "获奖时间" };
+  //设置标题栏
+	for (int i = 0; i < headerTile.length; i++) {
+		HSSFCell cell = headerRow.createCell(i); //创建单元格对象
+		cell.setCellStyle(headerStyle); //设置单元格样式
+		cell.setCellValue(headerTile[i]); //设置相应单元格值
+		sheet.setColumnWidth(i, 20 * 256);  //列宽设置
+	}
+	for (int i = 1; i <= records.size(); i++) {
+		HSSFRow dataRow = sheet.createRow(i);  //依次创建数据列对象
+		Record r = records.get(i - 1);
+		dataRow.createCell(0).setCellValue(r.getStr("username"));
+		dataRow.createCell(1).setCellValue(r.getStr("name"));
+		dataRow.createCell(2).setCellValue(r.getStr("genderName"));
+		dataRow.createCell(3).setCellValue(r.getStr("gradeName"));
+		dataRow.createCell(4).setCellValue(r.getStr("majorName"));
+		dataRow.createCell(5).setCellValue(r.getStr("className"));
+		dataRow.createCell(6).setCellValue(r.getStr("rankName"));
+		dataRow.createCell(7).setCellValue(r.getStr("awardName"));
+		dataRow.createCell(8).setCellValue(r.getStr("awardPlace"));
+		dataRow.createCell(9).setCellValue(new SimpleDateFormat("yyyy/MM/dd").format(r.getDate("awardTime")));
+	}
+	workbook.setActiveSheet(0);//设置显示工作表
+
+	String fileName = "student_"
+		+ new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date(System.currentTimeMillis())) + ".xls";
+		//创建文件名
+	File xls = new File(XLS_PATH + File.separator + fileName);
+	//创建按规格要求的文件
+	if (!xls.getParentFile().exists()) {
+		xls.getParentFile().mkdirs();
+	}//如果文件的父文件不存在，递归创建该文件的文件
+	workbook.write(xls);////将内存数据写入文件
+	workbook.close();//清除缓存数据
+	return xls;//返回此表格文件
+4.File exportTeacherAward(List<Record> records)教师奖项表格导出
+    与之类似，不再赘述
+5.File exportStudentZIP(List<Record> records)学生奖项压缩包导出
+  用的是Apache ant框架
+  // 准备压缩文件信息
+   String dirPath = ZIP_PATH + File.separator
+		+ new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date(System.currentTimeMillis()));
+	String zipPath = dirPath + ".zip";//创建符合要求的zip文件名
+	File zipFile = new File(zipPath);//创建zip文件实例
+	if (!zipFile.getParentFile().exists()) {//如果压缩文件父目录不存在
+		zipFile.getParentFile().mkdirs();//递归创建
+	}//此时文件数据内容温控
+
+	// 将待压缩文件复制到新目录下
+	for (Record r : records) {
+		File srcFile = new File(PathKit.getWebRootPath() + r.getStr("imagePath"));//获得图片路径
+
+		String majorName = r.getStr("majorName");
+		String className = r.getStr("className");
+		String username = r.getStr("username");
+		String name = r.getStr("name");
+		String awardName = r.getStr("awardName");
+		File destFile = new File(dirPath + File.separator + majorName + File.separator + className + File.separator
+				+ username + "_" + name + "_" + awardName + "_"
+				+ new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(r.getDate("createAt")) + ".jpeg");
+		//创建符合规格要求的zip文件实例
+		if (!destFile.exists()) {
+			destFile.getParentFile().mkdirs();
+		}//如果该文件不存在，递归创建
+		Files.copy(srcFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		//将源文件路径的文件复制到目标文件路径的文件，方式为替换已经存在的文件
+	}
+
+	// 开始压缩
+	Project project = new Project(); 
+	//该类定义了一个具有所有目标、任务和各种其他属性的Ant项目。它还提供了使用特定目标名称启动生成的机制。
+	//该类还封装了允许使用抽象路径名称引用文件的方法，这些抽象路径名称在运行时被翻译成本机系统文件路径
+	Zip zip = new Zip();
+	zip.setProject(project);
+	zip.setDestFile(zipFile);  //创建文件目录
+	FileSet fileSet = new FileSet();//文件集:可以创建映像的子集(简单理解为可以创建子文件夹)
+	fileSet.setDir(new File(dirPath));//设置实例对象的基本目录，文件夹目录
+	zip.addFileset(fileSet); //向zip对象里添加之前创建的文件集
+	zip.execute();  //构建更新zip
+	if (zipFile.exists()) {//如果存在付汇该压缩文件，否则返回null
+		return zipFile;
+	}
+		return null;
+	}
+6.File exportTeacherZIP(List<Record> records)教师奖项压缩包导出
+
+二、ImportService.java
+导入服务类：
+功能：导入符合规格的奖项、学生信息、教师信息
+1.importstu方法
+FileInputStream fis = new FileInputStream(xls); //文件输入流 方便读取文件 与c++类似
+		HSSFWorkbook workbook = new HSSFWorkbook(fis);  //创建工作簿对象
+		HSSFSheet sheet = workbook.getSheetAt(0);   //得到工作表
+		final List<Record> sRecords = new ArrayList<Record>(sheet.getLastRowNum());  //传入list容器大小，确定大小 性能损耗
+		final List<Record> uRecords = new ArrayList<Record>(sheet.getLastRowNum());
+		for (int i = 6; i <= sheet.getLastRowNum(); i++) {//模板限定要求 模板读取数据 excel从行号开始读取数据
+			HSSFRow row = sheet.getRow(i);//得到第i列的数据
+			String sno = String.valueOf((int) row.getCell(0).getNumericCellValue());  //得到单元格为数值类型的数据 强转
+			String sname = row.getCell(1).getStringCellValue();//再转化成string(常规：纯数字数值看，默认右对齐，字符串类型，默认左对齐
+			if (StrKit.isBlank(sno) || StrKit.isBlank(sname)) {//判断是否空格值传入
+				workbook.close();
+				throw new RuntimeException("字段为空（空格）");
+			}
+			if (sno.length() != 8) { //判断学号位数（正则表达式，规则）
+				workbook.close();
+				throw new RuntimeException("学号格式不正确");
+			}
+			Integer gender = (int) row.getCell(2).getNumericCellValue();//将第二个单元格int型强转成泛型
+			Record sr = new Record();  //表关联
+			sr.set("stuNo", sno);
+			sr.set("stuName", sname);
+			sr.set("genderId", gender);
+			sr.set("classId", classId);
+			sRecords.add(sr);  //student表里添加数据
+			Record ur = new Record();  //表关联插入/触发器的加入
+			ur.set("username", sno);
+			ur.set("password", sno);
+			uRecords.add(ur); //user表里添加数据
+		}
+		workbook.close(); //关闭文件
+		boolean success = Db.tx(new IAtom() {//事务处理，有错一个地方回滚全部数据 原子操作
+			public boolean run() throws SQLException {//（匿名类）只能在这边用一次
+				Db.batchSave(DbConfig.T_STUDENT, sRecords, sRecords.size());//批量插入（底层用for循环做的）
+				Db.batchSave(DbConfig.T_USER, uRecords, uRecords.size());
+				return true;
+			}
+		});
+		if (!success)
+			return success;
+		return Db.tx(new IAtom() {
+			public boolean run() throws SQLException {
+				for (Record r : uRecords) {
+					Integer userId = new DbRecord(DbConfig.T_USER).whereEqualTo("username", r.getStr("username"))
+							.queryFirst().getInt("id");
+					Record urr = new Record();
+					urr.set("userId", userId);
+					urr.set("roleId", WebConfig.ROLE_STUDENT_ID);//t_user_role表里添加数据
+					Db.save(DbConfig.T_USER_ROLE, "id", urr);
+				}
+				return true;
+			}
+		});
+	}
+2.importAward(File xls)
+  导入奖项的，与1类似，不再赘述
+3.importTea(File xls)
+  导入教师信息，与1类似，不再赘述
+  
+三、UserService.java
+用户服务类
+功能：处理用户相关业务的,包括当前用户的基本信息、详细信息、用户登录、退出登录、重置密码、设置角色、添加删除管理连接、修改密码
+1.getCurrentUser()方法
+ 获取当前登录用户的基本信息
+ String username = (String) SecurityUtils.getSubject().getPrincipal();
+ 获取当前用户身份信息（从域中获取安全数据，验证当前用户身份）
+ 返回Record查询对象
+2.getCurrentUserInfo()方法
+ 获得当前登录用户的详细信息
+ SecurityUtils.getSubject().hasRole(ROLE_STUDENT)
+ 在1的基础之上判断当前用户是学生还是老师（同样从域中获取安全数据，验证当前用户的角色身份）
+3.login(String username, String password)方法
+  用户登录验证
+  UsernamePasswordToken token = new UsernamePasswordToken(username, password); //安全令牌 封装即将验证的用户名和密码
+  Subject subject = SecurityUtils.getSubject();  //认证对象 审核令牌 获取subject对象，即即将登陆的用户创建subject实例
+  subject.login(token);  //得到login对象 认证失败报异常 交给当前封装好的方法
+4.logout()方法
+    用户退出登录
+  直接调用shiro框架给我们提供的SecurityUtils.getSubject().logout();直接登出
+5.resetPassword(Integer[] ids)方法
+  批量重置用户密码
+  将密码重置成与账号一致
+6.setRole(Integer[] ids, Integer roleId)方法
+  批量设置用户角色
+7.updatePassword(Integer userId, String newPass)方法
+   修改密码
+  new User().findById(userId).setPassword(newPass).update(); //也可以dao.user.findById 因为已经创建了一个新的对象
+8.addLink(Integer[] classIds, String[] instructorIds, Integer[] oldroleIds)方法
+   添加管理连接（限定辅导员管理班级是一对多，不会出现多个辅导员管理班级重合的情况，如果设置出错，则前端回显时会有不报错的bug，因为默认设置都是查看视图表，而视图表是有改动过的)
+  if(oldroleIds[0] == WebConfig.ROLE_INSTRUCTOR_ID) //如果原来身份是辅导员，减少冗余数据的增加
+  oldroleIds[0]因为前端限定调用此方法是传过来的是单条数据，所以可以这么写
+  List<Record> ids = new DbRecord(DbConfig.T_INSTRUCTOR_LINK_STUDENT).whereEqualTo("instructorId", instructorIds[0]).query();
+  设置辅导员关联只能一一处理
+ classIds[i].intValue() == ids.get(j).getInt("classId")
+ Integer类型数据不可以直接与int类型作比较，这里要做一小点变化
+ 其余没什么
+9.delLink(Integer[] oldroleIds,String[] instructorIds)方法
+   删除管理连接
+  for(int i = 0; i < oldroleIds.length; i++) {
+	    	if(oldroleIds[i] == WebConfig.ROLE_INSTRUCTOR_ID) {
+	    		Record record = new Record().set("instructorId", instructorIds[i]);
+	    		records.add(record);
+	    	}  	
+	}
+  主要是这部分代码，删除链接时是可以批量删除的，判断批量删除的数据中原来身份为辅导员，把其相关对应班级信息全部删除关联
+
+格式类详解：
+前端要求数据格式
+一个是ajax形式的json数据，一个是具体到layui分页表格要用的json数据格式
+看看就能懂也不说了
+
