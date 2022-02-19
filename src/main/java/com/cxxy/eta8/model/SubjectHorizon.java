@@ -8,4 +8,7 @@ import com.cxxy.eta8.model.base.BaseSubjectHorizon;
 @SuppressWarnings("serial")
 public class SubjectHorizon extends BaseSubjectHorizon<SubjectHorizon> {
 	public static final SubjectHorizon dao = new SubjectHorizon().dao();
+
+	public void setBuyerContinent(String buyerContinent) {
+	}
 }

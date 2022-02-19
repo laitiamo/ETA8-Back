@@ -1,3 +1,45 @@
+Table: b_city
+------------+-------------+------+-----+---------+---------
+ Field      | Type        | Null | Key | Default | Remarks 
+------------+-------------+------+-----+---------+---------
+ id         | INT(10)     | NO   | PRI |         |         
+ City       | VARCHAR(20) | YES  |     |         |         
+ ProvinceId | INT(10)     | YES  |     |         |         
+------------+-------------+------+-----+---------+---------
+
+Table: b_country
+---------+-------------+------+-----+---------+---------
+ Field   | Type        | Null | Key | Default | Remarks 
+---------+-------------+------+-----+---------+---------
+ id      | INT(10)     | NO   | PRI |         |         
+ country | VARCHAR(20) | YES  |     |         |         
+---------+-------------+------+-----+---------+---------
+
+Table: b_county
+--------+-------------+------+-----+---------+---------
+ Field  | Type        | Null | Key | Default | Remarks 
+--------+-------------+------+-----+---------+---------
+ id     | INT(10)     | NO   | PRI |         |         
+ County | VARCHAR(20) | YES  |     |         |         
+ CityId | INT(10)     | YES  |     |         |         
+--------+-------------+------+-----+---------+---------
+
+Table: b_province
+----------+-------------+------+-----+---------+---------
+ Field    | Type        | Null | Key | Default | Remarks 
+----------+-------------+------+-----+---------+---------
+ id       | INT(10)     | NO   | PRI |         |         
+ Province | VARCHAR(20) | YES  |     |         |         
+----------+-------------+------+-----+---------+---------
+
+Table: b_type
+-------+-------------+------+-----+---------+---------
+ Field | Type        | Null | Key | Default | Remarks 
+-------+-------------+------+-----+---------+---------
+ id    | INT(10)     | NO   | PRI |         |         
+ Type  | VARCHAR(20) | YES  |     |         |         
+-------+-------------+------+-----+---------+---------
+
 Table: s_belong
 ------------+--------------+------+-----+---------+---------
  Field      | Type         | Null | Key | Default | Remarks 
@@ -312,34 +354,47 @@ Table: t_student
 ----------+-------------+------+-----+---------+---------
 
 Table: t_subject_horizon
---------------------+--------------+------+-----+---------+---------
- Field              | Type         | Null | Key | Default | Remarks 
---------------------+--------------+------+-----+---------+---------
- id                 | INT(10)      | NO   | PRI |         |         
- SubjectId          | INT(10)      | NO   |     |         |         
- Introduction       | VARCHAR(255) | YES  |     |         |         
- RelyCenterSubject  | VARCHAR(255) | YES  |     |         |         
- ContractName       | VARCHAR(255) | NO   |     |         |         
- CooperatePrincipal | VARCHAR(255) | NO   |     |         |         
- ContractNum        | VARCHAR(255) | NO   |     |         |         
- FundNum            | VARCHAR(255) | NO   |     |         |         
- EntrustPlaceId     | INT(10)      | NO   |     |         |         
- CooperateId        | INT(10)      | NO   |     |         |         
- ContractId         | INT(10)      | NO   |     |         |         
- ContractFund       | INT(10)      | NO   |     |         |         
- BankName           | VARCHAR(255) | NO   |     |         |         
- BankAccount        | VARCHAR(255) | NO   |     |         |         
- isDutyFree         | INT(10)      | NO   |     |         |         
- DutyFreeId         | VARCHAR(255) | YES  |     |         |         
- isPromote          | INT(10)      | NO   |     |         |         
- ContractDuty       | VARCHAR(255) | NO   |     |         |         
- PayId              | INT(10)      | NO   |     |         |         
- EconomicId         | INT(10)      | NO   |     |         |         
- SocietyId          | INT(10)      | NO   |     |         |         
- SourceId           | INT(10)      | NO   |     |         |         
- TechnicalId        | INT(10)      | NO   |     |         |         
- PropertyId         | INT(10)      | NO   |     |         |         
---------------------+--------------+------+-----+---------+---------
+------------------------+--------------+------+-----+---------+---------
+ Field                  | Type         | Null | Key | Default | Remarks 
+------------------------+--------------+------+-----+---------+---------
+ id                     | INT(10)      | NO   | PRI |         |         
+ SubjectId              | INT(10)      | NO   |     |         |         
+ Introduction           | VARCHAR(255) | YES  |     |         |         
+ RelyCenterSubject      | VARCHAR(255) | YES  |     |         |         
+ ContractName           | VARCHAR(255) | NO   |     |         |         
+ CooperatePrincipal     | VARCHAR(255) | NO   |     |         |         
+ ContractNum            | VARCHAR(255) | NO   |     |         |         
+ FundNum                | VARCHAR(255) | NO   |     |         |         
+ EntrustPlaceId         | INT(10)      | NO   |     |         |         
+ CooperateId            | INT(10)      | NO   |     |         |         
+ ContractId             | INT(10)      | NO   |     |         |         
+ ContractFund           | INT(10)      | NO   |     |         |         
+ BankName               | VARCHAR(255) | NO   |     |         |         
+ BankAccount            | VARCHAR(255) | NO   |     |         |         
+ isDutyFree             | INT(10)      | NO   |     |         |         
+ DutyFreeId             | VARCHAR(255) | YES  |     |         |         
+ isPromote              | INT(10)      | NO   |     |         |         
+ ContractDuty           | VARCHAR(255) | NO   |     |         |         
+ PayId                  | INT(10)      | NO   |     |         |         
+ EconomicId             | INT(10)      | NO   |     |         |         
+ SocietyId              | INT(10)      | NO   |     |         |         
+ SourceId               | INT(10)      | NO   |     |         |         
+ TechnicalId            | INT(10)      | NO   |     |         |         
+ PropertyId             | INT(10)      | NO   |     |         |         
+ BuyerName              | VARCHAR(20)  | YES  |     |         |         
+ BuyerType              | INT(10)      | YES  |     |         |         
+ BuyerProvince          | INT(10)      | YES  |     |         |         
+ BuyerCity              | INT(10)      | YES  |     |         |         
+ BuyerCounty            | INT(10)      | YES  |     |         |         
+ BuyerPostCode          | INT(10)      | YES  |     |         |         
+ BuyerContact           | VARCHAR(20)  | YES  |     |         |         
+ BuyerTel               | INT(10)      | YES  |     |         |         
+ BuyerLegalPerson       | VARCHAR(20)  | YES  |     |         |         
+ BuyerLegalEntityCode   | INT(10)      | YES  |     |         |         
+ BuyerEmail             | VARCHAR(255) | YES  |     |         |         
+ BuyerRegisteredAddress | VARCHAR(255) | YES  |     |         |         
+ BuyerMailingAddress    | VARCHAR(255) | YES  |     |         |         
+------------------------+--------------+------+-----+---------+---------
 
 Table: t_subject_link_teacher
 -------------+---------+------+-----+---------+---------

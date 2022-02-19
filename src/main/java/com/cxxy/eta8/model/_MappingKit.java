@@ -16,6 +16,11 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 public class _MappingKit {
 	
 	public static void mapping(ActiveRecordPlugin arp) {
+		arp.addMapping("b_city", "id", BCity.class);
+		arp.addMapping("b_country", "id", BCountry.class);
+		arp.addMapping("b_county", "id", BCounty.class);
+		arp.addMapping("b_province", "id", BProvince.class);
+		arp.addMapping("b_type", "id", BType.class);
 		arp.addMapping("s_belong", "id", SBelong.class);
 		arp.addMapping("s_contract", "id", SContract.class);
 		arp.addMapping("s_cooperate", "id", SCooperate.class);

@@ -2,6 +2,11 @@ package com.cxxy.eta8.db;
 
 public class DbConfig {
 
+	public static final String B_COUNTRY = "b_country";
+	public static final String B_TYPE = "b_type";
+	public static final String B_PROVINCE = "b_province";
+	public static final String B_CITY = "b_city";
+	public static final String B_COUNTY = "b_county";
 	public static final String T_AWARD = "t_award";
 	public static final String T_AWARD_TYPE = "t_award_type";
 	public static final String T_TYPE = "t_type";

@@ -225,4 +225,121 @@ public abstract class BaseSubjectHorizon<M extends BaseSubjectHorizon<M>> extend
 		return getInt("PropertyId");
 	}
 
+	public M setBuyerName(java.lang.String BuyerName) {
+		set("BuyerName", BuyerName);
+		return (M)this;
+	}
+	
+	public java.lang.String getBuyerName() {
+		return getStr("BuyerName");
+	}
+
+	public M setBuyerType(java.lang.Integer BuyerType) {
+		set("BuyerType", BuyerType);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getBuyerType() {
+		return getInt("BuyerType");
+	}
+
+	public M setBuyerProvince(java.lang.Integer BuyerProvince) {
+		set("BuyerProvince", BuyerProvince);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getBuyerProvince() {
+		return getInt("BuyerProvince");
+	}
+
+	public M setBuyerCity(java.lang.Integer BuyerCity) {
+		set("BuyerCity", BuyerCity);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getBuyerCity() {
+		return getInt("BuyerCity");
+	}
+
+	public M setBuyerCounty(java.lang.Integer BuyerCounty) {
+		set("BuyerCounty", BuyerCounty);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getBuyerCounty() {
+		return getInt("BuyerCounty");
+	}
+
+	public M setBuyerPostCode(java.lang.Integer BuyerPostCode) {
+		set("BuyerPostCode", BuyerPostCode);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getBuyerPostCode() {
+		return getInt("BuyerPostCode");
+	}
+
+	public M setBuyerContact(java.lang.String BuyerContact) {
+		set("BuyerContact", BuyerContact);
+		return (M)this;
+	}
+	
+	public java.lang.String getBuyerContact() {
+		return getStr("BuyerContact");
+	}
+
+	public M setBuyerTel(java.lang.Integer BuyerTel) {
+		set("BuyerTel", BuyerTel);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getBuyerTel() {
+		return getInt("BuyerTel");
+	}
+
+	public M setBuyerLegalPerson(java.lang.String BuyerLegalPerson) {
+		set("BuyerLegalPerson", BuyerLegalPerson);
+		return (M)this;
+	}
+	
+	public java.lang.String getBuyerLegalPerson() {
+		return getStr("BuyerLegalPerson");
+	}
+
+	public M setBuyerLegalEntityCode(java.lang.Integer BuyerLegalEntityCode) {
+		set("BuyerLegalEntityCode", BuyerLegalEntityCode);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getBuyerLegalEntityCode() {
+		return getInt("BuyerLegalEntityCode");
+	}
+
+	public M setBuyerEmail(java.lang.String BuyerEmail) {
+		set("BuyerEmail", BuyerEmail);
+		return (M)this;
+	}
+	
+	public java.lang.String getBuyerEmail() {
+		return getStr("BuyerEmail");
+	}
+
+	public M setBuyerRegisteredAddress(java.lang.String BuyerRegisteredAddress) {
+		set("BuyerRegisteredAddress", BuyerRegisteredAddress);
+		return (M)this;
+	}
+	
+	public java.lang.String getBuyerRegisteredAddress() {
+		return getStr("BuyerRegisteredAddress");
+	}
+
+	public M setBuyerMailingAddress(java.lang.String BuyerMailingAddress) {
+		set("BuyerMailingAddress", BuyerMailingAddress);
+		return (M)this;
+	}
+	
+	public java.lang.String getBuyerMailingAddress() {
+		return getStr("BuyerMailingAddress");
+	}
+
 }

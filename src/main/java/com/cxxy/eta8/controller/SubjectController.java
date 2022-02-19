@@ -78,6 +78,9 @@ public class SubjectController extends Controller {
         setAttr("contract", new DbRecord(DbConfig.S_CONTRACT).query());
         setAttr("cooperate", new DbRecord(DbConfig.S_COOPERATE).query());
         setAttr("entrust", new DbRecord(DbConfig.S_ENTRUST).query());
+        setAttr("buyercountry", new DbRecord(DbConfig.B_COUNTRY).query());
+        setAttr("buyertype", new DbRecord(DbConfig.B_TYPE).query());
+        setAttr("buyerprovince", new DbRecord(DbConfig.B_PROVINCE).query());
         setAttr("technical", new DbRecord(DbConfig.S_TECHNICAL).query());
         setAttr("property", new DbRecord(DbConfig.S_PROPERTY).query());
         //向前端发送全部attribute
@@ -101,9 +104,21 @@ public class SubjectController extends Controller {
         renderJson(result);
     }
 
+    public void listCity() {
+        Integer ProvinceId = getParaToInt("ProvinceId");
+        List<Record> result = new DbRecord(DbConfig.B_CITY).whereEqualTo("ProvinceId", ProvinceId).query();
+        renderJson(result);
+    }
+
+    public void listCounty() {
+        Integer CityId = getParaToInt("CityId");
+        List<Record> result = new DbRecord(DbConfig.B_COUNTY).whereEqualTo("CityId", CityId).query();
+        renderJson(result);
+    }
+
     public void listSource() {
-        Integer levelId = getParaToInt("levelId");
-        List<Record> result = new DbRecord(DbConfig.S_SOURCE).whereEqualTo("levelId", levelId).query();
+        Integer LevelId = getParaToInt("LevelId");
+        List<Record> result = new DbRecord(DbConfig.S_SOURCE).whereEqualTo("LevelId", LevelId).query();
         renderJson(result);
     }
 
@@ -282,7 +297,7 @@ public class SubjectController extends Controller {
             try {
                 //先走一遍遍历 查看该项目是否已经上传，减少冗余数据的增加
                 List<Record> subjectNums = new DbRecord(DbConfig.T_USER_SUBJECT)
-                        .whereEqualTo("SubjectNum", getPara("subjectNum")).query();
+                        .whereEqualTo("SubjectNum", getPara("SubjectNum")).query();
                 if (subjectNums.isEmpty()) {
                     // 保存文件信息至数据库
                     UserSubject userSubject = new UserSubject();
@@ -308,8 +323,8 @@ public class SubjectController extends Controller {
 
                     if (userSubject.save()) {
                         SubjectId = new DbRecord(DbConfig.T_USER_SUBJECT)
-                                .whereEqualTo("subjectNum", getPara("SubjectNum"))
-                                .whereEqualTo("subjectName", getPara("SubjectName"))
+                                .whereEqualTo("SubjectNum", getPara("SubjectNum"))
+                                .whereEqualTo("SubjectName", getPara("SubjectName"))
                                 .whereEqualTo("SubjectPlace", getPara("SubjectPlace"))
                                 .queryFirst()
                                 .getInt("id");
@@ -331,6 +346,25 @@ public class SubjectController extends Controller {
                         horizon.setDutyFreeId(getPara("DutyFreeId"));
                         horizon.setIsPromote(getParaToInt("isPromote"));
                         horizon.setContractDuty(getPara("ContractDuty"));
+
+                        horizon.setBuyerName(getPara("BuyerName"));
+                        horizon.setBuyerContinent(getPara("BuyerContinent"));
+                        horizon.setBuyerType(getParaToInt("BuyerType"));
+                        horizon.setBuyerProvince(getParaToInt("BuyerProvince"));
+                        horizon.setBuyerCity(getParaToInt("BuyerCity"));
+                        horizon.setBuyerCounty(getParaToInt("BuyerCounty"));
+                        horizon.setBuyerPostCode(getParaToInt("BuyerPostCode"));
+                        horizon.setBuyerContact(getPara("BuyerContact"));
+                        horizon.setBuyerTel(getParaToInt("BuyerTel"));
+                        horizon.setBuyerLegalPerson(getPara("BuyerLegalPerson"));
+                        horizon.setBuyerLegalEntityCode(getParaToInt("BuyerLegalEntityCode"));
+                        horizon.setBuyerEmail(getPara("BuyerEmail"));
+                        horizon.setBuyerRegisteredAddress(getPara("BuyerRegisteredAddress"));
+                        horizon.setBuyerMailingAddress(getPara("BuyerMailingAddress"));
+
+
+
+
                         horizon.setPayId(getParaToInt("PayId"));
                         horizon.setEconomicId(getParaToInt("EconomicId"));
                         horizon.setSocietyId(getParaToInt("SocietyId"));
