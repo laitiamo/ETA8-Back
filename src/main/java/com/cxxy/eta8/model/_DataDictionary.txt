@@ -396,6 +396,15 @@ Table: t_subject_horizon
  BuyerMailingAddress    | VARCHAR(255) | YES  |     |         |         
 ------------------------+--------------+------+-----+---------+---------
 
+Table: t_subject_link_paper
+-----------+---------+------+-----+---------+---------
+ Field     | Type    | Null | Key | Default | Remarks 
+-----------+---------+------+-----+---------+---------
+ id        | INT(10) | NO   | PRI |         |         
+ SubjectId | INT(10) | NO   |     |         |         
+ PaperId   | INT(10) | NO   |     |         |         
+-----------+---------+------+-----+---------+---------
+
 Table: t_subject_link_teacher
 -------------+---------+------+-----+---------+---------
  Field       | Type    | Null | Key | Default | Remarks 
@@ -415,21 +424,21 @@ Table: t_subject_rank
 ----------+-------------+------+-----+---------+---------
 
 Table: t_subject_school
--------------+---------+------+-----+---------+---------
- Field       | Type    | Null | Key | Default | Remarks 
--------------+---------+------+-----+---------+---------
- id          | INT(10) | NO   | PRI |         |         
- SubjectId   | INT(10) | NO   |     |         | 项目id    
- EconomicId  | INT(10) | NO   |     |         | 国民经济行业id
- SocietyId   | INT(10) | NO   |     |         | 社会经济服务目标id
- SourceId    | INT(10) | NO   |     |         | 项目来源id  
- BelongId    | INT(10) | NO   |     |         | 统计归属id  
- TypeId      | INT(10) | NO   |     |         | 一级学科id  
- ResearchId  | INT(10) | NO   |     |         | 研究方向id  
- CooperateId | INT(10) | NO   |     |         | 合作单位id  
- PaperType   | INT(10) | NO   |     |         | 成果形式id  
- PaperId     | INT(10) | YES  |     |         | 绑定成果id  
--------------+---------+------+-----+---------+---------
+-------------+--------------+------+-----+---------+---------
+ Field       | Type         | Null | Key | Default | Remarks 
+-------------+--------------+------+-----+---------+---------
+ id          | INT(10)      | NO   | PRI |         |         
+ SubjectId   | INT(10)      | NO   |     |         | 项目id    
+ EconomicId  | INT(10)      | NO   |     |         | 国民经济行业id
+ SocietyId   | INT(10)      | NO   |     |         | 社会经济服务目标id
+ SourceId    | INT(10)      | NO   |     |         | 项目来源id  
+ BelongId    | INT(10)      | NO   |     |         | 统计归属id  
+ TypeId      | INT(10)      | NO   |     |         | 一级学科id  
+ ResearchId  | INT(10)      | NO   |     |         | 研究方向id  
+ CooperateId | INT(10)      | NO   |     |         | 合作单位id  
+ PaperType   | INT(10)      | NO   |     |         | 成果形式id  
+ Remarks     | VARCHAR(255) | NO   |     |         | 备注      
+-------------+--------------+------+-----+---------+---------
 
 Table: t_subject_sponsored
 --------------------+--------------+------+-----+---------+---------
@@ -553,11 +562,12 @@ Table: t_user_subject
  FinishTime   | DATE(10)     | NO   |     |                   | 计划结项时间  
  createAt     | DATETIME(26) | NO   |     | CURRENT_TIMESTAMP | 上传时间    
  reviewAt     | DATETIME(26) | YES  |     |                   | 审核时间    
- imagePath    | VARCHAR(255) | NO   |     |                   | 图片路径    
+ filePath     | VARCHAR(255) | NO   |     |                   | 文件路径    
  rankId       | INT(10)      | NO   |     |                   | 项目类别id  
  levelId      | INT(10)      | NO   |     |                   | 项目级别id  
  reviewId     | INT(10)      | NO   |     |                   | 审核状态id  
  subjectPlace | VARCHAR(255) | NO   |     |                   | 项目来源单位  
  subjectFund  | INT(10)      | NO   |     |                   | 项目经费    
+ PaperType    | INT(10)      | NO   |     |                   | 科研成果类型id
 --------------+--------------+------+-----+-------------------+---------
 

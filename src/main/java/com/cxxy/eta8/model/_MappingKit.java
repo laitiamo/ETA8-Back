@@ -58,6 +58,7 @@ public class _MappingKit {
 		arp.addMapping("t_role", "id", Role.class);
 		arp.addMapping("t_student", "id", Student.class);
 		arp.addMapping("t_subject_horizon", "id", SubjectHorizon.class);
+		arp.addMapping("t_subject_link_paper", "id", SubjectLinkPaper.class);
 		arp.addMapping("t_subject_link_teacher", "id", SubjectLinkTeacher.class);
 		arp.addMapping("t_subject_rank", "id", SubjectRank.class);
 		arp.addMapping("t_subject_school", "id", SubjectSchool.class);

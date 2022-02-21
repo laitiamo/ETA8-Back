@@ -47,8 +47,8 @@ public class ReviewController extends Controller {
         String keyAwardName = getPara("keyAwardName");
 
         Record info = UserService.me.getCurrentUserInfo();
-        if (info.getStr("roleNameEn").equals(WebConfig.ROLE_ADMIN)) {//系统管理员默认审核全部奖项（教师+学生）
-            Page<Record> p = new DbRecord(DbConfig.V_ALL_AWARD)
+        if (info.getStr("roleNameEn").equals(WebConfig.ROLE_ADMIN)) {//系统管理员默认审核全部学生奖项
+            Page<Record> p = new DbRecord(DbConfig.V_STUDENT_AWARD)
                     .whereEqualTo("reviewId", WebConfig.REVIEW_UNREAD)
                     .whereEqualTo("rankId", rankId)
                     .whereEqualTo("username", keyUsername)

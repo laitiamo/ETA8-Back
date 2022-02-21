@@ -29,6 +29,7 @@ public class ExportService {
     public static final String BASE_DOWNLOAD_PATH = PathKit.getWebRootPath() + File.separator + "download";
     public static final String XLS_PATH = BASE_DOWNLOAD_PATH + File.separator + "xls";
     public static final String ZIP_PATH = BASE_DOWNLOAD_PATH + File.separator + "zip";
+    public static final String PDF_PATH = BASE_DOWNLOAD_PATH + File.separator + "pdf";
 
     private ExportService() {
 
@@ -389,4 +390,82 @@ public class ExportService {
         return null;
     }
 
+    public File exportTeacherSubjectPDF(List<Record> records) throws Exception {
+        // 准备压缩文件信息
+        String dirPath = ZIP_PATH + File.separator +
+                new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date(System.currentTimeMillis()));
+        String zipPath = dirPath + ".zip";
+        File zipFile = new File(zipPath);
+        if (!zipFile.getParentFile().exists()) {
+            zipFile.getParentFile().mkdirs();
+        }
+
+        // 将待压缩文件复制到新目录下
+        for (Record r : records) {
+            //多图优化，字符分割 2020-10-20
+            String imagePath = r.getStr("filePath");
+            if (imagePath.indexOf("*") != -1) {
+                String[] parts = imagePath.split("\\*");
+                //如果存在"*"则分割，取出文件数量
+                Integer picNum = Integer.parseInt(parts[1]);
+                String[] pathParts = parts[0].split("\\.");
+                String pathPart = pathParts[0];
+                for (int i = 0; i < picNum; i++) {
+                    File srcFile = new File(PathKit.getWebRootPath() + pathPart + "_" + i + ".pdf");
+                    //如果文件丢失，用模板代替 2021-3-4
+                    if (!srcFile.exists()) {
+                        srcFile = new File(PathKit.getWebRootPath() + "/download/template/404notfound.jpeg");
+                    }
+                    String username = r.getStr("username");
+                    String name = r.getStr("name");
+                    String subjectName = r.getStr("subjectName");
+                    File destFile = new File(dirPath + File.separator +
+                            username + "_" +
+                            name + "_" +
+                            subjectName + "_" +
+                            new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(r.getDate("createAt")) + "_" + i +
+                            ".pdf");
+                    if (!destFile.exists()) {
+                        destFile.getParentFile().mkdirs();
+                    }
+                    Files.copy(srcFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                }
+            } else {
+                File srcFile = new File(PathKit.getWebRootPath() + imagePath);
+                //如果文件丢失，用模板代替 2021-3-4
+                if (!srcFile.exists()) {
+                    srcFile = new File(PathKit.getWebRootPath() + "/download/template/404notfound.jpeg");
+                }
+                String username = r.getStr("username");
+                String name = r.getStr("name");
+                String subjectName = r.getStr("subjectName");
+                File destFile = new File(dirPath + File.separator +
+                        username + "_" +
+                        name + "_" +
+                        subjectName + "_" +
+                        new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(r.getDate("createAt")) + "_" +
+                        ".pdf");
+                if (!destFile.exists()) {
+                    destFile.getParentFile().mkdirs();
+                }
+                Files.copy(srcFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+            ///
+
+        }
+
+        // 开始压缩
+        Project project = new Project();
+        Zip zip = new Zip();
+        zip.setProject(project);
+        zip.setDestFile(zipFile);
+        FileSet fileSet = new FileSet();
+        fileSet.setDir(new File(dirPath));
+        zip.addFileset(fileSet);
+        zip.execute();
+        if (zipFile.exists()) {
+            return zipFile;
+        }
+        return null;
+    }
 }

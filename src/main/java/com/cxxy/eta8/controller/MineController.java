@@ -47,6 +47,7 @@ public class MineController extends Controller {
 	}
 
 	public void listpaper() {
+		Integer typeId = getParaToInt("typeId");
 		int page = getParaToInt("page");
 		int limit = getParaToInt("limit");
 		String order = getPara("order");
@@ -54,6 +55,7 @@ public class MineController extends Controller {
 		String defaultField = "createAt";
 			Page<Record> p = new DbRecord(DbConfig.V_TEACHER_PAPER)
 					.whereEqualTo("userId", UserService.me.getCurrentUser().getInt("id"))
+					.whereEqualTo("typeId", typeId)
 					.orderBySelect(field, order, defaultField).page(page, limit);
 			renderJson(new LayUITableResult<Record>(AjaxResult.CODE_SUCCESS, "", p.getTotalRow(), p.getList()));
 	}

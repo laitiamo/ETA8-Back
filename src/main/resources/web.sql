@@ -308,6 +308,13 @@ FROM
 eta8.t_subject_link_teacher
 #end
 
+#sql("t_subject_link_paper")
+SELECT
+*
+FROM
+eta8.t_subject_link_paper
+#end
+
 #sql("s_research")
 SELECT
 *
@@ -383,13 +390,6 @@ SELECT
 *
 FROM
 eta8.t_picture
-#end
-
-#sql("v_all_award")
-SELECT
-*
-FROM
-eta8.v_all_award
 #end
 
 #sql("v_award_info")

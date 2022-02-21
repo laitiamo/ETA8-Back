@@ -9,13 +9,13 @@
 	<id>eta8</id>
 
 	<classpath>
-		<dir name="E:/ETA8/eta8/BackEnd-GUI/target/classes">
+		<dir name="E:/ETA8/Source/BackEnd/target/classes">
 		</dir>
 	</classpath>
 
 	<web>
 		<link target="/">
-			<dir name="E:/ETA8/eta8/BackEnd-GUI/web">
+			<dir name="E:/ETA8/Source/BackEnd/web">
 			</dir>
 		</link>
 	</web>

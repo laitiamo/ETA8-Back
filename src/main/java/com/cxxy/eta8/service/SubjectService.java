@@ -140,4 +140,22 @@ public class SubjectService {
         });
     }
 
+    /**
+     * 添加项目（包括负责人和参与者）
+     */
+    public boolean updateSubjectPaper(Integer PaperId, Integer SubjectId) {
+        final List<Record> records = new ArrayList<Record>();
+                Record record = new Record();
+                record.set("SubjectId", SubjectId);
+                record.set("PaperId", PaperId);
+                records.add(record);
+
+        return Db.tx(new IAtom() {
+            public boolean run() throws SQLException {
+                Db.batchSave(DbConfig.T_SUBJECT_LINK_PAPER, records, records.size());
+                return true;
+            }
+        });
+    }
+
 }

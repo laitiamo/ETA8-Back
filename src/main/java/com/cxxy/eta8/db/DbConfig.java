@@ -37,6 +37,7 @@ public class DbConfig {
 	public static final String T_SUBJECT_SCHOOL = "t_subject_school";
 	public static final String T_SUBJECT_SPONSORED = "t_subject_sponsored";
 	public static final String T_SUBJECT_HORIZON = "t_subject_horizon";
+	public static final String T_SUBJECT_LINK_PAPER = "t_subject_link_paper";
 
 	public static final String S_BELONG = "s_belong";
 	public static final String S_COOPERATE = "s_cooperate";
@@ -65,7 +66,6 @@ public class DbConfig {
 	public static final String V_STUDENT_INFO_INSTRUCTOR = "v_student_info_instructor";
 	public static final String V_TEACHER_INFO = "v_teacher_info";
 
-	public static final String V_ALL_AWARD = "v_all_award";
 	public static final String V_STUDENT_AWARD = "v_student_award";
 	public static final String V_STUDENT_AWARD_INSTRUCTOR = "v_student_award_instructor";
 	public static final String V_STUDENT_AWARD_ASSISTANT = "v_student_award_assistant";

@@ -34,6 +34,7 @@ public class SubjectController extends Controller {
         setAttr("socfirst", new DbRecord(DbConfig.S_FIRST).whereEqualTo("RankId", WebConfig.RANK_SOCIETY).query());
         setAttr("topic", new DbRecord(DbConfig.S_TOPIC).query());
         setAttr("belong", new DbRecord(DbConfig.S_BELONG).query());
+        setAttr("paper", new DbRecord(DbConfig.T_TYPE).query());
         //向前端发送全部attribute
         Enumeration<String> names = getAttrNames();
         while (names.hasMoreElements()) {
@@ -140,7 +141,7 @@ public class SubjectController extends Controller {
         } else {
             // 重命名元素: 上传时间
             Date now = new Date(System.currentTimeMillis());
-            String uploadDateTime = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(now);
+            String uploadDateTime = new SimpleDateFormat("yyyy_MM_dd").format(now);
 
             // 目标文件路径列表
             ArrayList<String> webPaths = new ArrayList<String>();
@@ -150,7 +151,7 @@ public class SubjectController extends Controller {
             String webPathString;
             originPath = File.separator + "upload" +
                     File.separator + "teacher" + File.separator + "subject" +
-                    File.separator + getPara("SubjectType") + File.separator + getPara("SubjectNum") + "_" + getPara("SubjectName") + "_" + getPara("SubjectPlace") + "_"  + uploadDateTime;
+                    File.separator + getPara("SubjectType") + File.separator + getPara("SubjectNum") + "_" + getPara("SubjectName") + "_" + getPara("SubjectPlace") + File.separator + user.getStr("name") + "_立项申请_"  + uploadDateTime;
             // 使用File.separator能确保在Linux和Windows下都使用了对应的文件分隔符
             if (allFiles.size() == 1) {
                 webPaths.add(originPath);
@@ -184,6 +185,7 @@ public class SubjectController extends Controller {
                     userSubject.setSubjectNum(getPara("SubjectNum"));
                     userSubject.setSubjectName(getPara("SubjectName"));
                     userSubject.setSubjectPlace(getPara("SubjectPlace"));
+                    userSubject.setPaperType(getParaToInt("SubjectPaper"));
                     userSubject.setSubjectFund(getParaToInt("SubjectFund"));
                     userSubject.setSubjectTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("SubjectTime")));// parse方法可解析一个日期时间字符串
                     userSubject.setStartTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("StartTime")));// parse方法可解析一个日期时间字符串
@@ -192,11 +194,11 @@ public class SubjectController extends Controller {
                     // 数据库最终保存的路径，如果多图则在结尾加 "*"符号 跟上图片数量
                     String finalPath = "";
                     if (allFiles.size() == 1) {
-                        finalPath = originPath + ".jpeg";
+                        finalPath = originPath + ".pdf";
                     } else {
-                        finalPath = originPath + ".jpeg*" + allFiles.size();
+                        finalPath = originPath + ".pdf*" + allFiles.size();
                     }
-                    userSubject.setImagePath(finalPath);
+                    userSubject.setFilePath(finalPath);
                     userSubject.setRankId(getParaToInt("RankId"));
                     userSubject.setLevelId(getParaToInt("LevelId"));
                     userSubject.setReviewId(WebConfig.REVIEW_UNREAD);
@@ -215,6 +217,7 @@ public class SubjectController extends Controller {
                         school.setSourceId(getParaToInt("SourceId"));
                         school.setBelongId(getParaToInt("BelongId"));
                         school.setTypeId(getParaToInt("TypeId"));
+                        school.setRemarks(getPara("Remarks"));
                         school.setResearchId(getParaToInt("ResearchId"));
                         school.setCooperateId(getParaToInt("CooperateId"));
                         if (SubjectService.me.addSubject(ids, SubjectId)) {
@@ -224,7 +227,7 @@ public class SubjectController extends Controller {
                                     if (!targetFiles.get(j).getParentFile().exists()) {
                                         targetFiles.get(j).getParentFile().mkdirs(); // 递归创建父类文件夹
                                     }
-                                    allFiles.get(j).getFile().renameTo(targetFiles.get(j));
+                                    allFiles.get(j).getFile().renameTo(new File(targetFiles.get(j) + ".pdf"));
                                 }
                                 renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功"));
                             }
@@ -260,7 +263,7 @@ public class SubjectController extends Controller {
         } else {
             // 重命名元素: 上传时间
             Date now = new Date(System.currentTimeMillis());
-            String uploadDateTime = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(now);
+            String uploadDateTime = new SimpleDateFormat("yyyy_MM_dd").format(now);
 
             // 目标文件路径列表
             ArrayList<String> webPaths = new ArrayList<String>();
@@ -270,7 +273,7 @@ public class SubjectController extends Controller {
             String webPathString;
             originPath = File.separator + "upload" +
                     File.separator + "teacher" + File.separator + "subject" +
-                    File.separator + getPara("SubjectType") + File.separator + getPara("SubjectNum") + "_" + getPara("SubjectName") + "_" + getPara("SubjectPlace") + "_"  + uploadDateTime;
+                    File.separator + getPara("SubjectType") + File.separator + getPara("SubjectNum") + "_" + getPara("SubjectName") + "_" + getPara("SubjectPlace") + File.separator + user.getStr("name") + "_立项申请_"  + uploadDateTime;
             // 使用File.separator能确保在Linux和Windows下都使用了对应的文件分隔符
             if (allFiles.size() == 1) {
                 webPaths.add(originPath);
@@ -304,6 +307,7 @@ public class SubjectController extends Controller {
                     userSubject.setSubjectNum(getPara("SubjectNum"));
                     userSubject.setSubjectName(getPara("SubjectName"));
                     userSubject.setSubjectPlace(getPara("SubjectPlace"));
+                    userSubject.setPaperType(getParaToInt("SubjectPaper"));
                     userSubject.setSubjectFund(getParaToInt("SubjectFund"));
                     userSubject.setSubjectTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("SubjectTime")));// parse方法可解析一个日期时间字符串
                     userSubject.setStartTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("StartTime")));// parse方法可解析一个日期时间字符串
@@ -312,11 +316,11 @@ public class SubjectController extends Controller {
                     // 数据库最终保存的路径，如果多图则在结尾加 "*"符号 跟上图片数量
                     String finalPath = "";
                     if (allFiles.size() == 1) {
-                        finalPath = originPath + ".jpeg";
+                        finalPath = originPath + ".pdf";
                     } else {
-                        finalPath = originPath + ".jpeg*" + allFiles.size();
+                        finalPath = originPath + ".pdf*" + allFiles.size();
                     }
-                    userSubject.setImagePath(finalPath);
+                    userSubject.setFilePath(finalPath);
                     userSubject.setRankId(getParaToInt("RankId"));
                     userSubject.setLevelId(getParaToInt("LevelId"));
                     userSubject.setReviewId(WebConfig.REVIEW_UNREAD);
@@ -379,7 +383,7 @@ public class SubjectController extends Controller {
                                     if (!targetFiles.get(j).getParentFile().exists()) {
                                         targetFiles.get(j).getParentFile().mkdirs(); // 递归创建父类文件夹
                                     }
-                                    allFiles.get(j).getFile().renameTo(targetFiles.get(j));
+                                    allFiles.get(j).getFile().renameTo(new File(targetFiles.get(j) + ".pdf"));
                                 }
                                 renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功"));
                             }
@@ -415,7 +419,7 @@ public class SubjectController extends Controller {
         } else {
             // 重命名元素: 上传时间
             Date now = new Date(System.currentTimeMillis());
-            String uploadDateTime = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(now);
+            String uploadDateTime = new SimpleDateFormat("yyyy_MM_dd").format(now);
 
             // 目标文件路径列表
             ArrayList<String> webPaths = new ArrayList<String>();
@@ -425,7 +429,7 @@ public class SubjectController extends Controller {
             String webPathString;
             originPath = File.separator + "upload" +
                     File.separator + "teacher" + File.separator + "subject" +
-                    File.separator + getPara("SubjectType") + File.separator + getPara("SubjectNum") + "_" + getPara("SubjectName") + "_" + getPara("SubjectPlace") + "_"  + uploadDateTime;
+                    File.separator + getPara("SubjectType") + File.separator + getPara("SubjectNum") + "_" + getPara("SubjectName") + "_" + getPara("SubjectPlace") + File.separator + user.getStr("name") + "_立项申请_"  + uploadDateTime;
             // 使用File.separator能确保在Linux和Windows下都使用了对应的文件分隔符
             if (allFiles.size() == 1) {
                 webPaths.add(originPath);
@@ -452,13 +456,14 @@ public class SubjectController extends Controller {
             try {
                 //先走一遍遍历 查看该项目是否已经上传，减少冗余数据的增加
                 List<Record> subjectNums = new DbRecord(DbConfig.T_USER_SUBJECT)
-                        .whereEqualTo("SubjectNum", getPara("subjectNum")).query();
+                        .whereEqualTo("SubjectNum", getPara("SubjectNum")).query();
                 if (subjectNums.isEmpty()) {
                     // 保存文件信息至数据库
                     UserSubject userSubject = new UserSubject();
                     userSubject.setSubjectNum(getPara("SubjectNum"));
                     userSubject.setSubjectName(getPara("SubjectName"));
                     userSubject.setSubjectPlace(getPara("SubjectPlace"));
+                    userSubject.setPaperType(getParaToInt("SubjectPaper"));
                     userSubject.setSubjectFund(getParaToInt("SubjectFund"));
                     userSubject.setSubjectTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("SubjectTime")));// parse方法可解析一个日期时间字符串
                     userSubject.setStartTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("StartTime")));// parse方法可解析一个日期时间字符串
@@ -467,11 +472,11 @@ public class SubjectController extends Controller {
                     // 数据库最终保存的路径，如果多图则在结尾加 "*"符号 跟上图片数量
                     String finalPath = "";
                     if (allFiles.size() == 1) {
-                        finalPath = originPath + ".jpeg";
+                        finalPath = originPath + ".pdf";
                     } else {
-                        finalPath = originPath + ".jpeg*" + allFiles.size();
+                        finalPath = originPath + ".pdf*" + allFiles.size();
                     }
-                    userSubject.setImagePath(finalPath);
+                    userSubject.setFilePath(finalPath);
                     userSubject.setRankId(getParaToInt("RankId"));
                     userSubject.setLevelId(getParaToInt("LevelId"));
                     userSubject.setReviewId(WebConfig.REVIEW_UNREAD);
@@ -525,7 +530,7 @@ public class SubjectController extends Controller {
                                     if (!targetFiles.get(j).getParentFile().exists()) {
                                         targetFiles.get(j).getParentFile().mkdirs(); // 递归创建父类文件夹
                                     }
-                                    allFiles.get(j).getFile().renameTo(targetFiles.get(j));
+                                    allFiles.get(j).getFile().renameTo(new File(targetFiles.get(j) + ".pdf"));
                                 }
                                 renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功"));
                             }

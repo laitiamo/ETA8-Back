@@ -27,26 +27,26 @@ public class DetailSubjectController extends Controller {
             name += n.get(i).getStr("name") + " ";
         }
         Map<String, Object> attrMap = new HashMap<String, Object>();
-        //多图优化，字符分割 2020-10-20
 
-        String imagePath = r.getStr("imagePath");
-        ArrayList<String> images = new ArrayList<String>();
-        if (imagePath.indexOf("*") != -1) {
+        String filePath = r.getStr("filePath");
+        ArrayList<String> files = new ArrayList<String>();
+        if (filePath.indexOf("*") != -1) {
 
-            String[] parts = imagePath.split("\\*");
+            String[] parts = filePath.split("\\*");
             //如果存在"*"则分割，取出图片数量
             Integer picNum = Integer.parseInt(parts[1]);
             String[] pathParts = parts[0].split("\\.");
             String pathPart = pathParts[0];
             for (int i = 0; i < picNum; i++) {
                 //图片url补全 2021-2-25
-                images.add(getAttr("basePath").toString() + pathPart + "_" + i + ".jpeg");
+                files.add(getAttr("basePath").toString() + pathPart + "_" + i + ".pdf");
             }
         } else {
-            images.add(getAttr("basePath").toString() + imagePath);
+            files.add(getAttr("basePath").toString() + filePath);
         }
 
-        attrMap.put("imagePaths", images);
+        attrMap.put("filePaths", files);
+        attrMap.put("id",id);
         attrMap.put("username", r.getStr("username"));
         attrMap.put("name", r.getStr("name"));
         attrMap.put("gender", r.getStr("genderName"));
@@ -58,12 +58,24 @@ public class DetailSubjectController extends Controller {
         attrMap.put("time", new SimpleDateFormat("yyyy/MM/dd").format(r.getDate("subjectTime")));
         attrMap.put("rank", r.getStr("rankName"));
         attrMap.put("level", r.getStr("levelName"));
+        attrMap.put("PaperType", r.getStr("PaperTypeName"));
+        attrMap.put("PaperTypeId", r.getStr("PaperType"));
         attrMap.put("createAt", new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(r.getDate("createAt")));
         attrMap.put("reviewAt", r.getDate("reviewAt") == null ?
                 "" : new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(r.getDate("reviewAt")));
         attrMap.put("finishAt", new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(r.getDate("FinishTime")));
         attrMap.put("review", r.getStr("reviewName"));
         attrMap.put("levelId", r.getInt("levelId"));
+        if(r.getInt("PaperId")!=null){
+            Record p = new DbRecord(DbConfig.V_TEACHER_PAPER).whereEqualTo("id", r.getInt("PaperId")).queryFirst();
+            attrMap.put("Paper", p.getStr("paperName"));
+            attrMap.put("PaperReview", p.getStr("reviewName"));
+            attrMap.put("PaperReviewAt", p.getDate("reviewAt") == null ? "" : new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(p.getDate("reviewAt")));
+        }else{
+            attrMap.put("Paper", "未提交");
+            attrMap.put("PaperReview", "未提交");
+            attrMap.put("PaperReviewAt", "");
+        }
 
         //校级项目
         if (r.getInt("levelId") == 3) {

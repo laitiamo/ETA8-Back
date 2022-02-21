@@ -99,13 +99,13 @@ public abstract class BaseSubjectSchool<M extends BaseSubjectSchool<M>> extends 
 		return getInt("PaperType");
 	}
 
-	public M setPaperId(java.lang.Integer PaperId) {
-		set("PaperId", PaperId);
+	public M setRemarks(java.lang.String Remarks) {
+		set("Remarks", Remarks);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getPaperId() {
-		return getInt("PaperId");
+	public java.lang.String getRemarks() {
+		return getStr("Remarks");
 	}
 
 }

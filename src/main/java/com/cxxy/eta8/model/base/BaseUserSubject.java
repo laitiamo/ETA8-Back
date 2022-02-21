@@ -81,13 +81,13 @@ public abstract class BaseUserSubject<M extends BaseUserSubject<M>> extends Mode
 		return get("reviewAt");
 	}
 
-	public M setImagePath(java.lang.String imagePath) {
-		set("imagePath", imagePath);
+	public M setFilePath(java.lang.String filePath) {
+		set("filePath", filePath);
 		return (M)this;
 	}
 	
-	public java.lang.String getImagePath() {
-		return getStr("imagePath");
+	public java.lang.String getFilePath() {
+		return getStr("filePath");
 	}
 
 	public M setRankId(java.lang.Integer rankId) {
@@ -133,6 +133,15 @@ public abstract class BaseUserSubject<M extends BaseUserSubject<M>> extends Mode
 	
 	public java.lang.Integer getSubjectFund() {
 		return getInt("subjectFund");
+	}
+
+	public M setPaperType(java.lang.Integer PaperType) {
+		set("PaperType", PaperType);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getPaperType() {
+		return getInt("PaperType");
 	}
 
 }

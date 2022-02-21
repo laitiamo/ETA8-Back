@@ -1,9 +1,11 @@
 package com.cxxy.eta8.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.cxxy.eta8.common.WebConfig;
 import com.cxxy.eta8.db.DbConfig;
 import com.cxxy.eta8.db.DbRecord;
 import com.cxxy.eta8.service.ExportService;
+import com.cxxy.eta8.service.SubjectService;
 import com.cxxy.eta8.validator.TeacherSubjectDeleteValidator;
 import com.cxxy.eta8.vo.AjaxResult;
 import com.cxxy.eta8.vo.LayUITableResult;
@@ -57,6 +59,16 @@ public class QuerySubjectController extends Controller {
         renderJson(new LayUITableResult<Record>(AjaxResult.CODE_SUCCESS, "", p.getTotalRow(), p.getList()));
     }
 
+    public void updatePaper() {
+        Integer PaperId = getParaToInt("PaperId");
+        Integer SubjectId = getParaToInt("SubjectId");
+        if (SubjectService.me.updateSubjectPaper(PaperId, SubjectId)) {
+            renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "添加成功"));
+        } else {
+            renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "添加失败"));
+        }
+    }
+
 
     @Before(TeacherSubjectDeleteValidator.class)
     public void del() {
@@ -68,17 +80,17 @@ public class QuerySubjectController extends Controller {
                 boolean success2 = true;
                 Record r = new DbRecord(DbConfig.T_USER_SUBJECT).whereEqualTo("id", id).queryFirst();
                 Integer levelId = r.getInt("levelId");
-                if(levelId == 1) {
+                if (levelId == 1) {
                     Record s = new DbRecord(DbConfig.T_SUBJECT_SPONSORED).whereEqualTo("SubjectId", id).queryFirst();
-                    if(!Db.delete(DbConfig.T_SUBJECT_SPONSORED, "id", s)) {
+                    if (!Db.delete(DbConfig.T_SUBJECT_SPONSORED, "id", s)) {
                         success2 = false;
                     }
-                }else if (levelId == 2) {
+                } else if (levelId == 2) {
                     Record s = new DbRecord(DbConfig.T_SUBJECT_HORIZON).whereEqualTo("SubjectId", id).queryFirst();
-                    if(!Db.delete(DbConfig.T_SUBJECT_HORIZON, "id", s)) {
+                    if (!Db.delete(DbConfig.T_SUBJECT_HORIZON, "id", s)) {
                         success2 = false;
                     }
-                }else if (levelId == 3) {
+                } else if (levelId == 3) {
                     Record s = new DbRecord(DbConfig.T_SUBJECT_SCHOOL).whereEqualTo("SubjectId", id).queryFirst();
                     if (!Db.delete(DbConfig.T_SUBJECT_SCHOOL, "id", s)) {
                         success2 = false;
@@ -114,6 +126,21 @@ public class QuerySubjectController extends Controller {
                 .query();
         try {
             File downloadFile = ExportService.me.exportTeacherSubject(records);
+            if (downloadFile != null) {
+                renderFile(downloadFile);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void exportPDF() {
+        Integer id = getParaToInt("id");
+        List<Record> records = new DbRecord(DbConfig.V_TEACHER_SUBJECT)
+                .whereEqualTo("id", id)
+                .query();
+        try {
+            File downloadFile = ExportService.me.exportTeacherSubjectPDF(records);
             if (downloadFile != null) {
                 renderFile(downloadFile);
             }
