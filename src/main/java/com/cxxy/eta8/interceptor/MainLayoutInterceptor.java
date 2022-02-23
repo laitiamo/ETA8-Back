@@ -24,6 +24,8 @@ public class MainLayoutInterceptor implements Interceptor {
 		attrMap.put("l_grade", info.getStr("gradeName"));
 		attrMap.put("l_genderId", info.getStr("genderId"));
 		attrMap.put("l_major", info.getStr("majorName"));
+		attrMap.put("l_college", info.getStr("collegeName"));
+		attrMap.put("t_sector",info.getStr("sectorName"));
 		attrMap.put("l_class", info.getStr("className"));
 		attrMap.put("l_roleId", info.getInt("roleId"));
 		attrMap.put("l_notice", notice.getStr("content"));

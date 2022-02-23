@@ -29,7 +29,7 @@ public class SubjectController extends Controller {
     public void index() {
         Map<String, Object> attrMap = new HashMap<String, Object>();
         setAttr("rank", new DbRecord(DbConfig.T_SUBJECT_RANK).query());
-        setAttr("teacher", new DbRecord(DbConfig.T_TEACHER).query());
+        setAttr("teacher", new DbRecord(DbConfig.V_TEACHER_INFO).query());
         setAttr("ecofirst", new DbRecord(DbConfig.S_FIRST).whereEqualTo("RankId", WebConfig.RANK_ECONOMIC).query());
         setAttr("socfirst", new DbRecord(DbConfig.S_FIRST).whereEqualTo("RankId", WebConfig.RANK_SOCIETY).query());
         setAttr("topic", new DbRecord(DbConfig.S_TOPIC).query());
@@ -48,6 +48,7 @@ public class SubjectController extends Controller {
         Map<String, Object> attrMap = new HashMap<String, Object>();
         setAttr("cooperate", new DbRecord(DbConfig.S_COOPERATE).query());
         setAttr("research", new DbRecord(DbConfig.S_RESEARCH).query());
+        setAttr("category", new DbRecord(DbConfig.S_CATEGORY).whereEqualTo("TypeId",WebConfig.SUBJECT_TYPE_SCHOOL).query());
         //向前端发送全部attribute
         Enumeration<String> names = getAttrNames();
         while (names.hasMoreElements()) {
@@ -129,6 +130,18 @@ public class SubjectController extends Controller {
         renderJson(result);
     }
 
+    public void getRole() {
+        Integer TeacherId = getParaToInt("TeacherId");
+        List<Record> teacher = new DbRecord(DbConfig.V_TEACHER_INFO).whereEqualTo("userId", TeacherId).query();
+        Map<String, Object> attrMap = new HashMap<String, Object>();
+        attrMap.put("roleName", teacher.get(0).getStr("roleName"));
+        attrMap.put("collegeName", teacher.get(0).getStr("collegeName"));
+        attrMap.put("sectorName", teacher.get(0).getStr("sectorName"));
+        attrMap.put("username", teacher.get(0).getStr("username"));
+        setAttrs(attrMap);
+        renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, JSON.toJSONString(attrMap)));
+    }
+
     @Before(SubjectValidator.class)
     public void uploadSchool() {
         Record user = UserService.me.getCurrentUserInfo();
@@ -151,7 +164,7 @@ public class SubjectController extends Controller {
             String webPathString;
             originPath = File.separator + "upload" +
                     File.separator + "teacher" + File.separator + "subject" +
-                    File.separator + getPara("SubjectType") + File.separator + getPara("SubjectNum") + "_" + getPara("SubjectName") + "_" + getPara("SubjectPlace") + File.separator + user.getStr("name") + "_立项申请_"  + uploadDateTime;
+                    File.separator + getPara("SubjectType") + File.separator + getPara("SubjectNum") + "_" + getPara("SubjectName") + "_" + getPara("SubjectPlace") + File.separator + user.getStr("name") + "_立项申请_" + uploadDateTime;
             // 使用File.separator能确保在Linux和Windows下都使用了对应的文件分隔符
             if (allFiles.size() == 1) {
                 webPaths.add(originPath);
@@ -273,7 +286,7 @@ public class SubjectController extends Controller {
             String webPathString;
             originPath = File.separator + "upload" +
                     File.separator + "teacher" + File.separator + "subject" +
-                    File.separator + getPara("SubjectType") + File.separator + getPara("SubjectNum") + "_" + getPara("SubjectName") + "_" + getPara("SubjectPlace") + File.separator + user.getStr("name") + "_立项申请_"  + uploadDateTime;
+                    File.separator + getPara("SubjectType") + File.separator + getPara("SubjectNum") + "_" + getPara("SubjectName") + "_" + getPara("SubjectPlace") + File.separator + user.getStr("name") + "_立项申请_" + uploadDateTime;
             // 使用File.separator能确保在Linux和Windows下都使用了对应的文件分隔符
             if (allFiles.size() == 1) {
                 webPaths.add(originPath);
@@ -367,8 +380,6 @@ public class SubjectController extends Controller {
                         horizon.setBuyerMailingAddress(getPara("BuyerMailingAddress"));
 
 
-
-
                         horizon.setPayId(getParaToInt("PayId"));
                         horizon.setEconomicId(getParaToInt("EconomicId"));
                         horizon.setSocietyId(getParaToInt("SocietyId"));
@@ -429,7 +440,7 @@ public class SubjectController extends Controller {
             String webPathString;
             originPath = File.separator + "upload" +
                     File.separator + "teacher" + File.separator + "subject" +
-                    File.separator + getPara("SubjectType") + File.separator + getPara("SubjectNum") + "_" + getPara("SubjectName") + "_" + getPara("SubjectPlace") + File.separator + user.getStr("name") + "_立项申请_"  + uploadDateTime;
+                    File.separator + getPara("SubjectType") + File.separator + getPara("SubjectNum") + "_" + getPara("SubjectName") + "_" + getPara("SubjectPlace") + File.separator + user.getStr("name") + "_立项申请_" + uploadDateTime;
             // 使用File.separator能确保在Linux和Windows下都使用了对应的文件分隔符
             if (allFiles.size() == 1) {
                 webPaths.add(originPath);

@@ -60,6 +60,10 @@ public class WebConfig extends JFinalConfig {
 	public static final int PAPER_TYPE_PATENT = 3;
 	public static final int PAPER_TYPE_AWARD = 4;
 
+	public static final int SUBJECT_TYPE_SPONSORED = 1;
+	public static final int SUBJECT_TYPE_HORIZON = 2;
+	public static final int SUBJECT_TYPE_SCHOOL = 3;
+
 	public static final int REVIEW_UNREAD = 1;
 	public static final int REVIEW_PASS = 2;
 	public static final int REVIEW_NOT_PASS = 3;

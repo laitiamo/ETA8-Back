@@ -84,6 +84,7 @@ public class DetailSubjectController extends Controller {
             attrMap.put("Type", s.getStr("TypeName"));
             attrMap.put("Belong", s.getStr("BelongName"));
             attrMap.put("Cooperate", s.getStr("CooperateName"));
+            attrMap.put("Remarks", s.getStr("Remarks") == null ? "无" : s.getStr("Remarks"));
         } else if (r.getInt("levelId") == 2) {
             Record s = new DbRecord(DbConfig.V_SUBJECT_LINK_HORIZON).whereEqualTo("id", id).queryFirst();
             attrMap.put("Introduction", s.getStr("Introduction"));

@@ -15,6 +15,8 @@ public class DbConfig {
 	public static final String T_GENDER = "t_gender";
 	public static final String T_GRADE = "t_grade";
 	public static final String T_MAJOR = "t_major";
+	public static final String T_COLLEGE = "t_college";
+	public static final String T_SECTOR = "t_sector";
 
 	public static final String T_RANK = "t_rank";
 	public static final String T_PAPER_RANK = "t_paper_rank";
@@ -40,6 +42,7 @@ public class DbConfig {
 	public static final String T_SUBJECT_LINK_PAPER = "t_subject_link_paper";
 
 	public static final String S_BELONG = "s_belong";
+	public static final String S_CATEGORY = "s_category";
 	public static final String S_COOPERATE = "s_cooperate";
 	public static final String S_CONTRACT = "s_contract";
 	public static final String S_ENTRUST = "s_entrust";

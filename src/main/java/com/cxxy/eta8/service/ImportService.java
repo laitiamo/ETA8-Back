@@ -192,8 +192,7 @@ public class ImportService {
                 Record teacherRecord = new Record()
                         .set("teaNo", teacherNo)
                         .set("teaName", teacherName)
-                        .set("genderId", genderId)
-                        .set("userId", 0);
+                        .set("genderId", genderId);
                 teacheRecords.add(teacherRecord);
 
                 Record userRecord = new Record().set("username", teacherNo).set("password", Md5Util.Md5(teacherNo, teacherNo));
@@ -211,7 +210,7 @@ public class ImportService {
         });
         if (!success1) return success1;
 
-        boolean success2 = Db.tx(new IAtom() {
+        boolean success2 =  Db.tx(new IAtom() {
             public boolean run() throws SQLException {
                 for (Record r : userRecords) {
                     Integer userId = new DbRecord(DbConfig.T_USER)
@@ -219,11 +218,7 @@ public class ImportService {
                             .queryFirst()
                             .getInt("id");
                     Record urr = new Record().set("userId", userId).set("roleId", WebConfig.ROLE_TEACHER_ID);
-                    //根据user表里的userId给teacher表添加userId，用于项目上传userId
-                    Record ut = new DbRecord(DbConfig.T_TEACHER).whereEqualTo("teaNo", r.getStr("username")).queryFirst();
-                            ut.set("userId", userId);
                     Db.save(DbConfig.T_USER_ROLE, "id", urr);
-                    Db.update(DbConfig.T_TEACHER,"id",ut);
                 }
                 return true;
             }

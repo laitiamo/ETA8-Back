@@ -27,7 +27,7 @@ public class RecordController extends Controller {
 
         Map<String, Object> attrMap = new HashMap<String, Object>();
         setAttr("rank", new DbRecord(DbConfig.T_PAPER_RANK).query());
-        setAttr("teacher", new DbRecord(DbConfig.T_TEACHER).query());
+        setAttr("teacher", new DbRecord(DbConfig.V_TEACHER_INFO).query());
         //向前端发送全部attribute
         Enumeration<String> names = getAttrNames();
         while (names.hasMoreElements()) {

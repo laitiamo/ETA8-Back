@@ -117,6 +117,20 @@ FROM
 eta8.t_major
 #end
 
+#sql("t_college")
+SELECT
+*
+FROM
+eta8.t_college
+#end
+
+#sql("t_sector")
+SELECT
+*
+FROM
+eta8.t_sector
+#end
+
 #sql("t_rank")
 SELECT
 *
@@ -355,6 +369,13 @@ SELECT
 *
 FROM
 eta8.s_belong
+#end
+
+#sql("s_category")
+SELECT
+*
+FROM
+eta8.s_category
 #end
 
 #sql("s_cooperate")

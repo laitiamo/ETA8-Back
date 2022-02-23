@@ -54,4 +54,13 @@ public abstract class BaseClass<M extends BaseClass<M>> extends Model<M> impleme
 		return getInt("gradeId");
 	}
 
+	public M setCollegeId(java.lang.Integer collegeId) {
+		set("collegeId", collegeId);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getCollegeId() {
+		return getInt("collegeId");
+	}
+
 }

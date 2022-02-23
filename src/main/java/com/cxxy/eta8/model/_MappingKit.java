@@ -42,6 +42,7 @@ public class _MappingKit {
 		arp.addMapping("t_award_type", "id", AwardType.class);
 		arp.addMapping("t_candidate", "id", Candidate.class);
 		arp.addMapping("t_class", "id", Class.class);
+		arp.addMapping("t_college", "id", College.class);
 		arp.addMapping("t_gender", "id", Gender.class);
 		arp.addMapping("t_grade", "id", Grade.class);
 		arp.addMapping("t_inform", "id", Inform.class);
@@ -56,6 +57,7 @@ public class _MappingKit {
 		arp.addMapping("t_rank", "id", Rank.class);
 		arp.addMapping("t_review", "id", Review.class);
 		arp.addMapping("t_role", "id", Role.class);
+		arp.addMapping("t_sector", "id", Sector.class);
 		arp.addMapping("t_student", "id", Student.class);
 		arp.addMapping("t_subject_horizon", "id", SubjectHorizon.class);
 		arp.addMapping("t_subject_link_paper", "id", SubjectLinkPaper.class);

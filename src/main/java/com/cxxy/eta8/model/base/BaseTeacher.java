@@ -45,13 +45,22 @@ public abstract class BaseTeacher<M extends BaseTeacher<M>> extends Model<M> imp
 		return getInt("genderId");
 	}
 
-	public M setUserId(java.lang.Integer userId) {
-		set("userId", userId);
+	public M setSectorId(java.lang.Integer sectorId) {
+		set("sectorId", sectorId);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getUserId() {
-		return getInt("userId");
+	public java.lang.Integer getSectorId() {
+		return getInt("sectorId");
+	}
+
+	public M setCollegeId(java.lang.Integer collegeId) {
+		set("collegeId", collegeId);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getCollegeId() {
+		return getInt("collegeId");
 	}
 
 }
