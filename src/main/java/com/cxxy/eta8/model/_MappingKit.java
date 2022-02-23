@@ -22,6 +22,7 @@ public class _MappingKit {
 		arp.addMapping("b_province", "id", BProvince.class);
 		arp.addMapping("b_type", "id", BType.class);
 		arp.addMapping("s_belong", "id", SBelong.class);
+		arp.addMapping("s_category", "id", SCategory.class);
 		arp.addMapping("s_contract", "id", SContract.class);
 		arp.addMapping("s_cooperate", "id", SCooperate.class);
 		arp.addMapping("s_economic", "id", SEconomic.class);

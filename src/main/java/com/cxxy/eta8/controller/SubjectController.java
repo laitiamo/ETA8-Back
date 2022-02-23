@@ -225,6 +225,7 @@ public class SubjectController extends Controller {
                                 .getInt("id");
                         SubjectSchool school = new SubjectSchool();
                         school.setSubjectId(SubjectId);
+                        school.setCategoryId(getParaToInt("CategoryId"));
                         school.setEconomicId(getParaToInt("EconomicId"));
                         school.setSocietyId(getParaToInt("SocietyId"));
                         school.setSourceId(getParaToInt("SourceId"));

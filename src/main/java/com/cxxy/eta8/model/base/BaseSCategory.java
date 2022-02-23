@@ -18,13 +18,13 @@ public abstract class BaseSCategory<M extends BaseSCategory<M>> extends Model<M>
 		return getInt("id");
 	}
 
-	public M setTypeName(java.lang.String TypeName) {
-		set("TypeName", TypeName);
+	public M setCategoryName(java.lang.String CategoryName) {
+		set("CategoryName", CategoryName);
 		return (M)this;
 	}
 	
-	public java.lang.String getTypeName() {
-		return getStr("TypeName");
+	public java.lang.String getCategoryName() {
+		return getStr("CategoryName");
 	}
 
 	public M setTypeId(java.lang.Integer TypeId) {

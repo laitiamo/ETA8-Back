@@ -48,6 +48,15 @@ Table: s_belong
  BelongName | VARCHAR(255) | NO   |     |         | 等级名称    
 ------------+--------------+------+-----+---------+---------
 
+Table: s_category
+--------------+--------------+------+-----+---------+---------
+ Field        | Type         | Null | Key | Default | Remarks 
+--------------+--------------+------+-----+---------+---------
+ id           | INT(10)      | NO   | PRI |         |         
+ CategoryName | VARCHAR(255) | NO   |     |         |         
+ TypeId       | INT(10)      | NO   |     |         |         
+--------------+--------------+------+-----+---------+---------
+
 Table: s_contract
 ----------+--------------+------+-----+---------+---------
  Field    | Type         | Null | Key | Default | Remarks 
@@ -446,6 +455,7 @@ Table: t_subject_school
 -------------+--------------+------+-----+---------+---------
  id          | INT(10)      | NO   | PRI |         |         
  SubjectId   | INT(10)      | NO   |     |         | 项目id    
+ CategoryId  | INT(10)      | NO   |     |         | 项目分类id  
  EconomicId  | INT(10)      | NO   |     |         | 国民经济行业id
  SocietyId   | INT(10)      | NO   |     |         | 社会经济服务目标id
  SourceId    | INT(10)      | NO   |     |         | 项目来源id  

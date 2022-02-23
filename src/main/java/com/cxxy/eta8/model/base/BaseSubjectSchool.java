@@ -27,6 +27,15 @@ public abstract class BaseSubjectSchool<M extends BaseSubjectSchool<M>> extends 
 		return getInt("SubjectId");
 	}
 
+	public M setCategoryId(java.lang.Integer CategoryId) {
+		set("CategoryId", CategoryId);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getCategoryId() {
+		return getInt("CategoryId");
+	}
+
 	public M setEconomicId(java.lang.Integer EconomicId) {
 		set("EconomicId", EconomicId);
 		return (M)this;
