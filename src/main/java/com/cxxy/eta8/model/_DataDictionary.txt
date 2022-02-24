@@ -420,6 +420,9 @@ Table: t_subject_horizon
  BuyerEmail             | VARCHAR(255) | YES  |     |         |         
  BuyerRegisteredAddress | VARCHAR(255) | YES  |     |         |         
  BuyerMailingAddress    | VARCHAR(255) | YES  |     |         |         
+ ResearchFund           | INT(10)      | YES  |     |         |         
+ ServiceFund            | INT(10)      | YES  |     |         |         
+ OtherFund              | INT(10)      | YES  |     |         |         
 ------------------------+--------------+------+-----+---------+---------
 
 Table: t_subject_link_paper
@@ -507,16 +510,18 @@ Table: t_subject_sponsored
 --------------------+--------------+------+-----+---------+---------
 
 Table: t_teacher
------------+-------------+------+-----+---------+---------
- Field     | Type        | Null | Key | Default | Remarks 
------------+-------------+------+-----+---------+---------
- id        | INT(10)     | NO   | PRI |         | id      
- teaNo     | VARCHAR(20) | NO   |     |         | 教师号     
- teaName   | VARCHAR(50) | NO   |     |         | 姓名      
- genderId  | INT(10)     | NO   |     |         | 性别id    
- sectorId  | INT(10)     | NO   |     |         | 部门id    
- collegeId | INT(10)     | NO   |     |         | 院系id    
------------+-------------+------+-----+---------+---------
+-----------+--------------+------+-----+---------+---------
+ Field     | Type         | Null | Key | Default | Remarks 
+-----------+--------------+------+-----+---------+---------
+ id        | INT(10)      | NO   | PRI |         | id      
+ teaNo     | VARCHAR(20)  | NO   |     |         | 教师号     
+ teaName   | VARCHAR(50)  | NO   |     |         | 姓名      
+ genderId  | INT(10)      | NO   |     |         | 性别id    
+ sectorId  | INT(10)      | NO   |     |         | 部门id    
+ collegeId | INT(10)      | NO   |     |         | 院系id    
+ email     | VARCHAR(255) | YES  |     |         |         
+ phone     | VARCHAR(255) | YES  |     |         |         
+-----------+--------------+------+-----+---------+---------
 
 Table: t_type
 ----------+--------------+------+-----+---------+---------
@@ -558,9 +563,10 @@ Table: t_user_paper
  Field      | Type         | Null | Key | Default           | Remarks 
 ------------+--------------+------+-----+-------------------+---------
  id         | INT(10)      | NO   | PRI |                   |         
- paperName  | VARCHAR(255) | NO   |     |                   | 奖项名称    
- paperTime  | DATE(10)     | NO   |     |                   | 获奖时间    
- paperPlace | VARCHAR(50)  | NO   |     |                   | 获奖名次    
+ paperName  | VARCHAR(255) | NO   |     |                   | 成果名称    
+ paperTime  | DATE(10)     | NO   |     |                   | 成果时间    
+ paperPlace | VARCHAR(50)  | NO   |     |                   | 成果单位    
+ paperNum   | VARCHAR(255) | NO   |     |                   | 成果号     
  createAt   | DATETIME(26) | NO   |     | CURRENT_TIMESTAMP | 上传时间    
  reviewAt   | DATETIME(26) | YES  |     |                   | 审核时间    
  imagePath  | VARCHAR(255) | NO   |     |                   | 图片路径    

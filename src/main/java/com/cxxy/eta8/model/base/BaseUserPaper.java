@@ -45,6 +45,15 @@ public abstract class BaseUserPaper<M extends BaseUserPaper<M>> extends Model<M>
 		return getStr("paperPlace");
 	}
 
+	public M setPaperNum(java.lang.String paperNum) {
+		set("paperNum", paperNum);
+		return (M)this;
+	}
+	
+	public java.lang.String getPaperNum() {
+		return getStr("paperNum");
+	}
+
 	public M setCreateAt(java.util.Date createAt) {
 		set("createAt", createAt);
 		return (M)this;

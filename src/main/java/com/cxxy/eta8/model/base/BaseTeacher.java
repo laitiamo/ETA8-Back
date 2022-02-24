@@ -63,4 +63,22 @@ public abstract class BaseTeacher<M extends BaseTeacher<M>> extends Model<M> imp
 		return getInt("collegeId");
 	}
 
+	public M setEmail(java.lang.String email) {
+		set("email", email);
+		return (M)this;
+	}
+	
+	public java.lang.String getEmail() {
+		return getStr("email");
+	}
+
+	public M setPhone(java.lang.String phone) {
+		set("phone", phone);
+		return (M)this;
+	}
+	
+	public java.lang.String getPhone() {
+		return getStr("phone");
+	}
+
 }

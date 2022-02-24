@@ -342,4 +342,31 @@ public abstract class BaseSubjectHorizon<M extends BaseSubjectHorizon<M>> extend
 		return getStr("BuyerMailingAddress");
 	}
 
+	public M setResearchFund(java.lang.Integer ResearchFund) {
+		set("ResearchFund", ResearchFund);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getResearchFund() {
+		return getInt("ResearchFund");
+	}
+
+	public M setServiceFund(java.lang.Integer ServiceFund) {
+		set("ServiceFund", ServiceFund);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getServiceFund() {
+		return getInt("ServiceFund");
+	}
+
+	public M setOtherFund(java.lang.Integer OtherFund) {
+		set("OtherFund", OtherFund);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getOtherFund() {
+		return getInt("OtherFund");
+	}
+
 }

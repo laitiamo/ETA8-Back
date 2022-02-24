@@ -91,6 +91,7 @@ public class RecordController extends Controller {
             try {
                 // 保存文件信息至数据库
                 UserPaper userpaper = new UserPaper();
+                userpaper.setPaperNum(getPara("paperNum"));
                 userpaper.setPaperName(getPara("paperName"));
                 userpaper.setPaperPlace(getPara("paperPlace"));
                 userpaper.setPaperTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("paperTime")));// parse方法可解析一个日期时间字符串

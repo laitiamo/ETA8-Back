@@ -47,7 +47,9 @@ public class DetailPaperController extends Controller {
         }
 
 
+        attrMap.put("typeId",r.getInt("typeId"));
         attrMap.put("imagePaths", images);
+        attrMap.put("num",r.getStr("paperNum"));
         attrMap.put("username", r.getStr("username"));
         attrMap.put("name", r.getStr("name"));
         attrMap.put("gender", r.getStr("genderName"));

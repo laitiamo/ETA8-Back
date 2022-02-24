@@ -379,6 +379,9 @@ public class SubjectController extends Controller {
                         horizon.setBuyerEmail(getPara("BuyerEmail"));
                         horizon.setBuyerRegisteredAddress(getPara("BuyerRegisteredAddress"));
                         horizon.setBuyerMailingAddress(getPara("BuyerMailingAddress"));
+                        horizon.setContractFund(getParaToInt("ResearchFund"));
+                        horizon.setContractFund(getParaToInt("ServiceFund"));
+                        horizon.setContractFund(getParaToInt("OtherFund"));
 
 
                         horizon.setPayId(getParaToInt("PayId"));

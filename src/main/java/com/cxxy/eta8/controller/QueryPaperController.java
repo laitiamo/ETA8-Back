@@ -35,6 +35,7 @@ public class QueryPaperController extends Controller {
         Integer limit = getParaToInt("limit");
         Integer typeId = getParaToInt("typeId");
         Integer rankId = getParaToInt("rankId");
+        String keyPaperNum = getPara("keyPaperNum");
         String keyPaperName = getPara("keyPaperName");
         String keyPaperPlace = getPara("keyPaperPlace");
         String order = getPara("order");
@@ -42,6 +43,7 @@ public class QueryPaperController extends Controller {
         String defaultField = "id";
 
         Page<Record> p = new DbRecord(DbConfig.V_PAPER_INFO)
+                .whereContains("paperNum", keyPaperNum)
                 .whereContains("paperName", keyPaperName)
                 .whereContains("paperPlace", keyPaperPlace)
                 .whereEqualTo("rankId", rankId)
@@ -82,11 +84,13 @@ public class QueryPaperController extends Controller {
     public void exportXLS() {
         Integer rankId = getParaToInt("rankId");
         Integer typeId = getParaToInt("typeId");
+        String keyPaperNum = getPara("keyPaperNum");
         String keyAwardName = getPara("keyAwardName");
         String keyAwardPlace = getPara("keyAwardPlace");
         List<Record> records = new DbRecord(DbConfig.V_PAPER_INFO)
                 .whereEqualTo("rankId", rankId)
                 .whereEqualTo("typeId", typeId)
+                .whereContains("paperNum", keyPaperNum)
                 .whereContains("paperName", keyAwardName)
                 .whereContains("paperPlace", keyAwardPlace)
                 .query();
@@ -101,6 +105,7 @@ public class QueryPaperController extends Controller {
     public void exportZIP() {
         Integer rankId = getParaToInt("rankId");
         Integer typeId = getParaToInt("typeId");
+        String keyPaperNum = getPara("keyPaperNum");
         String keyAwardName = getPara("keyAwardName");
         String keyAwardPlace = getPara("keyAwardPlace");
         List<Record> records = new DbRecord(DbConfig.V_PAPER_INFO)

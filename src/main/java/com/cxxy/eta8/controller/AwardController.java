@@ -34,7 +34,20 @@ public class AwardController extends Controller {
         String defaultField = "id";
         Page<Record> p = null;
         Record info = UserService.me.getCurrentUserInfo();
-        if (info.getStr("roleNameEn").equals(WebConfig.ROLE_MANAGER)) {
+        if (info.getStr("roleNameEn").equals(WebConfig.ROLE_ADMIN)) {
+            if (type == WebConfig.AWARD_TYPE_ALL) {
+                p = new DbRecord(DbConfig.V_AWARD_INFO)
+                        .whereContains("awardName", key)
+                        .orderBySelect(field, order, defaultField)
+                        .page(page, limit);
+            }else{
+                p = new DbRecord(DbConfig.V_AWARD_INFO)
+                        .whereEqualTo("awardTypeId", type)
+                        .whereContains("awardName", key)
+                        .orderBySelect(field, order, defaultField)
+                        .page(page, limit);
+            }
+        } else if (info.getStr("roleNameEn").equals(WebConfig.ROLE_MANAGER)) {
             p = new DbRecord(DbConfig.V_AWARD_INFO)
                     .whereEqualTo("awardTypeId", 2)
                     .whereContains("awardName", key)
@@ -46,16 +59,9 @@ public class AwardController extends Controller {
                     .whereContains("awardName", key)
                     .orderBySelect(field, order, defaultField)
                     .page(page, limit);
-        } else {
-            if (type == WebConfig.AWARD_TYPE_ALL) {
-                p = new DbRecord(DbConfig.V_AWARD_INFO)
-                        .whereEqualTo("awardTypeId", type)
-                        .whereContains("awardName", key)
-                        .orderBySelect(field, order, defaultField)
-                        .page(page, limit);
-            }
         }
         renderJson(new LayUITableResult<Record>(AjaxResult.CODE_SUCCESS, "", p.getTotalRow(), p.getList()));
+
     }
 
     @Before(UpdateAwardValidator.class)
