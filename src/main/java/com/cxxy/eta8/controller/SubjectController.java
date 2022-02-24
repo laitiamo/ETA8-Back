@@ -247,9 +247,11 @@ public class SubjectController extends Controller {
                             }
                         } else {
                             renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
+                            userSubject.delete();
                         }
                     } else {
                         renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
+                        userSubject.delete();
                     }
                 } else {
                     renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "项目编号重复，请重新输入"));
@@ -404,9 +406,11 @@ public class SubjectController extends Controller {
                             }
                         } else {
                             renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
+                            userSubject.delete();
                         }
                     } else {
                         renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
+                        userSubject.delete();
                     }
                 } else {
                     renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "项目编号重复，请重新输入"));
@@ -551,9 +555,11 @@ public class SubjectController extends Controller {
                             }
                         } else {
                             renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
+                            userSubject.delete();
                         }
                     } else {
                         renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
+                        userSubject.delete();
                     }
                 } else {
                     renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "项目编号重复，请重新输入"));

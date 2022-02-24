@@ -24,6 +24,7 @@ import com.jfinal.plugin.activerecord.Record;
  * SecurityUtils.getSubject().hasRole(r.getStr("roleNameEn"))判断查询的记录角色身份与当前登录的角色身份是否匹配
   * 如果匹配，就让其访问该资源，否则返回"无法访问的相应界面"
  * */
+
 public class AuthInterceptor implements Interceptor {
 
 	public void intercept(Invocation inv) {
