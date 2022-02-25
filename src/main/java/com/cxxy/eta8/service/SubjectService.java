@@ -1,5 +1,6 @@
 package com.cxxy.eta8.service;
 
+import com.cxxy.eta8.common.WebConfig;
 import com.cxxy.eta8.db.DbConfig;
 import com.cxxy.eta8.db.DbRecord;
 import com.jfinal.plugin.activerecord.Db;
@@ -55,7 +56,7 @@ public class SubjectService {
     }
 
     /**
-     * 删除项目（包括负责人和参与者）
+     * 删除项目（根据传入的levelId删除另一个分表）
      */
     public boolean delSubject(Integer[] ids, Integer SubjectId) {
         final List<Record> records = new ArrayList<Record>();
@@ -71,8 +72,22 @@ public class SubjectService {
                     List<Record> ids = new DbRecord(DbConfig.T_USER_SUBJECT)
                             .whereEqualTo("SubjectNum", records.get(i).getStr("SubjectNum")).query();
                     for (int j = 0; j < ids.size(); j++) {
-                        if (!Db.deleteById(DbConfig.T_USER_SUBJECT, ids.get(j).getInt("id"))) {
-                            success = false;
+                        Integer levelId = ids.get(j).getInt("LevelId");
+                        if (levelId == WebConfig.SUBJECT_TYPE_SPONSORED) {
+                            List<Record> levelids = new DbRecord(DbConfig.T_SUBJECT_SPONSORED).whereEqualTo("SubjectId", SubjectId).query();
+                            if (!Db.deleteById(DbConfig.T_USER_SUBJECT, ids.get(j).getInt("id")) && !Db.deleteById(DbConfig.T_SUBJECT_SPONSORED, levelids.get(j).getInt("id"))) {
+                                success = false;
+                            }
+                        }else if (levelId == WebConfig.SUBJECT_TYPE_HORIZON) {
+                            List<Record> levelids = new DbRecord(DbConfig.T_SUBJECT_HORIZON).whereEqualTo("SubjectId", SubjectId).query();
+                            if (!Db.deleteById(DbConfig.T_USER_SUBJECT, ids.get(j).getInt("id")) && !Db.deleteById(DbConfig.T_SUBJECT_HORIZON, levelids.get(j).getInt("id"))) {
+                                success = false;
+                            }
+                        }else if(levelId == WebConfig.SUBJECT_TYPE_SCHOOL) {
+                            List<Record> levelids = new DbRecord(DbConfig.T_SUBJECT_SCHOOL).whereEqualTo("SubjectId", SubjectId).query();
+                            if (!Db.deleteById(DbConfig.T_USER_SUBJECT, ids.get(j).getInt("id")) && !Db.deleteById(DbConfig.T_SUBJECT_SCHOOL, levelids.get(j).getInt("id"))) {
+                                success = false;
+                            }
                         }
                     }
                 }

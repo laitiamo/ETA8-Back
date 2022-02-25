@@ -66,7 +66,7 @@ public class RecordController extends Controller {
             String webPathString;
             originPath = File.separator + "upload" +
                     File.separator + "teacher" + File.separator + "record" +
-                    File.separator + getPara("paperType") + "_" + getPara("paperName") + "_" + uploadDateTime;
+                    File.separator + getPara("paperType") + File.separator + getPara("paperNum") + "_" + getPara("paperName") + "_" + getPara("paperPlace") + "_" + uploadDateTime;
             //File.separator+username+"_"+getPara("awardName")+"_"+uploadDateTime;
             // 使用File.separator能确保在Linux和Windows下都使用了对应的文件分隔符
             if (allFiles.size() == 1) {
@@ -123,6 +123,7 @@ public class RecordController extends Controller {
                                 .toFile(targetFiles.get(i));
                     }
                     Integer PaperId = new DbRecord(DbConfig.T_USER_PAPER)
+                            .whereEqualTo("PaperNum", getPara("paperNum"))
                             .whereEqualTo("PaperName", getPara("paperName"))
                             .whereEqualTo("PaperPlace", getPara("paperPlace"))
                             .whereEqualTo("TypeId", getParaToInt("typeId"))
