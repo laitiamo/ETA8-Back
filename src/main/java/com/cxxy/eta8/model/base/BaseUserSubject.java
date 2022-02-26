@@ -144,4 +144,13 @@ public abstract class BaseUserSubject<M extends BaseUserSubject<M>> extends Mode
 		return getInt("PaperType");
 	}
 
+	public M setApplyAt(java.util.Date applyAt) {
+		set("applyAt", applyAt);
+		return (M)this;
+	}
+	
+	public java.util.Date getApplyAt() {
+		return get("applyAt");
+	}
+
 }

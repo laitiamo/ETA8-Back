@@ -68,7 +68,8 @@ public class WebConfig extends JFinalConfig {
 	public static final int REVIEW_PASS = 2;
 	public static final int REVIEW_NOT_PASS = 3;
 	public static final int SUBJECT_NOT_FINISH = 4;
-	public static final int SUBJECT_FINISH = 5;
+	public static final int SUBJECT_WAIT_FINISH = 5;
+	public static final int SUBJECT_FINISH = 6;
 
 	public static final int CANDIDATE_MAJOR = 1;
 	public static final int CANDIDATE_PART = 2;

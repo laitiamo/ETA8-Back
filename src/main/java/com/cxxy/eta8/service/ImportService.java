@@ -151,7 +151,7 @@ public class ImportService {
         return success2;
     }
 
-    public boolean importTea(File xls) throws Exception {
+    public boolean importTea(File xls, Integer sectorId, Integer collegeId) throws Exception {
         FileInputStream fis = new FileInputStream(xls);
         HSSFWorkbook workbook = new HSSFWorkbook(fis);
         HSSFSheet sheet = workbook.getSheetAt(0);
@@ -184,6 +184,8 @@ public class ImportService {
                     .whereEqualTo("teaNo", teacherNo)
                     .whereEqualTo("teaName", teacherName)
                     .whereEqualTo("genderId", genderId)
+                    .whereEqualTo("sectorId", sectorId)
+                    .whereEqualTo("collegeId", collegeId)
                     .query();
             List<Record> uRecords = new DbRecord(DbConfig.T_USER)
                     .whereEqualTo("username", teacherNo)
@@ -192,7 +194,9 @@ public class ImportService {
                 Record teacherRecord = new Record()
                         .set("teaNo", teacherNo)
                         .set("teaName", teacherName)
-                        .set("genderId", genderId);
+                        .set("genderId", genderId)
+                        .set("collegeId", collegeId)
+                        .set("sectorId", sectorId);
                 teacheRecords.add(teacherRecord);
 
                 Record userRecord = new Record().set("username", teacherNo).set("password", Md5Util.Md5(teacherNo, teacherNo));
@@ -210,7 +214,7 @@ public class ImportService {
         });
         if (!success1) return success1;
 
-        boolean success2 =  Db.tx(new IAtom() {
+        boolean success2 = Db.tx(new IAtom() {
             public boolean run() throws SQLException {
                 for (Record r : userRecords) {
                     Integer userId = new DbRecord(DbConfig.T_USER)

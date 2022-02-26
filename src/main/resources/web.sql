@@ -469,6 +469,13 @@ FROM
 eta8.v_teacher_subject
 #end
 
+#sql("v_subject_link_paper")
+SELECT
+*
+FROM
+eta8.v_subject_link_paper
+#end
+
 #sql("v_subject_info")
 SELECT
 *

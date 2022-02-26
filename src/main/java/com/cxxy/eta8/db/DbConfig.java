@@ -76,6 +76,7 @@ public class DbConfig {
 	public static final String V_TEACHER_AWARD = "v_teacher_award";
 	public static final String V_TEACHER_PAPER = "v_teacher_paper";
 	public static final String V_TEACHER_SUBJECT = "v_teacher_subject";
+	public static final String V_SUBJECT_LINK_PAPER = "v_subject_link_paper";
 
 	public static final String V_SUBJECT_INFO = "v_subject_info";
 	public static final String V_SUBJECT_LINK_SCHOOL = "v_subject_link_school";

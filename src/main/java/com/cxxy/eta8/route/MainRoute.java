@@ -24,6 +24,7 @@ public class MainRoute extends Routes {
 		add("/eta8/review", ReviewController.class, "/");
 		add("/eta8/record-review", ReviewRecordController.class, "/");
 		add("/eta8/subject-review", ReviewSubjectController.class, "/");
+		add("/eta8/subject-finish", FinishSubjectController.class, "/");
 		add("/eta8/query-stu", QueryStuController.class, "/");
 		add("/eta8/query-tea", QueryTeaController.class, "/");
 		add("/eta8/query-paper", QueryPaperController.class, "/");

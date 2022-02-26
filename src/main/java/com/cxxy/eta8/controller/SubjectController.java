@@ -16,6 +16,7 @@ import com.cxxy.eta8.vo.LayUITableResult;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.PathKit;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
@@ -48,7 +49,7 @@ public class SubjectController extends Controller {
         Map<String, Object> attrMap = new HashMap<String, Object>();
         setAttr("cooperate", new DbRecord(DbConfig.S_COOPERATE).query());
         setAttr("research", new DbRecord(DbConfig.S_RESEARCH).query());
-        setAttr("category", new DbRecord(DbConfig.S_CATEGORY).whereEqualTo("TypeId",WebConfig.SUBJECT_TYPE_SCHOOL).query());
+        setAttr("category", new DbRecord(DbConfig.S_CATEGORY).whereEqualTo("TypeId", WebConfig.SUBJECT_TYPE_SCHOOL).query());
         //向前端发送全部attribute
         Enumeration<String> names = getAttrNames();
         while (names.hasMoreElements()) {
@@ -140,6 +141,28 @@ public class SubjectController extends Controller {
         attrMap.put("username", teacher.get(0).getStr("username"));
         setAttrs(attrMap);
         renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, JSON.toJSONString(attrMap)));
+    }
+
+    public void updatePaper() {
+        Integer SubjectId = getParaToInt("SubjectId");
+        Integer PaperId = getParaToInt("PaperId");
+        if (SubjectService.me.setSubjectPaper(SubjectId, PaperId)) {
+            renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功"));
+        } else {
+            renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败，该成果已被上传"));
+        }
+    }
+
+    public void applyFinish() {
+        Integer SubjectId = getParaToInt("SubjectId");
+        Record r = new DbRecord(DbConfig.T_USER_SUBJECT).whereEqualTo("id", SubjectId).queryFirst();
+        r.set("reviewId", WebConfig.SUBJECT_WAIT_FINISH);
+        r.set("applyAt", new Date(System.currentTimeMillis()));
+        if (Db.update(DbConfig.T_USER_SUBJECT, "id", r)) {
+            renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "申请成功！请等待管理员审核"));
+        } else {
+            renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "操作失败"));
+        }
     }
 
     @Before(SubjectValidator.class)
@@ -246,12 +269,12 @@ public class SubjectController extends Controller {
                                 renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功"));
                             }
                         } else {
-                            if(userSubject.delete()) {
+                            if (userSubject.delete()) {
                                 renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
                             }
                         }
                     } else {
-                        if(userSubject.delete()) {
+                        if (userSubject.delete()) {
                             renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
                         }
                     }
@@ -407,12 +430,12 @@ public class SubjectController extends Controller {
                                 renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功"));
                             }
                         } else {
-                            if(userSubject.delete()) {
+                            if (userSubject.delete()) {
                                 renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
                             }
                         }
                     } else {
-                        if(userSubject.delete()) {
+                        if (userSubject.delete()) {
                             renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
                         }
                     }
@@ -558,12 +581,12 @@ public class SubjectController extends Controller {
                                 renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功"));
                             }
                         } else {
-                            if(userSubject.delete()) {
+                            if (userSubject.delete()) {
                                 renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
                             }
                         }
                     } else {
-                        if(userSubject.delete()) {
+                        if (userSubject.delete()) {
                             renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
                         }
                     }

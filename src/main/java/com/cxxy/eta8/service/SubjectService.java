@@ -96,6 +96,28 @@ public class SubjectService {
         });
     }
 
+    /**
+     * 项目插入成果ID
+     */
+    public boolean setSubjectPaper(Integer SubjectId, Integer PaperId) {
+        final List<Record> records = new ArrayList<Record>();
+        List<Record> ids = new DbRecord(DbConfig.T_SUBJECT_LINK_PAPER)
+                .whereEqualTo("PaperId", PaperId).query();
+        if(ids.isEmpty()) {
+            Record record = new Record();
+            record.set("SubjectId", SubjectId).set("PaperId", PaperId);
+            records.add(record);
+            return Db.tx(new IAtom() {
+                public boolean run() throws SQLException {
+                    Db.batchSave(DbConfig.T_SUBJECT_LINK_PAPER, records, records.size());
+                    return true;
+                }
+            });
+        }else {
+            return false;
+        }
+    }
+
 
     /**
      * 添加项目（包括负责人和参与者）

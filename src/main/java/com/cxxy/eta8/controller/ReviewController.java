@@ -104,10 +104,10 @@ public class ReviewController extends Controller {
             if (Db.update(DbConfig.T_USER_AWARD, "id", r)) {
                 renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "操作成功！您的操作为：通过"));
             } else {
-                renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "操作失败"));
+                renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "操作失败"));
             }
         } else {
-            renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "操作失败"));
+            renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "操作失败"));
         }
     }
 
@@ -122,10 +122,10 @@ public class ReviewController extends Controller {
             if (Db.update(DbConfig.T_USER_AWARD, "id", r)) {
                 renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "操作成功！您的操作为：驳回"));
             } else {
-                renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "操作失败"));
+                renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "操作失败"));
             }
         } else {
-            renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "操作失败"));
+            renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "操作失败"));
         }
     }
 

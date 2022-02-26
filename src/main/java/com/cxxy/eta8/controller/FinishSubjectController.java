@@ -14,9 +14,10 @@ import com.jfinal.plugin.activerecord.Record;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class ReviewSubjectController extends Controller {
+public class FinishSubjectController extends Controller {
 
     public void index() {
         Map<String, Object> attrMap = new HashMap<String, Object>();
@@ -38,8 +39,8 @@ public class ReviewSubjectController extends Controller {
 
         Record info = UserService.me.getCurrentUserInfo();
         if (info.getStr("roleNameEn").equals(WebConfig.ROLE_ADMIN) || info.getStr("roleNameEn").equals(WebConfig.ROLE_MANAGER)) {//系统管理员和办公室主任审核全部项目
-            Page<Record> p = new DbRecord(DbConfig.V_SUBJECT_INFO)
-                    .whereEqualTo("reviewId",WebConfig.REVIEW_UNREAD)
+            Page<Record> p = new DbRecord(DbConfig.V_SUBJECT_LINK_PAPER)
+                    .whereEqualTo("reviewId", WebConfig.SUBJECT_WAIT_FINISH)
                     .whereContains("subjectNum", keySubjectNum)
                     .whereContains("subjectName", keySubjectName)
                     .whereContains("subjectPlace", keySubjectPlace)
@@ -56,11 +57,36 @@ public class ReviewSubjectController extends Controller {
         String reviewName = getPara("reviewer");
         Integer reviewType = getParaToInt("reviewType");
         Record r = new DbRecord(DbConfig.T_USER_SUBJECT).whereEqualTo("id", id).queryFirst();
+        List<Record> s = new DbRecord(DbConfig.T_SUBJECT_LINK_PAPER).whereEqualTo("SubjectId", id).query();
+        r.set("reviewId", WebConfig.SUBJECT_FINISH);
+        r.set("reviewAt", new Date(System.currentTimeMillis()));
+        if (!s.isEmpty()) {
+            if (UserService.me.setLog(id, reviewType, reviewName)) {
+                if (Db.update(DbConfig.T_USER_SUBJECT, "id", r)) {
+                    renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "操作成功！您的操作为：批准结题"));
+                } else {
+                    renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "操作失败"));
+                }
+            } else {
+                renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "操作失败"));
+            }
+        } else {
+            renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "操作失败，该项目没有上传成果"));
+        }
+    }
+
+
+    //项目结题不通过
+    public void notPassSubject() {
+        Integer id = getParaToInt("id");
+        String reviewName = getPara("reviewer");
+        Integer reviewType = getParaToInt("reviewType");
+        Record r = new DbRecord(DbConfig.T_USER_SUBJECT).whereEqualTo("id", id).queryFirst();
         r.set("reviewId", WebConfig.SUBJECT_NOT_FINISH);
         r.set("reviewAt", new Date(System.currentTimeMillis()));
         if (UserService.me.setLog(id, reviewType, reviewName)) {
             if (Db.update(DbConfig.T_USER_SUBJECT, "id", r)) {
-                renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "操作成功！您的操作为：批准立项"));
+                renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "操作成功！您的操作为：驳回结题"));
             } else {
                 renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "操作失败"));
             }
@@ -68,26 +94,6 @@ public class ReviewSubjectController extends Controller {
             renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "操作失败"));
         }
     }
-
-//项目立项不通过
-    public void notPassSubject() {
-        Integer id = getParaToInt("id");
-        String reviewName = getPara("reviewer");
-        Integer reviewType = getParaToInt("reviewType");
-        Record r = new DbRecord(DbConfig.T_USER_SUBJECT).whereEqualTo("id", id).queryFirst();
-        r.set("reviewId", WebConfig.REVIEW_NOT_PASS);
-        r.set("reviewAt", new Date(System.currentTimeMillis()));
-        if (UserService.me.setLog(id, reviewType,reviewName)) {
-            if (Db.update(DbConfig.T_USER_AWARD, "id", r)) {
-                renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "操作成功！您的操作为：驳回立项"));
-            } else {
-                renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "操作失败"));
-            }
-        }else {
-            renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "操作失败"));
-        }
-    }
-
 
 
 //	public void detail() {

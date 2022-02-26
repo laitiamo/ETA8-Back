@@ -46,7 +46,7 @@ public class DetailSubjectController extends Controller {
         }
 
         attrMap.put("filePaths", files);
-        attrMap.put("id",id);
+        attrMap.put("id", id);
         attrMap.put("username", r.getStr("username"));
         attrMap.put("name", r.getStr("name"));
         attrMap.put("gender", r.getStr("genderName"));
@@ -65,17 +65,20 @@ public class DetailSubjectController extends Controller {
                 "" : new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(r.getDate("reviewAt")));
         attrMap.put("finishAt", new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(r.getDate("FinishTime")));
         attrMap.put("review", r.getStr("reviewName"));
+        attrMap.put("reviewId", r.getInt("reviewId"));
         attrMap.put("levelId", r.getInt("levelId"));
-        if(r.getInt("PaperId")!=null){
-            Record p = new DbRecord(DbConfig.V_TEACHER_PAPER).whereEqualTo("id", r.getInt("PaperId")).queryFirst();
+        List<Record> a = new DbRecord(DbConfig.T_SUBJECT_LINK_PAPER).whereEqualTo("SubjectId", id).query();
+        if (a.size() != 0) {
+            Record p = new DbRecord(DbConfig.V_SUBJECT_LINK_PAPER).whereEqualTo("id", id).queryFirst();
             attrMap.put("Paper", p.getStr("paperName"));
             attrMap.put("PaperReview", p.getStr("reviewName"));
             attrMap.put("PaperReviewAt", p.getDate("reviewAt") == null ? "" : new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(p.getDate("reviewAt")));
-        }else{
+        } else {
             attrMap.put("Paper", "未提交");
             attrMap.put("PaperReview", "未提交");
             attrMap.put("PaperReviewAt", "");
         }
+
 
         //校级项目
         if (r.getInt("levelId") == 3) {

@@ -24,15 +24,12 @@ import com.jfinal.plugin.activerecord.Record;
 public class TeacherController extends Controller {
 
 	public void index() {
-//		setAttr("grade", new DbRecord(DbConfig.T_GRADE).orderByASC("id").query());
-//		setAttr("major", new DbRecord(DbConfig.T_MAJOR).orderByASC("id").query());
-//		setAttr("role", new DbRecord(DbConfig.T_ROLE).whereNotEqualTo("id", WebConfig.ROLE_STUDENT_ID).query());
-//		renderTemplate("teacher-management.html");
-
 		Map<String, Object> attrMap = new HashMap<String, Object>();
 		attrMap.put("grade", new DbRecord(DbConfig.T_GRADE).orderByASC("id").query());
 		attrMap.put("major", new DbRecord(DbConfig.T_MAJOR).orderByASC("id").query());
 		attrMap.put("role", new DbRecord(DbConfig.T_ROLE).whereNotEqualTo("id",WebConfig.ROLE_ADMIN_ID).whereNotEqualTo("id",WebConfig.ROLE_STUDENT_ID).whereNotEqualTo("id",WebConfig.ROLE_ASSISTANT_ID).query());
+		attrMap.put("college", new DbRecord(DbConfig.T_COLLEGE).orderByASC("id").query());
+		attrMap.put("sector", new DbRecord(DbConfig.T_SECTOR).orderByASC("id").query());
 		renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, JSON.toJSONString(attrMap)));
 	}
 

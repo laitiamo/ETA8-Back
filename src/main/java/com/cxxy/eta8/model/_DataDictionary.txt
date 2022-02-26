@@ -394,7 +394,7 @@ Table: t_subject_horizon
  EntrustPlaceId         | INT(10)      | NO   |     |         |         
  CooperateId            | INT(10)      | NO   |     |         |         
  ContractId             | INT(10)      | NO   |     |         |         
- ContractFund           | INT(10)      | NO   |     |         |         
+ ContractFund           | INT(10)      | YES  |     |         |         
  BankName               | VARCHAR(255) | NO   |     |         |         
  BankAccount            | VARCHAR(255) | NO   |     |         |         
  isDutyFree             | INT(10)      | NO   |     |         |         
@@ -466,8 +466,7 @@ Table: t_subject_school
  TypeId      | INT(10)      | NO   |     |         | 一级学科id  
  ResearchId  | INT(10)      | NO   |     |         | 研究方向id  
  CooperateId | INT(10)      | NO   |     |         | 合作单位id  
- PaperType   | INT(10)      | NO   |     |         | 成果形式id  
- Remarks     | VARCHAR(255) | NO   |     |         | 备注      
+ Remarks     | VARCHAR(255) | YES  |     |         | 备注      
 -------------+--------------+------+-----+---------+---------
 
 Table: t_subject_sponsored
@@ -603,5 +602,6 @@ Table: t_user_subject
  subjectPlace | VARCHAR(255) | NO   |     |                   | 项目来源单位  
  subjectFund  | INT(10)      | NO   |     |                   | 项目经费    
  PaperType    | INT(10)      | NO   |     |                   | 科研成果类型id
+ applyAt      | DATETIME(26) | YES  |     |                   | 申请结题时间  
 --------------+--------------+------+-----+-------------------+---------
 

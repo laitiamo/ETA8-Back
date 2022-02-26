@@ -3,7 +3,10 @@ package com.cxxy.eta8.controller;
 import java.io.File;
 
 import com.cxxy.eta8.service.ImportService;
+import com.cxxy.eta8.validator.ImportStuValidator;
+import com.cxxy.eta8.validator.ImportTeaValidator;
 import com.cxxy.eta8.vo.AjaxResult;
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.PathKit;
 
@@ -20,12 +23,15 @@ public class ImportTeaController extends Controller {
 									"template_tea.xls");
 		renderFile(templateFile);
 	}
-	
+
+	@Before(ImportTeaValidator.class)
 	public void upload() {
 		File xls = getFile().getFile();
+		Integer sectorId = getParaToInt("sectorId");
+		Integer collegeId = getParaToInt("collegeId");
 
 		try {
-			if (ImportService.me.importTea(xls)) {
+			if (ImportService.me.importTea(xls,sectorId,collegeId)) {
 				renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "数据导入成功"));
 			} else {
 				renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "数据导入失败"));
