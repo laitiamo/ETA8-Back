@@ -143,27 +143,7 @@ public class SubjectController extends Controller {
         renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, JSON.toJSONString(attrMap)));
     }
 
-    public void updatePaper() {
-        Integer SubjectId = getParaToInt("SubjectId");
-        Integer PaperId = getParaToInt("PaperId");
-        if (SubjectService.me.setSubjectPaper(SubjectId, PaperId)) {
-            renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功"));
-        } else {
-            renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败，该成果已被上传"));
-        }
-    }
 
-    public void applyFinish() {
-        Integer SubjectId = getParaToInt("SubjectId");
-        Record r = new DbRecord(DbConfig.T_USER_SUBJECT).whereEqualTo("id", SubjectId).queryFirst();
-        r.set("reviewId", WebConfig.SUBJECT_WAIT_FINISH);
-        r.set("applyAt", new Date(System.currentTimeMillis()));
-        if (Db.update(DbConfig.T_USER_SUBJECT, "id", r)) {
-            renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "申请成功！请等待管理员审核"));
-        } else {
-            renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "操作失败"));
-        }
-    }
 
     @Before(SubjectValidator.class)
     public void uploadSchool() {

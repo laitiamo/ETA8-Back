@@ -1,21 +1,21 @@
 package com.cxxy.eta8.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.cxxy.eta8.common.WebConfig;
 import com.cxxy.eta8.db.DbConfig;
 import com.cxxy.eta8.db.DbRecord;
 import com.cxxy.eta8.interceptor.DetailSubjectInterceptor;
+import com.cxxy.eta8.service.SubjectService;
 import com.cxxy.eta8.vo.AjaxResult;
 import com.cxxy.eta8.vo.LayUITableResult;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DetailSubjectController extends Controller {
 
@@ -157,5 +157,38 @@ public class DetailSubjectController extends Controller {
             p = new DbRecord(DbConfig.V_SUBJECT_LINK_PAPER).whereEqualTo("id", id).query();
         }
         renderJson(p);
+    }
+
+    public void updatePaper() {
+        Integer SubjectId = getParaToInt("SubjectId");
+        Integer PaperId = getParaToInt("PaperId");
+        if (SubjectService.me.setSubjectPaper(SubjectId, PaperId)) {
+            renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功"));
+        } else {
+            renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败，该成果已被上传"));
+        }
+    }
+
+    public void applyFinish() {
+        Integer SubjectId = getParaToInt("SubjectId");
+        Record r = new DbRecord(DbConfig.T_USER_SUBJECT).whereEqualTo("id", SubjectId).queryFirst();
+        r.set("reviewId", WebConfig.SUBJECT_WAIT_FINISH);
+        r.set("applyAt", new Date(System.currentTimeMillis()));
+        if (Db.update(DbConfig.T_USER_SUBJECT, "id", r)) {
+            renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "申请成功！请等待管理员审核"));
+        } else {
+            renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "操作失败"));
+        }
+    }
+
+    public void deletePaper(){
+        Integer SubjectId = getParaToInt("SubjectId");
+        Integer PaperId = getParaToInt("PaperId");
+        Record r = new DbRecord(DbConfig.T_SUBJECT_LINK_PAPER).whereEqualTo("SubjectId", SubjectId).whereEqualTo("PaperId",PaperId).queryFirst();
+        if (Db.delete(DbConfig.T_SUBJECT_LINK_PAPER, "id", r)) {
+            renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "操作成功"));
+        } else {
+            renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "操作失败"));
+        }
     }
 }
