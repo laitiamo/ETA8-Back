@@ -443,7 +443,7 @@ public class ExportService {
                         username + "_" +
                         name + "_" +
                         subjectName + "_" +
-                        new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(r.getDate("createAt")) + "_" +
+                        new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(r.getDate("createAt")) +
                         ".pdf");
                 if (!destFile.exists()) {
                     destFile.getParentFile().mkdirs();

@@ -235,7 +235,7 @@ public class QueryStuController extends Controller {
 								.whereEqualTo("rankId", rankId)
 								.whereEqualTo("reviewId", WebConfig.REVIEW_PASS)
 								.whereEqualTo("username", keyUsername)
-								.whereEqualTo("awardName", keyAwardName)
+								.whereContains("awardName", keyAwardName)
 								.whereContains("name", keyName)
 								.query();
 		try {
@@ -261,7 +261,7 @@ public class QueryStuController extends Controller {
 								.whereEqualTo("rankId", rankId)
 								.whereEqualTo("reviewId", WebConfig.REVIEW_PASS)
 								.whereEqualTo("username", keyUsername)
-								.whereEqualTo("awardName", keyAwardName)
+								.whereContains("awardName", keyAwardName)
 								.whereContains("name", keyName)
 								.query();
 		try {

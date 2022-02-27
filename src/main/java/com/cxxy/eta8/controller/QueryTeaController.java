@@ -27,6 +27,8 @@ public class QueryTeaController extends Controller {
 //		renderTemplate("query-tea.html");
 		Map<String, Object> attrMap = new HashMap<String, Object>();
 		attrMap.put("rank", new DbRecord(DbConfig.T_RANK).query());
+		attrMap.put("college", new DbRecord(DbConfig.T_COLLEGE).orderByASC("id").query());
+		attrMap.put("sector", new DbRecord(DbConfig.T_SECTOR).orderByASC("id").query());
 		renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, JSON.toJSONString(attrMap)));
 	}
 
@@ -34,6 +36,8 @@ public class QueryTeaController extends Controller {
 		Integer page = getParaToInt("page");
 		Integer limit = getParaToInt("limit");
 		Integer rankId = getParaToInt("rankId");
+		Integer collegeId = getParaToInt("collegeId");
+		Integer sectorId = getParaToInt("sectorId");
 		String keyUsername = getPara("keyUsername");
 		String keyName = getPara("keyName");
 		String keyAwardName = getPara("keyAwardName");
@@ -45,6 +49,8 @@ public class QueryTeaController extends Controller {
 						.whereContains("name", keyName)
 						.whereEqualTo("username", keyUsername)
 						.whereEqualTo("rankId", rankId)
+						.whereEqualTo("sectorId",sectorId)
+						.whereEqualTo("collegeId",collegeId)
 						.whereContains("awardName", keyAwardName)
 						.orderBySelect(field,order,defaultField)
 						.page(page, limit);
@@ -78,6 +84,8 @@ public class QueryTeaController extends Controller {
 	}
 
 	public void exportXLS() {
+		Integer collegeId = getParaToInt("collegeId");
+		Integer sectorId = getParaToInt("sectorId");
 		Integer rankId = getParaToInt("rankId");
 		String keyUsername = getPara("keyUsername");
 		String keyName = getPara("keyName");
@@ -86,7 +94,9 @@ public class QueryTeaController extends Controller {
 								.whereContains("name", keyName)
 								.whereEqualTo("username", keyUsername)
 								.whereEqualTo("rankId", rankId)
-								.whereEqualTo("awardName", keyAwardName)
+								.whereEqualTo("sectorId",sectorId)
+								.whereEqualTo("collegeId",collegeId)
+								.whereContains("awardName", keyAwardName)
 								.query();
 		try {
 			File downloadFile = ExportService.me.exportTeacherAward(records);
@@ -97,6 +107,8 @@ public class QueryTeaController extends Controller {
 	}
 
 	public void exportZIP() {
+		Integer collegeId = getParaToInt("collegeId");
+		Integer sectorId = getParaToInt("sectorId");
 		Integer rankId = getParaToInt("rankId");
 		String keyUsername = getPara("keyUsername");
 		String keyName = getPara("keyName");
@@ -105,7 +117,9 @@ public class QueryTeaController extends Controller {
 								.whereContains("name", keyName)
 								.whereEqualTo("username", keyUsername)
 								.whereEqualTo("rankId", rankId)
-								.whereEqualTo("awardName", keyAwardName)
+								.whereEqualTo("sectorId",sectorId)
+								.whereEqualTo("collegeId",collegeId)
+								.whereContains("awardName", keyAwardName)
 								.query();
 		try {
 			File downloadFile = ExportService.me.exportTeacherZIP(records);

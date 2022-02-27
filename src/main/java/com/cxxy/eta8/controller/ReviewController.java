@@ -51,15 +51,9 @@ public class ReviewController extends Controller {
             Page<Record> p = new DbRecord(DbConfig.V_STUDENT_AWARD)
                     .whereEqualTo("reviewId", WebConfig.REVIEW_UNREAD)
                     .whereEqualTo("rankId", rankId)
-                    .whereEqualTo("username", keyUsername)
-                    .whereContains("awardName", keyAwardName)
-                    .whereContains("name", keyName)
-                    .orderBySelect(field, order, defaultField).page(page, limit);
-            renderJson(new LayUITableResult<Record>(AjaxResult.CODE_SUCCESS, "", p.getTotalRow(), p.getList()));
-        } else if (info.getStr("roleNameEn").equals(WebConfig.ROLE_MANAGER)){//办公室主任可以审核教师奖项
-            Page<Record> p = new DbRecord(DbConfig.V_TEACHER_AWARD)
-                    .whereEqualTo("reviewId", WebConfig.REVIEW_UNREAD)
-                    .whereEqualTo("rankId", rankId)
+                    .whereEqualTo("gradeId", gradeId)
+                    .whereEqualTo("majorId", majorId)
+                    .whereEqualTo("classId", classId)
                     .whereEqualTo("username", keyUsername)
                     .whereContains("awardName", keyAwardName)
                     .whereContains("name", keyName)
@@ -69,7 +63,8 @@ public class ReviewController extends Controller {
             Page<Record> p = new DbRecord(DbConfig.V_STUDENT_AWARD_INSTRUCTOR)
                     .whereEqualTo("reviewId", WebConfig.REVIEW_UNREAD)
                     .whereEqualTo("instructorId", (String) SecurityUtils.getSubject().getPrincipal())
-                    .whereEqualTo("gradeId", gradeId).whereEqualTo("majorId", majorId)
+                    .whereEqualTo("gradeId", gradeId)
+                    .whereEqualTo("majorId", majorId)
                     .whereEqualTo("classId", classId)
                     .whereEqualTo("rankId", rankId)
                     .whereEqualTo("username", keyUsername)
@@ -91,6 +86,31 @@ public class ReviewController extends Controller {
                     .orderBySelect(field, order, defaultField).page(page, limit);
             renderJson(new LayUITableResult<Record>(AjaxResult.CODE_SUCCESS, "", p.getTotalRow(), p.getList()));
         }
+    }
+
+    public void listTea() {
+        Integer page = getParaToInt("page");
+        Integer limit = getParaToInt("limit");
+        String order = getPara("order");
+        String field = getPara("field");
+        String defaultField = "createAt";
+        Integer collegeId = getParaToInt("collegeId");
+        Integer sectorId = getParaToInt("sectorId");
+        Integer rankId = getParaToInt("rankId");
+        String keyUsername = getPara("keyUsername");
+        String keyName = getPara("keyName");
+        String keyAwardName = getPara("keyAwardName");
+
+            Page<Record> p = new DbRecord(DbConfig.V_TEACHER_AWARD)
+                    .whereEqualTo("reviewId", WebConfig.REVIEW_UNREAD)
+                    .whereEqualTo("rankId", rankId)
+                    .whereEqualTo("collegeId", collegeId)
+                    .whereEqualTo("sectorId", sectorId)
+                    .whereEqualTo("username", keyUsername)
+                    .whereContains("awardName", keyAwardName)
+                    .whereContains("name", keyName)
+                    .orderBySelect(field, order, defaultField).page(page, limit);
+            renderJson(new LayUITableResult<Record>(AjaxResult.CODE_SUCCESS, "", p.getTotalRow(), p.getList()));
     }
 
     public void pass() {

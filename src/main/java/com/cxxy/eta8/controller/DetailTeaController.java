@@ -44,6 +44,8 @@ public class DetailTeaController extends Controller {
 		attrMap.put("username", r.getStr("username"));
 		attrMap.put("name", r.getStr("name"));
 		attrMap.put("gender", r.getStr("genderName"));
+		attrMap.put("sector",r.getStr("sectorName"));
+		attrMap.put("college",r.getStr("collegeName"));
 		attrMap.put("award", r.getStr("awardName"));
 		attrMap.put("rank", r.getStr("rankName"));
 		attrMap.put("place", r.getStr("awardPlace"));

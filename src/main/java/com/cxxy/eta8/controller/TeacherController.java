@@ -35,6 +35,8 @@ public class TeacherController extends Controller {
 
 	public void list() {
 		Integer roleId = getParaToInt("roleId");
+		Integer collegeId = getParaToInt("collegeId");
+		Integer sectorId = getParaToInt("sectorId");
 		String keyUsername = getPara("keyUsername");
 		String keyName = getPara("keyName");
 		Integer page = getParaToInt("page");
@@ -47,6 +49,8 @@ public class TeacherController extends Controller {
 						.whereEqualTo("username", keyUsername)
 						.whereContains("name", keyName)
 						.whereEqualTo("roleId", roleId)
+				.whereEqualTo("sectorId",sectorId)
+				.whereEqualTo("collegeId",collegeId)
 						.orderBySelect(field,order,defaultField)
 						.page(page, limit);
 		renderJson(new LayUITableResult<Record>(AjaxResult.CODE_SUCCESS, "", p.getTotalRow(), p.getList()));

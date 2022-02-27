@@ -5,8 +5,10 @@ import com.cxxy.eta8.db.DbConfig;
 import com.cxxy.eta8.db.DbRecord;
 import com.cxxy.eta8.interceptor.DetailSubjectInterceptor;
 import com.cxxy.eta8.vo.AjaxResult;
+import com.cxxy.eta8.vo.LayUITableResult;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 
 import java.text.SimpleDateFormat;
@@ -67,18 +69,6 @@ public class DetailSubjectController extends Controller {
         attrMap.put("review", r.getStr("reviewName"));
         attrMap.put("reviewId", r.getInt("reviewId"));
         attrMap.put("levelId", r.getInt("levelId"));
-        List<Record> a = new DbRecord(DbConfig.T_SUBJECT_LINK_PAPER).whereEqualTo("SubjectId", id).query();
-        if (a.size() != 0) {
-            Record p = new DbRecord(DbConfig.V_SUBJECT_LINK_PAPER).whereEqualTo("id", id).queryFirst();
-            attrMap.put("Paper", p.getStr("paperName"));
-            attrMap.put("PaperReview", p.getStr("reviewName"));
-            attrMap.put("PaperReviewAt", p.getDate("reviewAt") == null ? "" : new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(p.getDate("reviewAt")));
-        } else {
-            attrMap.put("Paper", "未提交");
-            attrMap.put("PaperReview", "未提交");
-            attrMap.put("PaperReviewAt", "");
-        }
-
 
         //校级项目
         if (r.getInt("levelId") == 3) {
@@ -157,5 +147,15 @@ public class DetailSubjectController extends Controller {
 
         //向前端发送全部attribute
         renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, JSON.toJSONString(attrMap)));
+    }
+
+    public void paperlist() {
+        Integer id = getParaToInt("id");
+        List<Record> p = null;
+        List<Record> a = new DbRecord(DbConfig.T_SUBJECT_LINK_PAPER).whereEqualTo("SubjectId", id).query();
+        if (a.size() != 0) {
+            p = new DbRecord(DbConfig.V_SUBJECT_LINK_PAPER).whereEqualTo("id", id).query();
+        }
+        renderJson(p);
     }
 }
