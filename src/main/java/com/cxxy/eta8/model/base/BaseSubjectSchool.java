@@ -27,6 +27,60 @@ public abstract class BaseSubjectSchool<M extends BaseSubjectSchool<M>> extends 
 		return getInt("SubjectId");
 	}
 
+	public M setDocumentFund(java.lang.String DocumentFund) {
+		set("DocumentFund", DocumentFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getDocumentFund() {
+		return getStr("DocumentFund");
+	}
+
+	public M setLaborFund(java.lang.String LaborFund) {
+		set("LaborFund", LaborFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getLaborFund() {
+		return getStr("LaborFund");
+	}
+
+	public M setMaterialFund(java.lang.String MaterialFund) {
+		set("MaterialFund", MaterialFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getMaterialFund() {
+		return getStr("MaterialFund");
+	}
+
+	public M setHardwareFund(java.lang.String HardwareFund) {
+		set("HardwareFund", HardwareFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getHardwareFund() {
+		return getStr("HardwareFund");
+	}
+
+	public M setOutboundFund(java.lang.String OutboundFund) {
+		set("OutboundFund", OutboundFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getOutboundFund() {
+		return getStr("OutboundFund");
+	}
+
+	public M setPatentFund(java.lang.String PatentFund) {
+		set("PatentFund", PatentFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getPatentFund() {
+		return getStr("PatentFund");
+	}
+
 	public M setCategoryId(java.lang.Integer CategoryId) {
 		set("CategoryId", CategoryId);
 		return (M)this;

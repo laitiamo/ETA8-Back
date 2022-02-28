@@ -27,6 +27,33 @@ public abstract class BaseSubjectHorizon<M extends BaseSubjectHorizon<M>> extend
 		return getInt("SubjectId");
 	}
 
+	public M setSoftwareFund(java.lang.String SoftwareFund) {
+		set("SoftwareFund", SoftwareFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getSoftwareFund() {
+		return getStr("SoftwareFund");
+	}
+
+	public M setHardwareFund(java.lang.String HardwareFund) {
+		set("HardwareFund", HardwareFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getHardwareFund() {
+		return getStr("HardwareFund");
+	}
+
+	public M setOutboundFund(java.lang.String OutboundFund) {
+		set("OutboundFund", OutboundFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getOutboundFund() {
+		return getStr("OutboundFund");
+	}
+
 	public M setIntroduction(java.lang.String Introduction) {
 		set("Introduction", Introduction);
 		return (M)this;
@@ -108,13 +135,13 @@ public abstract class BaseSubjectHorizon<M extends BaseSubjectHorizon<M>> extend
 		return getInt("ContractId");
 	}
 
-	public M setContractFund(java.lang.Integer ContractFund) {
+	public M setContractFund(java.lang.String ContractFund) {
 		set("ContractFund", ContractFund);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getContractFund() {
-		return getInt("ContractFund");
+	public java.lang.String getContractFund() {
+		return getStr("ContractFund");
 	}
 
 	public M setBankName(java.lang.String BankName) {
@@ -243,6 +270,15 @@ public abstract class BaseSubjectHorizon<M extends BaseSubjectHorizon<M>> extend
 		return getInt("BuyerType");
 	}
 
+	public M setBuyerCountry(java.lang.Integer BuyerCountry) {
+		set("BuyerCountry", BuyerCountry);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getBuyerCountry() {
+		return getInt("BuyerCountry");
+	}
+
 	public M setBuyerProvince(java.lang.Integer BuyerProvince) {
 		set("BuyerProvince", BuyerProvince);
 		return (M)this;
@@ -270,13 +306,13 @@ public abstract class BaseSubjectHorizon<M extends BaseSubjectHorizon<M>> extend
 		return getInt("BuyerCounty");
 	}
 
-	public M setBuyerPostCode(java.lang.Integer BuyerPostCode) {
+	public M setBuyerPostCode(java.lang.String BuyerPostCode) {
 		set("BuyerPostCode", BuyerPostCode);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getBuyerPostCode() {
-		return getInt("BuyerPostCode");
+	public java.lang.String getBuyerPostCode() {
+		return getStr("BuyerPostCode");
 	}
 
 	public M setBuyerContact(java.lang.String BuyerContact) {
@@ -288,13 +324,13 @@ public abstract class BaseSubjectHorizon<M extends BaseSubjectHorizon<M>> extend
 		return getStr("BuyerContact");
 	}
 
-	public M setBuyerTel(java.lang.Integer BuyerTel) {
+	public M setBuyerTel(java.lang.String BuyerTel) {
 		set("BuyerTel", BuyerTel);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getBuyerTel() {
-		return getInt("BuyerTel");
+	public java.lang.String getBuyerTel() {
+		return getStr("BuyerTel");
 	}
 
 	public M setBuyerLegalPerson(java.lang.String BuyerLegalPerson) {
@@ -342,31 +378,31 @@ public abstract class BaseSubjectHorizon<M extends BaseSubjectHorizon<M>> extend
 		return getStr("BuyerMailingAddress");
 	}
 
-	public M setResearchFund(java.lang.Integer ResearchFund) {
+	public M setResearchFund(java.lang.String ResearchFund) {
 		set("ResearchFund", ResearchFund);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getResearchFund() {
-		return getInt("ResearchFund");
+	public java.lang.String getResearchFund() {
+		return getStr("ResearchFund");
 	}
 
-	public M setServiceFund(java.lang.Integer ServiceFund) {
+	public M setServiceFund(java.lang.String ServiceFund) {
 		set("ServiceFund", ServiceFund);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getServiceFund() {
-		return getInt("ServiceFund");
+	public java.lang.String getServiceFund() {
+		return getStr("ServiceFund");
 	}
 
-	public M setOtherFund(java.lang.Integer OtherFund) {
+	public M setOtherFund(java.lang.String OtherFund) {
 		set("OtherFund", OtherFund);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getOtherFund() {
-		return getInt("OtherFund");
+	public java.lang.String getOtherFund() {
+		return getStr("OtherFund");
 	}
 
 }

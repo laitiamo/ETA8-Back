@@ -27,6 +27,96 @@ public abstract class BaseSubjectSponsored<M extends BaseSubjectSponsored<M>> ex
 		return getInt("SubjectId");
 	}
 
+	public M setDocumentFund(java.lang.String DocumentFund) {
+		set("DocumentFund", DocumentFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getDocumentFund() {
+		return getStr("DocumentFund");
+	}
+
+	public M setDataFund(java.lang.String DataFund) {
+		set("DataFund", DataFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getDataFund() {
+		return getStr("DataFund");
+	}
+
+	public M setOutboundFund(java.lang.String OutboundFund) {
+		set("OutboundFund", OutboundFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getOutboundFund() {
+		return getStr("OutboundFund");
+	}
+
+	public M setMeetingFund(java.lang.String MeetingFund) {
+		set("MeetingFund", MeetingFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getMeetingFund() {
+		return getStr("MeetingFund");
+	}
+
+	public M setInternationalFund(java.lang.String InternationalFund) {
+		set("InternationalFund", InternationalFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getInternationalFund() {
+		return getStr("InternationalFund");
+	}
+
+	public M setHardwareFund(java.lang.String HardwareFund) {
+		set("HardwareFund", HardwareFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getHardwareFund() {
+		return getStr("HardwareFund");
+	}
+
+	public M setConsultFund(java.lang.String ConsultFund) {
+		set("ConsultFund", ConsultFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getConsultFund() {
+		return getStr("ConsultFund");
+	}
+
+	public M setLaborFund(java.lang.String LaborFund) {
+		set("LaborFund", LaborFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getLaborFund() {
+		return getStr("LaborFund");
+	}
+
+	public M setMaterialFund(java.lang.String MaterialFund) {
+		set("MaterialFund", MaterialFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getMaterialFund() {
+		return getStr("MaterialFund");
+	}
+
+	public M setPatentFund(java.lang.String PatentFund) {
+		set("PatentFund", PatentFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getPatentFund() {
+		return getStr("PatentFund");
+	}
+
 	public M setResearchId(java.lang.Integer ResearchId) {
 		set("ResearchId", ResearchId);
 		return (M)this;

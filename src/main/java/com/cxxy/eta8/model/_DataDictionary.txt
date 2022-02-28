@@ -385,8 +385,11 @@ Table: t_subject_horizon
 ------------------------+--------------+------+-----+---------+---------
  id                     | INT(10)      | NO   | PRI |         |         
  SubjectId              | INT(10)      | NO   |     |         |         
+ SoftwareFund           | VARCHAR(255) | YES  |     |         |         
+ HardwareFund           | VARCHAR(255) | YES  |     |         |         
+ OutboundFund           | VARCHAR(255) | YES  |     |         |         
  Introduction           | VARCHAR(255) | YES  |     |         |         
- RelyCenterSubject      | VARCHAR(255) | YES  |     |         |         
+ RelyCenterSubject      | VARCHAR(255) | NO   |     |         |         
  ContractName           | VARCHAR(255) | NO   |     |         |         
  CooperatePrincipal     | VARCHAR(255) | NO   |     |         |         
  ContractNum            | VARCHAR(255) | NO   |     |         |         
@@ -394,7 +397,7 @@ Table: t_subject_horizon
  EntrustPlaceId         | INT(10)      | NO   |     |         |         
  CooperateId            | INT(10)      | NO   |     |         |         
  ContractId             | INT(10)      | NO   |     |         |         
- ContractFund           | INT(10)      | YES  |     |         |         
+ ContractFund           | VARCHAR(255) | NO   |     |         |         
  BankName               | VARCHAR(255) | NO   |     |         |         
  BankAccount            | VARCHAR(255) | NO   |     |         |         
  isDutyFree             | INT(10)      | NO   |     |         |         
@@ -407,22 +410,23 @@ Table: t_subject_horizon
  SourceId               | INT(10)      | NO   |     |         |         
  TechnicalId            | INT(10)      | NO   |     |         |         
  PropertyId             | INT(10)      | NO   |     |         |         
- BuyerName              | VARCHAR(20)  | YES  |     |         |         
- BuyerType              | INT(10)      | YES  |     |         |         
+ BuyerName              | VARCHAR(255) | NO   |     |         |         
+ BuyerType              | INT(10)      | NO   |     |         |         
+ BuyerCountry           | INT(10)      | NO   |     |         |         
  BuyerProvince          | INT(10)      | YES  |     |         |         
  BuyerCity              | INT(10)      | YES  |     |         |         
  BuyerCounty            | INT(10)      | YES  |     |         |         
- BuyerPostCode          | INT(10)      | YES  |     |         |         
- BuyerContact           | VARCHAR(20)  | YES  |     |         |         
- BuyerTel               | INT(10)      | YES  |     |         |         
- BuyerLegalPerson       | VARCHAR(20)  | YES  |     |         |         
+ BuyerPostCode          | VARCHAR(255) | NO   |     |         |         
+ BuyerContact           | VARCHAR(255) | NO   |     |         |         
+ BuyerTel               | VARCHAR(255) | NO   |     |         |         
+ BuyerLegalPerson       | VARCHAR(255) | NO   |     |         |         
  BuyerLegalEntityCode   | INT(10)      | YES  |     |         |         
- BuyerEmail             | VARCHAR(255) | YES  |     |         |         
- BuyerRegisteredAddress | VARCHAR(255) | YES  |     |         |         
- BuyerMailingAddress    | VARCHAR(255) | YES  |     |         |         
- ResearchFund           | INT(10)      | YES  |     |         |         
- ServiceFund            | INT(10)      | YES  |     |         |         
- OtherFund              | INT(10)      | YES  |     |         |         
+ BuyerEmail             | VARCHAR(255) | NO   |     |         |         
+ BuyerRegisteredAddress | VARCHAR(255) | NO   |     |         |         
+ BuyerMailingAddress    | VARCHAR(255) | NO   |     |         |         
+ ResearchFund           | VARCHAR(255) | NO   |     |         |         
+ ServiceFund            | VARCHAR(255) | YES  |     |         |         
+ OtherFund              | VARCHAR(255) | YES  |     |         |         
 ------------------------+--------------+------+-----+---------+---------
 
 Table: t_subject_link_paper
@@ -453,21 +457,27 @@ Table: t_subject_rank
 ----------+-------------+------+-----+---------+---------
 
 Table: t_subject_school
--------------+--------------+------+-----+---------+---------
- Field       | Type         | Null | Key | Default | Remarks 
--------------+--------------+------+-----+---------+---------
- id          | INT(10)      | NO   | PRI |         |         
- SubjectId   | INT(10)      | NO   |     |         | 项目id    
- CategoryId  | INT(10)      | NO   |     |         | 项目分类id  
- EconomicId  | INT(10)      | NO   |     |         | 国民经济行业id
- SocietyId   | INT(10)      | NO   |     |         | 社会经济服务目标id
- SourceId    | INT(10)      | NO   |     |         | 项目来源id  
- BelongId    | INT(10)      | NO   |     |         | 统计归属id  
- TypeId      | INT(10)      | NO   |     |         | 一级学科id  
- ResearchId  | INT(10)      | NO   |     |         | 研究方向id  
- CooperateId | INT(10)      | NO   |     |         | 合作单位id  
- Remarks     | VARCHAR(255) | YES  |     |         | 备注      
--------------+--------------+------+-----+---------+---------
+--------------+--------------+------+-----+---------+---------
+ Field        | Type         | Null | Key | Default | Remarks 
+--------------+--------------+------+-----+---------+---------
+ id           | INT(10)      | NO   | PRI |         |         
+ SubjectId    | INT(10)      | NO   |     |         | 项目id    
+ DocumentFund | VARCHAR(255) | YES  |     |         |         
+ LaborFund    | VARCHAR(255) | YES  |     |         |         
+ MaterialFund | VARCHAR(255) | YES  |     |         |         
+ HardwareFund | VARCHAR(255) | YES  |     |         |         
+ OutboundFund | VARCHAR(255) | YES  |     |         |         
+ PatentFund   | VARCHAR(255) | YES  |     |         |         
+ CategoryId   | INT(10)      | NO   |     |         | 项目分类id  
+ EconomicId   | INT(10)      | NO   |     |         | 国民经济行业id
+ SocietyId    | INT(10)      | NO   |     |         | 社会经济服务目标id
+ SourceId     | INT(10)      | NO   |     |         | 项目来源id  
+ BelongId     | INT(10)      | NO   |     |         | 统计归属id  
+ TypeId       | INT(10)      | NO   |     |         | 一级学科id  
+ ResearchId   | INT(10)      | NO   |     |         | 研究方向id  
+ CooperateId  | INT(10)      | NO   |     |         | 合作单位id  
+ Remarks      | VARCHAR(255) | YES  |     |         | 备注      
+--------------+--------------+------+-----+---------+---------
 
 Table: t_subject_sponsored
 --------------------+--------------+------+-----+---------+---------
@@ -475,6 +485,16 @@ Table: t_subject_sponsored
 --------------------+--------------+------+-----+---------+---------
  id                 | INT(10)      | NO   | PRI |         |         
  SubjectId          | INT(10)      | NO   |     |         |         
+ DocumentFund       | VARCHAR(255) | YES  |     |         |         
+ DataFund           | VARCHAR(255) | YES  |     |         |         
+ OutboundFund       | VARCHAR(255) | YES  |     |         |         
+ MeetingFund        | VARCHAR(255) | YES  |     |         |         
+ InternationalFund  | VARCHAR(255) | YES  |     |         |         
+ HardwareFund       | VARCHAR(255) | YES  |     |         |         
+ ConsultFund        | VARCHAR(255) | YES  |     |         |         
+ LaborFund          | VARCHAR(255) | YES  |     |         |         
+ MaterialFund       | VARCHAR(255) | YES  |     |         |         
+ PatentFund         | VARCHAR(255) | YES  |     |         |         
  ResearchId         | INT(10)      | NO   |     |         |         
  isSecrecy          | INT(10)      | NO   |     |         |         
  isVoucher          | INT(10)      | NO   |     |         |         
@@ -600,7 +620,7 @@ Table: t_user_subject
  levelId      | INT(10)      | NO   |     |                   | 项目级别id  
  reviewId     | INT(10)      | NO   |     |                   | 审核状态id  
  subjectPlace | VARCHAR(255) | NO   |     |                   | 项目来源单位  
- subjectFund  | INT(10)      | NO   |     |                   | 项目经费    
+ subjectFund  | VARCHAR(255) | NO   |     |                   | 项目经费    
  PaperType    | INT(10)      | NO   |     |                   | 科研成果类型id
  applyAt      | DATETIME(26) | YES  |     |                   | 申请结题时间  
 --------------+--------------+------+-----+-------------------+---------

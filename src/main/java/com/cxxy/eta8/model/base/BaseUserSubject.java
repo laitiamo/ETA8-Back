@@ -126,13 +126,13 @@ public abstract class BaseUserSubject<M extends BaseUserSubject<M>> extends Mode
 		return getStr("subjectPlace");
 	}
 
-	public M setSubjectFund(java.lang.Integer subjectFund) {
+	public M setSubjectFund(java.lang.String subjectFund) {
 		set("subjectFund", subjectFund);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getSubjectFund() {
-		return getInt("subjectFund");
+	public java.lang.String getSubjectFund() {
+		return getStr("subjectFund");
 	}
 
 	public M setPaperType(java.lang.Integer PaperType) {

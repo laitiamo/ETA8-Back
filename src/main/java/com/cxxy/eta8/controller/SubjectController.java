@@ -144,7 +144,6 @@ public class SubjectController extends Controller {
     }
 
 
-
     @Before(SubjectValidator.class)
     public void uploadSchool() {
         Record user = UserService.me.getCurrentUserInfo();
@@ -202,7 +201,7 @@ public class SubjectController extends Controller {
                     userSubject.setSubjectName(getPara("SubjectName"));
                     userSubject.setSubjectPlace(getPara("SubjectPlace"));
                     userSubject.setPaperType(getParaToInt("SubjectPaper"));
-                    userSubject.setSubjectFund(getParaToInt("SubjectFund"));
+                    userSubject.setSubjectFund(getPara("SubjectFund"));
                     userSubject.setSubjectTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("SubjectTime")));// parse方法可解析一个日期时间字符串
                     userSubject.setStartTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("StartTime")));// parse方法可解析一个日期时间字符串
                     userSubject.setFinishTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("FinishTime")));// parse方法可解析一个日期时间字符串
@@ -228,6 +227,13 @@ public class SubjectController extends Controller {
                                 .getInt("id");
                         SubjectSchool school = new SubjectSchool();
                         school.setSubjectId(SubjectId);
+                        school.setDocumentFund(getPara("DocumentFund"));
+                        school.setLaborFund(getPara("LaborFund"));
+                        school.setMaterialFund(getPara("MaterialFund"));
+                        school.setHardwareFund(getPara("HardwareFund"));
+                        school.setOutboundFund(getPara("OutboundFund"));
+                        school.setPatentFund(getPara("PatentFund"));
+
                         school.setCategoryId(getParaToInt("CategoryId"));
                         school.setEconomicId(getParaToInt("EconomicId"));
                         school.setSocietyId(getParaToInt("SocietyId"));
@@ -249,12 +255,24 @@ public class SubjectController extends Controller {
                                 renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功"));
                             }
                         } else {
-                            if (userSubject.delete()) {
+                            int id = new DbRecord(DbConfig.T_USER_SUBJECT)
+                                    .whereEqualTo("subjectNum", getPara("SubjectNum"))
+                                    .whereEqualTo("subjectName", getPara("SubjectName"))
+                                    .whereEqualTo("SubjectPlace", getPara("SubjectPlace"))
+                                    .queryFirst()
+                                    .getInt("id");
+                            if (Db.deleteById("T_USER_SUBJECT", id)) {
                                 renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
                             }
                         }
                     } else {
-                        if (userSubject.delete()) {
+                        int id = new DbRecord(DbConfig.T_USER_SUBJECT)
+                                    .whereEqualTo("subjectNum", getPara("SubjectNum"))
+                                    .whereEqualTo("subjectName", getPara("SubjectName"))
+                                    .whereEqualTo("SubjectPlace", getPara("SubjectPlace"))
+                                    .queryFirst()
+                                    .getInt("id");
+                        if (Db.deleteById("T_USER_SUBJECT", id)) {
                             renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
                         }
                     }
@@ -329,7 +347,7 @@ public class SubjectController extends Controller {
                     userSubject.setSubjectName(getPara("SubjectName"));
                     userSubject.setSubjectPlace(getPara("SubjectPlace"));
                     userSubject.setPaperType(getParaToInt("SubjectPaper"));
-                    userSubject.setSubjectFund(getParaToInt("SubjectFund"));
+                    userSubject.setSubjectFund(getPara("SubjectFund"));
                     userSubject.setSubjectTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("SubjectTime")));// parse方法可解析一个日期时间字符串
                     userSubject.setStartTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("StartTime")));// parse方法可解析一个日期时间字符串
                     userSubject.setFinishTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("FinishTime")));// parse方法可解析一个日期时间字符串
@@ -355,6 +373,9 @@ public class SubjectController extends Controller {
                                 .getInt("id");
                         SubjectHorizon horizon = new SubjectHorizon();
                         horizon.setSubjectId(SubjectId);
+                        horizon.setSoftwareFund(getPara("SoftwareFund"));
+                        horizon.setHardwareFund(getPara("HardwareFund"));
+                        horizon.setOutboundFund(getPara("OutboundFund"));
                         horizon.setIntroduction(getPara("Introduction"));
                         horizon.setRelyCenterSubject(getPara("RelyCenterSubject"));
                         horizon.setContractName(getPara("ContractName"));
@@ -364,7 +385,7 @@ public class SubjectController extends Controller {
                         horizon.setEntrustPlaceId(getParaToInt("EntrustPlaceId"));
                         horizon.setCooperateId(getParaToInt("CooperateId"));
                         horizon.setContractId(getParaToInt("ContractId"));
-                        horizon.setContractFund(getParaToInt("ContractFund"));
+                        horizon.setContractFund(getPara("ContractFund"));
                         horizon.setBankName(getPara("BankName"));
                         horizon.setBankAccount(getPara("BankAccount"));
                         horizon.setIsDutyFree(getParaToInt("isDutyFree"));
@@ -372,24 +393,25 @@ public class SubjectController extends Controller {
                         horizon.setIsPromote(getParaToInt("isPromote"));
                         horizon.setContractDuty(getPara("ContractDuty"));
 
+                        horizon.setResearchFund(getPara("ResearchFund"));
+                        horizon.setServiceFund(getPara("ServiceFund"));
+                        horizon.setOtherFund(getPara("OtherFund"));
+
                         horizon.setBuyerName(getPara("BuyerName"));
                         horizon.setBuyerContinent(getPara("BuyerContinent"));
                         horizon.setBuyerType(getParaToInt("BuyerType"));
                         horizon.setBuyerProvince(getParaToInt("BuyerProvince"));
                         horizon.setBuyerCity(getParaToInt("BuyerCity"));
                         horizon.setBuyerCounty(getParaToInt("BuyerCounty"));
-                        horizon.setBuyerPostCode(getParaToInt("BuyerPostCode"));
+                        horizon.setBuyerCountry(getParaToInt("BuyerCountry"));
+                        horizon.setBuyerPostCode(getPara("BuyerPostCode"));
                         horizon.setBuyerContact(getPara("BuyerContact"));
-                        horizon.setBuyerTel(getParaToInt("BuyerTel"));
+                        horizon.setBuyerTel(getPara("BuyerTel"));
                         horizon.setBuyerLegalPerson(getPara("BuyerLegalPerson"));
                         horizon.setBuyerLegalEntityCode(getParaToInt("BuyerLegalEntityCode"));
                         horizon.setBuyerEmail(getPara("BuyerEmail"));
                         horizon.setBuyerRegisteredAddress(getPara("BuyerRegisteredAddress"));
                         horizon.setBuyerMailingAddress(getPara("BuyerMailingAddress"));
-                        horizon.setContractFund(getParaToInt("ResearchFund"));
-                        horizon.setContractFund(getParaToInt("ServiceFund"));
-                        horizon.setContractFund(getParaToInt("OtherFund"));
-
 
                         horizon.setPayId(getParaToInt("PayId"));
                         horizon.setEconomicId(getParaToInt("EconomicId"));
@@ -410,12 +432,24 @@ public class SubjectController extends Controller {
                                 renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功"));
                             }
                         } else {
-                            if (userSubject.delete()) {
+                            int id = new DbRecord(DbConfig.T_USER_SUBJECT)
+                                    .whereEqualTo("subjectNum", getPara("SubjectNum"))
+                                    .whereEqualTo("subjectName", getPara("SubjectName"))
+                                    .whereEqualTo("SubjectPlace", getPara("SubjectPlace"))
+                                    .queryFirst()
+                                    .getInt("id");
+                            if (Db.deleteById("T_USER_SUBJECT", id)) {
                                 renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
                             }
                         }
                     } else {
-                        if (userSubject.delete()) {
+                        int id = new DbRecord(DbConfig.T_USER_SUBJECT)
+                                    .whereEqualTo("subjectNum", getPara("SubjectNum"))
+                                    .whereEqualTo("subjectName", getPara("SubjectName"))
+                                    .whereEqualTo("SubjectPlace", getPara("SubjectPlace"))
+                                    .queryFirst()
+                                    .getInt("id");
+                        if (Db.deleteById("T_USER_SUBJECT", id)) {
                             renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
                         }
                     }
@@ -490,7 +524,7 @@ public class SubjectController extends Controller {
                     userSubject.setSubjectName(getPara("SubjectName"));
                     userSubject.setSubjectPlace(getPara("SubjectPlace"));
                     userSubject.setPaperType(getParaToInt("SubjectPaper"));
-                    userSubject.setSubjectFund(getParaToInt("SubjectFund"));
+                    userSubject.setSubjectFund(getPara("SubjectFund"));
                     userSubject.setSubjectTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("SubjectTime")));// parse方法可解析一个日期时间字符串
                     userSubject.setStartTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("StartTime")));// parse方法可解析一个日期时间字符串
                     userSubject.setFinishTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("FinishTime")));// parse方法可解析一个日期时间字符串
@@ -516,6 +550,16 @@ public class SubjectController extends Controller {
                                 .getInt("id");
                         SubjectSponsored sponsored = new SubjectSponsored();
                         sponsored.setSubjectId(SubjectId);
+                        sponsored.setDocumentFund(getPara("DocumentFund"));
+                        sponsored.setDataFund(getPara("DataFund"));
+                        sponsored.setOutboundFund(getPara("OutboundFund"));
+                        sponsored.setMeetingFund(getPara("MeetingFund"));
+                        sponsored.setInternationalFund(getPara("InternationalFund"));
+                        sponsored.setHardwareFund(getPara("HardwareFund"));
+                        sponsored.setConsultFund(getPara("ConsultFund"));
+                        sponsored.setLaborFund(getPara("LaborFund"));
+                        sponsored.setMaterialFund(getPara("MaterialFund"));
+                        sponsored.setPatentFund(getPara("PatentFund"));
                         sponsored.setResearchId(getParaToInt("ResearchId"));
                         sponsored.setIsSecrecy(getParaToInt("isSecrecy"));
                         sponsored.setIsVoucher(getParaToInt("isVoucher"));
@@ -561,12 +605,24 @@ public class SubjectController extends Controller {
                                 renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功"));
                             }
                         } else {
-                            if (userSubject.delete()) {
+                            int id = new DbRecord(DbConfig.T_USER_SUBJECT)
+                                    .whereEqualTo("subjectNum", getPara("SubjectNum"))
+                                    .whereEqualTo("subjectName", getPara("SubjectName"))
+                                    .whereEqualTo("SubjectPlace", getPara("SubjectPlace"))
+                                    .queryFirst()
+                                    .getInt("id");
+                            if (Db.deleteById("T_USER_SUBJECT", id)) {
                                 renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
                             }
                         }
                     } else {
-                        if (userSubject.delete()) {
+                        int id = new DbRecord(DbConfig.T_USER_SUBJECT)
+                                    .whereEqualTo("subjectNum", getPara("SubjectNum"))
+                                    .whereEqualTo("subjectName", getPara("SubjectName"))
+                                    .whereEqualTo("SubjectPlace", getPara("SubjectPlace"))
+                                    .queryFirst()
+                                    .getInt("id");
+                        if (Db.deleteById("T_USER_SUBJECT", id)) {
                             renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
                         }
                     }

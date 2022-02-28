@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.cxxy.eta8.db.DbConfig;
+import com.cxxy.eta8.db.DbRecord;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -139,7 +141,7 @@ public class ExportService {
         headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         headerRow.setHeightInPoints(20f);
 
-        String[] headerTile = {"教职工号", "姓名", "性别", "成果名称", "所属单位", "成果等级", "发布时间"};
+        String[] headerTile = {"教职工号", "姓名", "性别", "成果号", "成果名称", "所属单位", "成果类型",  "成果等级", "发布时间"};
         for (int i = 0; i < headerTile.length; i++) {
             HSSFCell cell = headerRow.createCell(i);
             cell.setCellStyle(headerStyle);
@@ -152,10 +154,12 @@ public class ExportService {
             dataRow.createCell(0).setCellValue(r.getStr("username"));
             dataRow.createCell(1).setCellValue(r.getStr("name"));
             dataRow.createCell(2).setCellValue(r.getStr("genderName"));
-            dataRow.createCell(3).setCellValue(r.getStr("paperName"));
-            dataRow.createCell(4).setCellValue(r.getStr("paperPlace"));
-            dataRow.createCell(5).setCellValue(r.getStr("rankName"));
-            dataRow.createCell(6).setCellValue(new SimpleDateFormat("yyyy/MM/dd").format(r.getDate("awardTime")));
+            dataRow.createCell(3).setCellValue(r.getStr("paperNum"));
+            dataRow.createCell(4).setCellValue(r.getStr("paperName"));
+            dataRow.createCell(5).setCellValue(r.getStr("paperPlace"));
+            dataRow.createCell(6).setCellValue(r.getStr("typeName"));
+            dataRow.createCell(7).setCellValue(r.getStr("rankName"));
+            dataRow.createCell(8).setCellValue(new SimpleDateFormat("yyyy/MM/dd").format(r.getDate("paperTime")));
         }
         workbook.setActiveSheet(0); // 设置显示工作表
 
@@ -183,7 +187,7 @@ public class ExportService {
         headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         headerRow.setHeightInPoints(20f);
 
-        String[] headerTile = {"项目编号", "项目名称", "所属单位", "项目类别", "项目级别", "项目来源", "一级学科", "统计归属", "合作单位", "发布时间"};
+        String[] headerTile = {"项目编号", "项目名称", "所属单位", "项目类别", "项目级别", "成果形式", "立项时间", "开始时间", "预计完成时间", "项目状态", "项目批准经费（万）", "上传时间"};
         for (int i = 0; i < headerTile.length; i++) {
             HSSFCell cell = headerRow.createCell(i);
             cell.setCellStyle(headerStyle);
@@ -198,11 +202,13 @@ public class ExportService {
             dataRow.createCell(2).setCellValue(r.getStr("subjectPlace"));
             dataRow.createCell(3).setCellValue(r.getStr("rankName"));
             dataRow.createCell(4).setCellValue(r.getStr("levelName"));
-            dataRow.createCell(5).setCellValue(r.getStr("SourceName"));
-            dataRow.createCell(6).setCellValue(r.getStr("TypeName"));
-            dataRow.createCell(7).setCellValue(r.getStr("BelongName"));
-            dataRow.createCell(8).setCellValue(r.getStr("CooperateName"));
-            dataRow.createCell(9).setCellValue(new SimpleDateFormat("yyyy/MM/dd").format(r.getDate("subjectTime")));
+            dataRow.createCell(5).setCellValue(r.getStr("PaperTypeName"));
+            dataRow.createCell(6).setCellValue(new SimpleDateFormat("yyyy/MM/dd").format(r.getDate("subjectTime")));
+            dataRow.createCell(7).setCellValue(new SimpleDateFormat("yyyy/MM/dd").format(r.getDate("startTime")));
+            dataRow.createCell(8).setCellValue(new SimpleDateFormat("yyyy/MM/dd").format(r.getDate("FinishTime")));
+            dataRow.createCell(9).setCellValue(r.getStr("reviewName"));
+            dataRow.createCell(10).setCellValue(r.getStr("subjectFund"));
+            dataRow.createCell(11).setCellValue(new SimpleDateFormat("yyyy/MM/dd").format(r.getDate("createAt")));
         }
         workbook.setActiveSheet(0); // 设置显示工作表
 
