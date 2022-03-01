@@ -59,10 +59,8 @@ public class MineController extends Controller {
     }
 
     public void listPerPaper() {
-        Integer typeId = getParaToInt("typeId");
         List<Record> p = new DbRecord(DbConfig.V_TEACHER_PAPER)
                 .whereEqualTo("userId", UserService.me.getCurrentUser().getInt("id"))
-                .whereEqualTo("typeId", typeId)
                 .whereEqualTo("reviewId", WebConfig.REVIEW_PASS)
                 .query();
         renderJson(p);

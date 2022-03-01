@@ -200,8 +200,8 @@ public class SubjectController extends Controller {
                     userSubject.setSubjectNum(getPara("SubjectNum"));
                     userSubject.setSubjectName(getPara("SubjectName"));
                     userSubject.setSubjectPlace(getPara("SubjectPlace"));
-                    userSubject.setPaperType(getParaToInt("SubjectPaper"));
                     userSubject.setSubjectFund(getPara("SubjectFund"));
+                    userSubject.setSubjectPaper(getPara("SubjectPaper"));
                     userSubject.setSubjectTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("SubjectTime")));// parse方法可解析一个日期时间字符串
                     userSubject.setStartTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("StartTime")));// parse方法可解析一个日期时间字符串
                     userSubject.setFinishTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("FinishTime")));// parse方法可解析一个日期时间字符串
@@ -346,8 +346,8 @@ public class SubjectController extends Controller {
                     userSubject.setSubjectNum(getPara("SubjectNum"));
                     userSubject.setSubjectName(getPara("SubjectName"));
                     userSubject.setSubjectPlace(getPara("SubjectPlace"));
-                    userSubject.setPaperType(getParaToInt("SubjectPaper"));
                     userSubject.setSubjectFund(getPara("SubjectFund"));
+                    userSubject.setSubjectPaper(getPara("SubjectPaper"));
                     userSubject.setSubjectTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("SubjectTime")));// parse方法可解析一个日期时间字符串
                     userSubject.setStartTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("StartTime")));// parse方法可解析一个日期时间字符串
                     userSubject.setFinishTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("FinishTime")));// parse方法可解析一个日期时间字符串
@@ -523,8 +523,8 @@ public class SubjectController extends Controller {
                     userSubject.setSubjectNum(getPara("SubjectNum"));
                     userSubject.setSubjectName(getPara("SubjectName"));
                     userSubject.setSubjectPlace(getPara("SubjectPlace"));
-                    userSubject.setPaperType(getParaToInt("SubjectPaper"));
                     userSubject.setSubjectFund(getPara("SubjectFund"));
+                    userSubject.setSubjectPaper(getPara("SubjectPaper"));
                     userSubject.setSubjectTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("SubjectTime")));// parse方法可解析一个日期时间字符串
                     userSubject.setStartTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("StartTime")));// parse方法可解析一个日期时间字符串
                     userSubject.setFinishTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("FinishTime")));// parse方法可解析一个日期时间字符串
@@ -569,7 +569,7 @@ public class SubjectController extends Controller {
                         sponsored.setDutyFreeId(getParaToInt("DutyFreeId"));
                         sponsored.setBelongId(getParaToInt("BelongId"));
                         sponsored.setTypeId(getParaToInt("TypeId"));
-                        sponsored.setEntrustPlaceId(getParaToInt("EntrustPlaceId"));
+                        sponsored.setEntrustPlace(getPara("EntrustPlace"));
                         sponsored.setTopicId(getParaToInt("TopicId"));
                         sponsored.setMainProjectName(getPara("MainProjectName"));
                         sponsored.setApplicationCode(getPara("ApplicationCode"));

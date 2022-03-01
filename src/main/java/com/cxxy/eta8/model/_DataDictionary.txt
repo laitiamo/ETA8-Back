@@ -504,7 +504,7 @@ Table: t_subject_sponsored
  DutyFreeId         | INT(10)      | YES  |     |         |         
  BelongId           | INT(10)      | NO   |     |         |         
  TypeId             | INT(10)      | NO   |     |         |         
- EntrustPlaceId     | INT(10)      | NO   |     |         |         
+ EntrustPlace       | VARCHAR(255) | NO   |     |         |         
  TopicId            | INT(10)      | NO   |     |         |         
  MainProjectName    | VARCHAR(255) | YES  |     |         |         
  ApplicationCode    | VARCHAR(255) | YES  |     |         |         
@@ -621,7 +621,7 @@ Table: t_user_subject
  reviewId     | INT(10)      | NO   |     |                   | 审核状态id  
  subjectPlace | VARCHAR(255) | NO   |     |                   | 项目来源单位  
  subjectFund  | VARCHAR(255) | NO   |     |                   | 项目经费    
- PaperType    | INT(10)      | NO   |     |                   | 科研成果类型id
  applyAt      | DATETIME(26) | YES  |     |                   | 申请结题时间  
+ subjectPaper | VARCHAR(255) | YES  |     |                   | 成果形式    
 --------------+--------------+------+-----+-------------------+---------
 

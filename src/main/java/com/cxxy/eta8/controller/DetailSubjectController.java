@@ -22,11 +22,15 @@ public class DetailSubjectController extends Controller {
     @Before(DetailSubjectInterceptor.class)
     public void index() {
         Integer id = getParaToInt("id");
-        Record r = new DbRecord(DbConfig.V_TEACHER_SUBJECT).whereEqualTo("id", id).queryFirst();
-        List<Record> n = new DbRecord(DbConfig.V_TEACHER_SUBJECT).whereEqualTo("id", id).query();
-        String name = "无";
-        for (int i = 0; i < n.size(); i++) {
-            name += n.get(i).getStr("name") + " ";
+        Record r = new DbRecord(DbConfig.V_TEACHER_SUBJECT).whereEqualTo("id", id).whereEqualTo("CandidateId",WebConfig.CANDIDATE_MAJOR).queryFirst();
+        List<Record> n = new DbRecord(DbConfig.V_TEACHER_SUBJECT).whereEqualTo("id", id).whereEqualTo("CandidateId",WebConfig.CANDIDATE_PART).query();
+        String name = "";
+        if(n.size() != 0) {
+            for (int i = 0; i < n.size(); i++) {
+                name += n.get(i).getStr("name") + " ";
+            }
+        }else{
+            name = "无";
         }
         Map<String, Object> attrMap = new HashMap<String, Object>();
 
@@ -60,8 +64,7 @@ public class DetailSubjectController extends Controller {
         attrMap.put("time", new SimpleDateFormat("yyyy/MM/dd").format(r.getDate("subjectTime")));
         attrMap.put("rank", r.getStr("rankName"));
         attrMap.put("level", r.getStr("levelName"));
-        attrMap.put("PaperType", r.getStr("PaperTypeName"));
-        attrMap.put("PaperTypeId", r.getStr("PaperType"));
+        attrMap.put("SubjectPaper", r.getStr("SubjectPaper"));
         attrMap.put("createAt", new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(r.getDate("createAt")));
         attrMap.put("reviewAt", r.getDate("reviewAt") == null ?
                 "无" : new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(r.getDate("reviewAt")));
@@ -95,7 +98,7 @@ public class DetailSubjectController extends Controller {
             attrMap.put("CooperatePrincipal", s.getStr("CooperatePrincipal"));
             attrMap.put("ContractNum", s.getStr("ContractNum"));
             attrMap.put("FundNum", s.getStr("FundNum"));
-            attrMap.put("EntrustName", s.getStr("EntrustName"));
+            attrMap.put("EntrustName", s.getStr("EntrustPlace"));
             attrMap.put("CooperateName", s.getStr("CooperateName"));
             attrMap.put("ContractType", s.getStr("ContractType"));
             attrMap.put("BankName", s.getStr("BankName"));

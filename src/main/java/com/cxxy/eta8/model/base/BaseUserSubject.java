@@ -135,15 +135,6 @@ public abstract class BaseUserSubject<M extends BaseUserSubject<M>> extends Mode
 		return getStr("subjectFund");
 	}
 
-	public M setPaperType(java.lang.Integer PaperType) {
-		set("PaperType", PaperType);
-		return (M)this;
-	}
-	
-	public java.lang.Integer getPaperType() {
-		return getInt("PaperType");
-	}
-
 	public M setApplyAt(java.util.Date applyAt) {
 		set("applyAt", applyAt);
 		return (M)this;
@@ -151,6 +142,15 @@ public abstract class BaseUserSubject<M extends BaseUserSubject<M>> extends Mode
 	
 	public java.util.Date getApplyAt() {
 		return get("applyAt");
+	}
+
+	public M setSubjectPaper(java.lang.String subjectPaper) {
+		set("subjectPaper", subjectPaper);
+		return (M)this;
+	}
+	
+	public java.lang.String getSubjectPaper() {
+		return getStr("subjectPaper");
 	}
 
 }

@@ -198,13 +198,13 @@ public abstract class BaseSubjectSponsored<M extends BaseSubjectSponsored<M>> ex
 		return getInt("TypeId");
 	}
 
-	public M setEntrustPlaceId(java.lang.Integer EntrustPlaceId) {
-		set("EntrustPlaceId", EntrustPlaceId);
+	public M setEntrustPlace(java.lang.String EntrustPlace) {
+		set("EntrustPlace", EntrustPlace);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getEntrustPlaceId() {
-		return getInt("EntrustPlaceId");
+	public java.lang.String getEntrustPlace() {
+		return getStr("EntrustPlace");
 	}
 
 	public M setTopicId(java.lang.Integer TopicId) {
