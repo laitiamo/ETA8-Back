@@ -385,7 +385,7 @@ public class SubjectController extends Controller {
                         horizon.setEntrustPlaceId(getParaToInt("EntrustPlaceId"));
                         horizon.setCooperateId(getParaToInt("CooperateId"));
                         horizon.setContractId(getParaToInt("ContractId"));
-                        horizon.setContractFund(getPara("ContractFund"));
+                        horizon.setContractFund(getPara("DevelopFund"));
                         horizon.setBankName(getPara("BankName"));
                         horizon.setBankAccount(getPara("BankAccount"));
                         horizon.setIsDutyFree(getParaToInt("isDutyFree"));

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.cxxy.eta8.common.WebConfig;
 import com.cxxy.eta8.db.DbConfig;
 import com.cxxy.eta8.db.DbRecord;
+import com.cxxy.eta8.model.SubjectLinkPaper;
 import com.cxxy.eta8.model.UserPaper;
 import com.cxxy.eta8.service.SubjectService;
 import com.cxxy.eta8.service.UserService;
@@ -96,7 +97,6 @@ public class RecordController extends Controller {
                 userpaper.setPaperPlace(getPara("paperPlace"));
                 userpaper.setPaperTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("paperTime")));// parse方法可解析一个日期时间字符串
 
-
                 // 数据库最终保存的路径，如果多图则在结尾加 "*"符号 跟上图片数量
                 String finalPath = "";
                 if (allFiles.size() == 1) {
@@ -129,11 +129,19 @@ public class RecordController extends Controller {
                             .whereEqualTo("TypeId", getParaToInt("typeId"))
                             .queryFirst()
                             .getInt("id");
-
-                    if (SubjectService.me.addPaper(ids, PaperId)) {
-                        renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功"));
+                    Integer SubjectId = getParaToInt("SubjectId");
+                    if (SubjectId != null) {
+                        if (SubjectService.me.addPaper(ids, PaperId) && SubjectService.me.setSubjectPaper(SubjectId, PaperId)) {
+                            renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功，该成果已与项目绑定，请等待管理员审核"));
+                        } else {
+                            renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
+                        }
                     } else {
-                        renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
+                        if (SubjectService.me.addPaper(ids, PaperId)) {
+                            renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功，请等待管理员审核"));
+                        } else {
+                            renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
+                        }
                     }
                 } else {
                     renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));

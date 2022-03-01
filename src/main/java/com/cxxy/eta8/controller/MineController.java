@@ -61,7 +61,6 @@ public class MineController extends Controller {
     public void listPerPaper() {
         List<Record> p = new DbRecord(DbConfig.V_TEACHER_PAPER)
                 .whereEqualTo("userId", UserService.me.getCurrentUser().getInt("id"))
-                .whereEqualTo("reviewId", WebConfig.REVIEW_PASS)
                 .query();
         renderJson(p);
     }
@@ -79,6 +78,14 @@ public class MineController extends Controller {
         renderJson(new LayUITableResult<Record>(AjaxResult.CODE_SUCCESS, "", p.getTotalRow(), p.getList()));
     }
 
+    public void listPerSubject() {
+        List<Record> p = new DbRecord(DbConfig.V_TEACHER_SUBJECT)
+                .whereEqualTo("userId", UserService.me.getCurrentUser().getInt("id"))
+                .whereEqualTo("reviewId", WebConfig.SUBJECT_NOT_FINISH)
+                .query();
+        renderJson(p);
+    }
+
     public void getPaperList() {
         Map<String, Object> attrMap = new HashMap<String, Object>();
         attrMap.put("rank3", new DbRecord(DbConfig.T_AWARD).whereEqualTo("awardTypeId", WebConfig.PAPER_TYPE_TEACHER).query());
@@ -91,15 +98,6 @@ public class MineController extends Controller {
         renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, JSON.toJSONString(attrMap)));
     }
 
-    public void listPerSubject() {
-        Record info = UserService.me.getCurrentUserInfo();
-        Integer awardId = getParaToInt("awardId");
-        List<Record> result = new DbRecord(DbConfig.V_TEACHER_SUBJECT)
-                .whereEqualTo("awardId", awardId)
-                .whereEqualTo("userId", info.getStr("userId"))
-                .query();
-        renderJson(result);
-    }
 
     public void detail() {
         int id = getParaToInt("id");

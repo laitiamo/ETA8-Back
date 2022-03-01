@@ -141,7 +141,7 @@ public class ExportService {
         headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         headerRow.setHeightInPoints(20f);
 
-        String[] headerTile = {"教职工号", "姓名", "性别", "成果号", "成果名称", "所属单位", "成果类型",  "成果等级", "发布时间"};
+        String[] headerTile = {"教职工号", "姓名", "性别", "成果号", "成果名称", "所属单位", "成果类型", "成果等级", "发布时间"};
         for (int i = 0; i < headerTile.length; i++) {
             HSSFCell cell = headerRow.createCell(i);
             cell.setCellStyle(headerStyle);
@@ -409,9 +409,9 @@ public class ExportService {
         // 将待压缩文件复制到新目录下
         for (Record r : records) {
             //多图优化，字符分割 2020-10-20
-            String imagePath = r.getStr("filePath");
-            if (imagePath.indexOf("*") != -1) {
-                String[] parts = imagePath.split("\\*");
+            String filePath = r.getStr("filePath");
+            if (filePath.indexOf("*") != -1) {
+                String[] parts = filePath.split("\\*");
                 //如果存在"*"则分割，取出文件数量
                 Integer picNum = Integer.parseInt(parts[1]);
                 String[] pathParts = parts[0].split("\\.");
@@ -437,7 +437,7 @@ public class ExportService {
                     Files.copy(srcFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 }
             } else {
-                File srcFile = new File(PathKit.getWebRootPath() + imagePath);
+                File srcFile = new File(PathKit.getWebRootPath() + filePath);
                 //如果文件丢失，用模板代替 2021-3-4
                 if (!srcFile.exists()) {
                     srcFile = new File(PathKit.getWebRootPath() + "/download/template/404notfound.jpeg");
@@ -449,15 +449,70 @@ public class ExportService {
                         username + "_" +
                         name + "_" +
                         subjectName + "_" +
-                        new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(r.getDate("createAt")) +
+                        "立项申请书" +
                         ".pdf");
                 if (!destFile.exists()) {
                     destFile.getParentFile().mkdirs();
                 }
                 Files.copy(srcFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
-            ///
-
+            List<Record> papers = new DbRecord(DbConfig.V_SUBJECT_LINK_PAPER)
+                    .whereEqualTo("SubjectNum", r.getStr("SubjectNum"))
+                    .whereEqualTo("SubjectName", r.getStr("SubjectName"))
+                    .whereEqualTo("SubjectPlace", r.getStr("SubjectPlace"))
+                    .query();
+            if(!papers.isEmpty()) {
+                for (Record paper : papers) {
+                    //多图优化，字符分割 2020-10-20
+                    String imagePath = paper.getStr("imagePath");
+                    if (imagePath.indexOf("*") != -1) {
+                        String[] parts = imagePath.split("\\*");
+                        //如果存在"*"则分割，取出文件数量
+                        Integer picNum = Integer.parseInt(parts[1]);
+                        String[] pathParts = parts[0].split("\\.");
+                        String pathPart = pathParts[0];
+                        for (int i = 0; i < picNum; i++) {
+                            File srcFile = new File(PathKit.getWebRootPath() + pathPart + "_" + i + ".jpeg");
+                            //如果文件丢失，用模板代替 2021-3-4
+                            if (!srcFile.exists()) {
+                                srcFile = new File(PathKit.getWebRootPath() + "/download/template/404notfound.jpeg");
+                            }
+                            String username = paper.getStr("username");
+                            String name = paper.getStr("name");
+                            String paperName = r.getStr("paperName");
+                            File destFile = new File(dirPath + File.separator +
+                                    username + "_" +
+                                    name + "_" +
+                                    paperName + "_" +
+                                    new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(paper.getDate("PaperCreateAt")) +
+                                    ".jpeg");
+                            if (!destFile.exists()) {
+                                destFile.getParentFile().mkdirs();
+                            }
+                            Files.copy(srcFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        }
+                    } else {
+                        File srcFile = new File(PathKit.getWebRootPath() + imagePath);
+                        //如果文件丢失，用模板代替 2021-3-4
+                        if (!srcFile.exists()) {
+                            srcFile = new File(PathKit.getWebRootPath() + "/download/template/404notfound.jpeg");
+                        }
+                        String username = r.getStr("username");
+                        String name = r.getStr("name");
+                        String paperName = r.getStr("paperName");
+                        File destFile = new File(dirPath + File.separator +
+                                username + "_" +
+                                name + "_" +
+                                paperName + "_" +
+                                new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(paper.getDate("PaperCreateAt")) +
+                                ".jpeg");
+                        if (!destFile.exists()) {
+                            destFile.getParentFile().mkdirs();
+                        }
+                        Files.copy(srcFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    }
+                }
+            }
         }
 
         // 开始压缩

@@ -64,7 +64,7 @@ public class DetailSubjectController extends Controller {
         attrMap.put("time", new SimpleDateFormat("yyyy/MM/dd").format(r.getDate("subjectTime")));
         attrMap.put("rank", r.getStr("rankName"));
         attrMap.put("level", r.getStr("levelName"));
-        attrMap.put("SubjectPaper", r.getStr("SubjectPaper"));
+        attrMap.put("SubjectPaper", r.getStr("subjectPaper"));
         attrMap.put("createAt", new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(r.getDate("createAt")));
         attrMap.put("reviewAt", r.getDate("reviewAt") == null ?
                 "无" : new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(r.getDate("reviewAt")));
