@@ -98,7 +98,7 @@ public class DetailSubjectController extends Controller {
             attrMap.put("CooperatePrincipal", s.getStr("CooperatePrincipal"));
             attrMap.put("ContractNum", s.getStr("ContractNum"));
             attrMap.put("FundNum", s.getStr("FundNum"));
-            attrMap.put("EntrustName", s.getStr("EntrustPlace"));
+            attrMap.put("EntrustName", s.getStr("EntrustName"));
             attrMap.put("CooperateName", s.getStr("CooperateName"));
             attrMap.put("ContractType", s.getStr("ContractType"));
             attrMap.put("BankName", s.getStr("BankName"));
@@ -148,7 +148,7 @@ public class DetailSubjectController extends Controller {
             attrMap.put("DutyFreeId", s.getStr("DutyFreeId") == null ? "无" : s.getStr("DutyFreeId"));
             attrMap.put("BelongName", s.getStr("BelongName") == null ? "无" : s.getStr("BelongName"));
             attrMap.put("TypeName", s.getStr("TypeName") == null ? "无" : s.getStr("TypeName"));
-            attrMap.put("EntrustName", s.getStr("EntrustName"));
+            attrMap.put("EntrustName", s.getStr("EntrustPlace"));
             attrMap.put("TopicName", s.getStr("TopicName"));
             attrMap.put("MainProjectName", s.getStr("MainProjectName") == null ? "无" : s.getStr("MainProjectName"));
             attrMap.put("ApplicationCode", s.getStr("ApplicationCode") == null ? "无" : s.getStr("ApplicationCode"));
