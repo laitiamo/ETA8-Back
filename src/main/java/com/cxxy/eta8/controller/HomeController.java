@@ -26,18 +26,11 @@ import com.jfinal.plugin.activerecord.Record;
 public class HomeController extends Controller {
 
     public void index() {
-        Record info = UserService.me.getCurrentUserInfo();
         Map<String, Object> attrMap = new HashMap<String, Object>();
         setAttrs(attrMap);
         // System.out.println(record);
         setAttr("image", new DbRecord(DbConfig.T_PICTURE).orderByASC("id").query());
         setAttr("inform", new DbRecord(DbConfig.T_INFORM).orderByASC("id").query());
-        //不知道干啥用的 注释了
-//		setAttr("stuAward", new DbRecord(DbConfig.V_STUDENT_AWARD)
-//								.whereContains("rankName", "国")
-//								.orderByASC("rankName")
-//								.query());
-
         //向前端发送全部attribute
         Enumeration<String> names = getAttrNames();
         while (names.hasMoreElements()) {
@@ -70,22 +63,22 @@ public class HomeController extends Controller {
 
     public void detail() {
         Record info = UserService.me.getCurrentUserInfo();
-        List<Record> studentRecord = new DbRecord(DbConfig.V_STUDENT_AWARD).whereEqualTo("reviewName", "已审核").query();
-        List<Record> teacherRecord = new DbRecord(DbConfig.V_TEACHER_AWARD).whereNotEqualTo("awardName", "设计专利").whereNotEqualTo("awardName", "教师培训").query();
+        List<Record> studentRecord = new DbRecord(DbConfig.V_STUDENT_AWARD).whereEqualTo("reviewId", WebConfig.REVIEW_PASS).query();
+        List<Record> teacherRecord = new DbRecord(DbConfig.V_TEACHER_AWARD).whereEqualTo("reviewId", WebConfig.REVIEW_PASS).query();
         Map<String, Object> attrMap = new HashMap<String, Object>();
         attrMap.put("l_student", studentRecord.size());
         attrMap.put("l_teacher", teacherRecord.size());
         attrMap.put("l_document", studentRecord.size() + teacherRecord.size());
         if (info.getStr("roleNameEn").equals(WebConfig.ROLE_ADMIN) || info.getStr("roleNameEn").equals(WebConfig.ROLE_LEADER)) {
-            List<Record> studentInternationalRecord = new DbRecord(DbConfig.V_STUDENT_AWARD).whereEqualTo("rankName", "国际级").whereEqualTo("reviewName", "已审核").query();
-            List<Record> studentNationRecord = new DbRecord(DbConfig.V_STUDENT_AWARD).whereEqualTo("rankName", "国家级").whereEqualTo("reviewName", "已审核").query();
-            List<Record> studentProvinceRecord = new DbRecord(DbConfig.V_STUDENT_AWARD).whereEqualTo("rankName", "省部级").whereEqualTo("reviewName", "已审核").query();
-            List<Record> studentSchoolRecord = new DbRecord(DbConfig.V_STUDENT_AWARD).whereEqualTo("rankName", "校级").whereEqualTo("reviewName", "已审核").query();
-            List<Record> PaperRecord = new DbRecord(DbConfig.V_PAPER_INFO).whereEqualTo("typeId", WebConfig.PAPER_TYPE_PAPER).whereEqualTo("reviewName", "已审核").query();
-            List<Record> BookRecord = new DbRecord(DbConfig.V_PAPER_INFO).whereEqualTo("typeId", WebConfig.PAPER_TYPE_BOOK).whereEqualTo("reviewName", "已审核").query();
-            List<Record> SubjectRecord = new DbRecord(DbConfig.V_SUBJECT_INFO).whereEqualTo("reviewName", "已审核").query();
-            List<Record> PatentRecord = new DbRecord(DbConfig.V_PAPER_INFO).whereEqualTo("typeId", WebConfig.PAPER_TYPE_PATENT).whereEqualTo("reviewName", "已审核").query();
-            List<Record> personalRecord = new DbRecord(DbConfig.V_TEACHER_AWARD).whereEqualTo("username", info.getStr("username")).whereEqualTo("reviewName", "已审核").query();
+            List<Record> studentInternationalRecord = new DbRecord(DbConfig.V_STUDENT_AWARD).whereEqualTo("rankId", 1).whereEqualTo("reviewId", WebConfig.REVIEW_PASS).query();
+            List<Record> studentNationRecord = new DbRecord(DbConfig.V_STUDENT_AWARD).whereEqualTo("rankId", 2).whereEqualTo("reviewId", WebConfig.REVIEW_PASS).query();
+            List<Record> studentProvinceRecord = new DbRecord(DbConfig.V_STUDENT_AWARD).whereEqualTo("rankId", 3).whereEqualTo("reviewId", WebConfig.REVIEW_PASS).query();
+            List<Record> studentSchoolRecord = new DbRecord(DbConfig.V_STUDENT_AWARD).whereEqualTo("rankId", 4).whereEqualTo("reviewId", WebConfig.REVIEW_PASS).query();
+            List<Record> PaperRecord = new DbRecord(DbConfig.V_TEACHER_PAPER).whereEqualTo("CandidateId", WebConfig.CANDIDATE_MAJOR).whereEqualTo("typeId", WebConfig.PAPER_TYPE_PAPER).whereNotEqualTo("reviewId", WebConfig.REVIEW_UNREAD).whereNotEqualTo("reviewId", WebConfig.REVIEW_NOT_PASS).query();
+            List<Record> BookRecord = new DbRecord(DbConfig.V_TEACHER_PAPER).whereEqualTo("CandidateId", WebConfig.CANDIDATE_MAJOR).whereEqualTo("typeId", WebConfig.PAPER_TYPE_BOOK).whereNotEqualTo("reviewId", WebConfig.REVIEW_UNREAD).whereNotEqualTo("reviewId", WebConfig.REVIEW_NOT_PASS).query();
+            List<Record> SubjectRecord = new DbRecord(DbConfig.V_TEACHER_SUBJECT).whereEqualTo("CandidateId", WebConfig.CANDIDATE_MAJOR).whereNotEqualTo("reviewId", WebConfig.REVIEW_UNREAD).whereNotEqualTo("reviewId", WebConfig.REVIEW_NOT_PASS).query();
+            List<Record> PatentRecord = new DbRecord(DbConfig.V_TEACHER_PAPER).whereEqualTo("CandidateId", WebConfig.CANDIDATE_MAJOR).whereEqualTo("typeId", WebConfig.PAPER_TYPE_PATENT).whereEqualTo("reviewId", WebConfig.REVIEW_PASS).query();
+            List<Record> personalRecord = new DbRecord(DbConfig.V_TEACHER_AWARD).whereEqualTo("username", info.getStr("username")).whereEqualTo("reviewId", WebConfig.REVIEW_PASS).query();
             attrMap.put("l_international", studentInternationalRecord.size());
             attrMap.put("l_nation", studentNationRecord.size());
             attrMap.put("l_province", studentProvinceRecord.size());
@@ -95,30 +88,30 @@ public class HomeController extends Controller {
             attrMap.put("l_patent", PatentRecord.size());
             attrMap.put("l_paper", PaperRecord.size());
             attrMap.put("l_number", personalRecord.size());
-        } else if (info.getStr("roleNameEn").equals(WebConfig.ROLE_MANAGER)) {
-            List<Record> PaperRecord = new DbRecord(DbConfig.V_PAPER_INFO).whereEqualTo("typeId", WebConfig.PAPER_TYPE_PAPER).whereEqualTo("reviewName", "已审核").query();
-            List<Record> BookRecord = new DbRecord(DbConfig.V_PAPER_INFO).whereEqualTo("typeId", WebConfig.PAPER_TYPE_BOOK).whereEqualTo("reviewName", "已审核").query();
-            List<Record> SubjectRecord = new DbRecord(DbConfig.V_SUBJECT_INFO).whereEqualTo("reviewName", "已审核").query();
-            List<Record> PatentRecord = new DbRecord(DbConfig.V_PAPER_INFO).whereEqualTo("typeId", WebConfig.PAPER_TYPE_PATENT).whereEqualTo("reviewName", "已审核").query();
-            List<Record> personalRecord = new DbRecord(DbConfig.V_TEACHER_AWARD).whereEqualTo("username", info.getStr("username")).whereEqualTo("reviewName", "已审核").query();
+        } else if (info.getStr("roleNameEn").equals(WebConfig.ROLE_MANAGER) || info.getStr("roleNameEn").equals(WebConfig.ROLE_TEACHER)) {
+            List<Record> PaperRecord = new DbRecord(DbConfig.V_TEACHER_PAPER).whereEqualTo("CandidateId", WebConfig.CANDIDATE_MAJOR).whereEqualTo("typeId", WebConfig.PAPER_TYPE_PAPER).whereNotEqualTo("reviewId", WebConfig.REVIEW_UNREAD).whereNotEqualTo("reviewId", WebConfig.REVIEW_NOT_PASS).query();
+            List<Record> BookRecord = new DbRecord(DbConfig.V_TEACHER_PAPER).whereEqualTo("CandidateId", WebConfig.CANDIDATE_MAJOR).whereEqualTo("typeId", WebConfig.PAPER_TYPE_BOOK).whereNotEqualTo("reviewId", WebConfig.REVIEW_UNREAD).whereNotEqualTo("reviewId", WebConfig.REVIEW_NOT_PASS).query();
+            List<Record> SubjectRecord = new DbRecord(DbConfig.V_TEACHER_SUBJECT).whereEqualTo("CandidateId", WebConfig.CANDIDATE_MAJOR).whereNotEqualTo("reviewId", WebConfig.REVIEW_UNREAD).whereNotEqualTo("reviewId", WebConfig.REVIEW_NOT_PASS).query();
+            List<Record> PatentRecord = new DbRecord(DbConfig.V_TEACHER_PAPER).whereEqualTo("CandidateId", WebConfig.CANDIDATE_MAJOR).whereEqualTo("typeId", WebConfig.PAPER_TYPE_PATENT).whereEqualTo("reviewId", WebConfig.REVIEW_PASS).query();
+            List<Record> personalRecord = new DbRecord(DbConfig.V_TEACHER_AWARD).whereEqualTo("username", info.getStr("username")).whereEqualTo("reviewId", WebConfig.REVIEW_PASS).query();
             attrMap.put("l_book", BookRecord.size());
             attrMap.put("l_subject", SubjectRecord.size());
             attrMap.put("l_patent", PatentRecord.size());
             attrMap.put("l_paper", PaperRecord.size());
             attrMap.put("l_number", personalRecord.size());
         } else if (info.getStr("roleNameEn").equals(WebConfig.ROLE_STUDENT) || info.getStr("roleNameEn").equals(WebConfig.ROLE_ASSISTANT)) {
-            List<Record> stuMajorRecord = new DbRecord(DbConfig.V_STUDENT_AWARD).whereEqualTo("gradeId", info.getStr("gradeId")).whereEqualTo("majorId", info.getStr("majorId")).whereEqualTo("reviewName", "已审核").query();
-            List<Record> stuClassRecord = new DbRecord(DbConfig.V_STUDENT_AWARD).whereEqualTo("classId", info.getStr("classId")).whereEqualTo("reviewName", "已审核").query();
-            List<Record> UnManagerRecord = new DbRecord(DbConfig.V_STUDENT_AWARD_ASSISTANT).whereEqualTo("assistantId", info.getStr("username")).whereEqualTo("reviewName", "未审核").query();
-            List<Record> personalRecord = new DbRecord(DbConfig.V_STUDENT_AWARD).whereEqualTo("username", info.getStr("username")).whereEqualTo("reviewName", "已审核").query();
+            List<Record> stuMajorRecord = new DbRecord(DbConfig.V_STUDENT_AWARD).whereEqualTo("gradeId", info.getStr("gradeId")).whereEqualTo("majorId", info.getStr("majorId")).whereEqualTo("reviewId", WebConfig.REVIEW_PASS).query();
+            List<Record> stuClassRecord = new DbRecord(DbConfig.V_STUDENT_AWARD).whereEqualTo("classId", info.getStr("classId")).whereEqualTo("reviewId", WebConfig.REVIEW_PASS).query();
+            List<Record> UnManagerRecord = new DbRecord(DbConfig.V_STUDENT_AWARD_ASSISTANT).whereEqualTo("assistantId", info.getStr("username")).whereEqualTo("reviewId", WebConfig.REVIEW_UNREAD).query();
+            List<Record> personalRecord = new DbRecord(DbConfig.V_STUDENT_AWARD).whereEqualTo("username", info.getStr("username")).whereEqualTo("reviewId", WebConfig.REVIEW_PASS).query();
             attrMap.put("l_unmanage", UnManagerRecord.size());
             attrMap.put("l_stumajor", stuMajorRecord.size());
             attrMap.put("l_stuclass", stuClassRecord.size());
             attrMap.put("l_number", personalRecord.size());
         } else if (info.getStr("roleNameEn").equals(WebConfig.ROLE_INSTRUCTOR)) {
-            List<Record> personalRecord = new DbRecord(DbConfig.V_TEACHER_AWARD).whereEqualTo("username", info.getStr("username")).whereEqualTo("reviewName", "已审核").query();
-            List<Record> ManagerRecord = new DbRecord(DbConfig.V_STUDENT_AWARD_INSTRUCTOR).whereEqualTo("instructorId", info.getStr("username")).whereEqualTo("reviewName", "已审核").query();
-            List<Record> UnManagerRecord = new DbRecord(DbConfig.V_STUDENT_AWARD_INSTRUCTOR).whereEqualTo("instructorId", info.getStr("username")).whereEqualTo("reviewName", "未审核").query();
+            List<Record> personalRecord = new DbRecord(DbConfig.V_TEACHER_AWARD).whereEqualTo("username", info.getStr("username")).whereEqualTo("reviewId", WebConfig.REVIEW_PASS).query();
+            List<Record> ManagerRecord = new DbRecord(DbConfig.V_STUDENT_AWARD_INSTRUCTOR).whereEqualTo("instructorId", info.getStr("username")).whereEqualTo("reviewId", WebConfig.REVIEW_PASS).query();
+            List<Record> UnManagerRecord = new DbRecord(DbConfig.V_STUDENT_AWARD_INSTRUCTOR).whereEqualTo("instructorId", info.getStr("username")).whereEqualTo("reviewId", WebConfig.REVIEW_UNREAD).query();
             attrMap.put("l_instructor", ManagerRecord.size());
             attrMap.put("l_unmanage", UnManagerRecord.size());
             attrMap.put("l_number", personalRecord.size());

@@ -45,11 +45,12 @@ public class SubjectController extends Controller {
         renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, JSON.toJSONString(attrMap)));
     }
 
+    //校级项目初始化
     public void initSchool() {
         Map<String, Object> attrMap = new HashMap<String, Object>();
-        setAttr("cooperate", new DbRecord(DbConfig.S_COOPERATE).query());
-        setAttr("research", new DbRecord(DbConfig.S_RESEARCH).query());
-        setAttr("category", new DbRecord(DbConfig.S_CATEGORY).whereEqualTo("TypeId", WebConfig.SUBJECT_TYPE_SCHOOL).query());
+        setAttr("cooperate", new DbRecord(DbConfig.S_COOPERATE).whereEqualTo("LevelId",WebConfig.SUBJECT_TYPE_SCHOOL).query());
+        setAttr("type", new DbRecord(DbConfig.S_RESEARCH_TYPE).query());
+        setAttr("school", new DbRecord(DbConfig.S_SCHOOL).query());
         //向前端发送全部attribute
         Enumeration<String> names = getAttrNames();
         while (names.hasMoreElements()) {
@@ -59,14 +60,13 @@ public class SubjectController extends Controller {
         renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, JSON.toJSONString(attrMap)));
     }
 
+    //纵向项目初始化
     public void initSponsored() {
         Map<String, Object> attrMap = new HashMap<String, Object>();
-        setAttr("cooperate", new DbRecord(DbConfig.S_COOPERATE).query());
-        setAttr("contract", new DbRecord(DbConfig.S_CONTRACT).query());
-        setAttr("entrust", new DbRecord(DbConfig.S_ENTRUST).query());
-        setAttr("research", new DbRecord(DbConfig.S_RESEARCH).query());
-        setAttr("property", new DbRecord(DbConfig.S_PROPERTY).query());
-        setAttr("technical", new DbRecord(DbConfig.S_TECHNICAL).query());
+        setAttr("cooperate", new DbRecord(DbConfig.S_COOPERATE).whereEqualTo("LevelId",WebConfig.SUBJECT_TYPE_SPONSORED).query());
+        setAttr("type", new DbRecord(DbConfig.S_RESEARCH_TYPE).query());
+        setAttr("area", new DbRecord(DbConfig.S_RESEARCH_AREA).query());
+        setAttr("subject", new DbRecord(DbConfig.S_SUBJECT_FIRST).query());
         //向前端发送全部attribute
         Enumeration<String> names = getAttrNames();
         while (names.hasMoreElements()) {
@@ -76,16 +76,18 @@ public class SubjectController extends Controller {
         renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, JSON.toJSONString(attrMap)));
     }
 
+    //横向项目初始化
     public void initHorizon() {
         Map<String, Object> attrMap = new HashMap<String, Object>();
         setAttr("contract", new DbRecord(DbConfig.S_CONTRACT).query());
-        setAttr("cooperate", new DbRecord(DbConfig.S_COOPERATE).query());
         setAttr("entrust", new DbRecord(DbConfig.S_ENTRUST).query());
-        setAttr("buyercountry", new DbRecord(DbConfig.B_COUNTRY).query());
-        setAttr("buyertype", new DbRecord(DbConfig.B_TYPE).query());
-        setAttr("buyerprovince", new DbRecord(DbConfig.B_PROVINCE).query());
+        setAttr("country", new DbRecord(DbConfig.HOR_COUNTRY).query());
+        setAttr("type", new DbRecord(DbConfig.HOR_TYPE).query());
+        setAttr("province", new DbRecord(DbConfig.HOR_PROVINCE).query());
         setAttr("technical", new DbRecord(DbConfig.S_TECHNICAL).query());
         setAttr("property", new DbRecord(DbConfig.S_PROPERTY).query());
+        setAttr("society", new DbRecord(DbConfig.S_SOCIETY).query());
+        setAttr("thirdcontract", new DbRecord(DbConfig.S_CONTRACT_THIRD).query());
         //向前端发送全部attribute
         Enumeration<String> names = getAttrNames();
         while (names.hasMoreElements()) {
@@ -95,42 +97,91 @@ public class SubjectController extends Controller {
         renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, JSON.toJSONString(attrMap)));
     }
 
-    public void listSecond() {
-        Integer FirstId = getParaToInt("FirstId");
-        List<Record> result = new DbRecord(DbConfig.S_SECOND).whereEqualTo("FirstId", FirstId).query();
+    //获取一级学科二级目录列表
+    public void listCategory(){
+        Integer BelongId = getParaToInt("BelongId");
+        List<Record> result = new DbRecord(DbConfig.S_CATEGORY).whereEqualTo("BelongId", BelongId).query();
         renderJson(result);
     }
 
+    //获取一级学科三级目录列表
+    public void listSecCategory(){
+        Integer CategoryId = getParaToInt("CategoryId");
+        List<Record> result = new DbRecord(DbConfig.S_CATEGORY_SECOND).whereEqualTo("CategoryId", CategoryId).query();
+        renderJson(result);
+    }
+
+    //获取纵向项目一级学科二级目录列表
+    public void listSecType(){
+        Integer TypeId = getParaToInt("TypeId");
+        List<Record> result = new DbRecord(DbConfig.S_SUBJECT_SECOND).whereEqualTo("FirstId", TypeId).query();
+        renderJson(result);
+    }
+
+    //获取纵向项目一级学科三级目录列表
+    public void listThirdType(){
+        Integer SecTypeId = getParaToInt("SecTypeId");
+        List<Record> result = new DbRecord(DbConfig.S_SUBJECT_THIRD).whereEqualTo("SecondId", SecTypeId).query();
+        renderJson(result);
+    }
+
+
+    //横向项目合同类别二级目录
+    public void listContract(){
+        Integer ContractId = getParaToInt("ContractId");
+        List<Record> result = new DbRecord(DbConfig.S_CONTRACT_SECOND).whereEqualTo("ContractId", ContractId).query();
+        renderJson(result);
+    }
+
+    //横向项目合同类别三级目录
+    public void listThirdContract(){
+        List<Record> result = new DbRecord(DbConfig.S_CONTRACT_THIRD).query();
+        renderJson(result);
+    }
+
+    //获取国民经济和社会服务二级目录
+    public void listSecond() {
+        Integer BelongId = getParaToInt("BelongId");
+        List<Record> result = new DbRecord(DbConfig.S_SECOND).whereEqualTo("BelongId", BelongId).query();
+        renderJson(result);
+    }
+
+    //获取国民经济三级目录列表
     public void listEconomic() {
         Integer SecondId = getParaToInt("SecondId");
         List<Record> result = new DbRecord(DbConfig.S_ECONOMIC).whereEqualTo("SecondId", SecondId).query();
         renderJson(result);
     }
 
+    //获取城市列表
     public void listCity() {
         Integer ProvinceId = getParaToInt("ProvinceId");
-        List<Record> result = new DbRecord(DbConfig.B_CITY).whereEqualTo("ProvinceId", ProvinceId).query();
+        List<Record> result = new DbRecord(DbConfig.HOR_CITY).whereEqualTo("ProvinceId", ProvinceId).query();
         renderJson(result);
     }
 
+    //获取区县列表
     public void listCounty() {
         Integer CityId = getParaToInt("CityId");
-        List<Record> result = new DbRecord(DbConfig.B_COUNTY).whereEqualTo("CityId", CityId).query();
+        List<Record> result = new DbRecord(DbConfig.HOR_COUNTY).whereEqualTo("CityId", CityId).query();
         renderJson(result);
     }
 
+    //获取项目资源列表
     public void listSource() {
         Integer LevelId = getParaToInt("LevelId");
         List<Record> result = new DbRecord(DbConfig.S_SOURCE).whereEqualTo("LevelId", LevelId).query();
         renderJson(result);
     }
 
+    //获取一级学科列表
     public void listFirstSubject() {
         Integer BelongId = getParaToInt("BelongId");
         List<Record> result = new DbRecord(DbConfig.S_TYPE).whereEqualTo("BelongId", BelongId).query();
         renderJson(result);
     }
 
+    //获取教师角色
     public void getRole() {
         Integer TeacherId = getParaToInt("TeacherId");
         List<Record> teacher = new DbRecord(DbConfig.V_TEACHER_INFO).whereEqualTo("userId", TeacherId).query();
@@ -144,6 +195,7 @@ public class SubjectController extends Controller {
     }
 
 
+    //上传校级项目
     @Before(SubjectValidator.class)
     public void uploadSchool() {
         Record user = UserService.me.getCurrentUserInfo();
@@ -195,7 +247,7 @@ public class SubjectController extends Controller {
                 List<Record> subjectNums = new DbRecord(DbConfig.T_USER_SUBJECT)
                         .whereEqualTo("SubjectNum", getPara("SubjectNum")).query();
                 if (subjectNums.isEmpty()) {
-                    // 保存文件信息至数据库
+                    // 保存项目基础信息至数据库
                     UserSubject userSubject = new UserSubject();
                     userSubject.setSubjectNum(getPara("SubjectNum"));
                     userSubject.setSubjectName(getPara("SubjectName"));
@@ -225,6 +277,7 @@ public class SubjectController extends Controller {
                                 .whereEqualTo("SubjectPlace", getPara("SubjectPlace"))
                                 .queryFirst()
                                 .getInt("id");
+                        // 将项目id添加到校级分表中 并保存校级项目信息
                         SubjectSchool school = new SubjectSchool();
                         school.setSubjectId(SubjectId);
                         school.setDocumentFund(getPara("DocumentFund"));
@@ -255,26 +308,11 @@ public class SubjectController extends Controller {
                                 renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功"));
                             }
                         } else {
-                            int id = new DbRecord(DbConfig.T_USER_SUBJECT)
-                                    .whereEqualTo("subjectNum", getPara("SubjectNum"))
-                                    .whereEqualTo("subjectName", getPara("SubjectName"))
-                                    .whereEqualTo("SubjectPlace", getPara("SubjectPlace"))
-                                    .queryFirst()
-                                    .getInt("id");
-                            if (Db.deleteById("T_USER_SUBJECT", id)) {
-                                renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
-                            }
-                        }
-                    } else {
-                        int id = new DbRecord(DbConfig.T_USER_SUBJECT)
-                                    .whereEqualTo("subjectNum", getPara("SubjectNum"))
-                                    .whereEqualTo("subjectName", getPara("SubjectName"))
-                                    .whereEqualTo("SubjectPlace", getPara("SubjectPlace"))
-                                    .queryFirst()
-                                    .getInt("id");
-                        if (Db.deleteById("T_USER_SUBJECT", id)) {
                             renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
                         }
+                    } else {
+                        renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
+
                     }
                 } else {
                     renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "项目编号重复，请重新输入"));
@@ -286,10 +324,12 @@ public class SubjectController extends Controller {
                 for (int i = 0; i < allFiles.size(); i++) {
                     allFiles.get(i).getFile().delete();
                 }
+
             }
         }
     }
 
+    //上传横向项目
     @Before(SubjectValidator.class)
     public void uploadHorizon() {
         Record user = UserService.me.getCurrentUserInfo();
@@ -341,7 +381,7 @@ public class SubjectController extends Controller {
                 List<Record> subjectNums = new DbRecord(DbConfig.T_USER_SUBJECT)
                         .whereEqualTo("SubjectNum", getPara("SubjectNum")).query();
                 if (subjectNums.isEmpty()) {
-                    // 保存文件信息至数据库
+                    // 保存项目基础信息至数据库
                     UserSubject userSubject = new UserSubject();
                     userSubject.setSubjectNum(getPara("SubjectNum"));
                     userSubject.setSubjectName(getPara("SubjectName"));
@@ -371,39 +411,37 @@ public class SubjectController extends Controller {
                                 .whereEqualTo("SubjectPlace", getPara("SubjectPlace"))
                                 .queryFirst()
                                 .getInt("id");
+                        // 将项目id添加到分表中 并保存横向项目信息
                         SubjectHorizon horizon = new SubjectHorizon();
                         horizon.setSubjectId(SubjectId);
-                        horizon.setSoftwareFund(getPara("SoftwareFund"));
-                        horizon.setHardwareFund(getPara("HardwareFund"));
-                        horizon.setOutboundFund(getPara("OutboundFund"));
-                        horizon.setIntroduction(getPara("Introduction"));
-                        horizon.setRelyCenterSubject(getPara("RelyCenterSubject"));
-                        horizon.setContractName(getPara("ContractName"));
-                        horizon.setCooperatePrincipal(getPara("CooperatePrincipal"));
-                        horizon.setContractNum(getPara("ContractNum"));
-                        horizon.setFundNum(getPara("FundNum"));
+                        horizon.setBelongId(getParaToInt("BelongId"));
+
                         horizon.setEntrustPlaceId(getParaToInt("EntrustPlaceId"));
-                        horizon.setCooperateId(getParaToInt("CooperateId"));
                         horizon.setContractId(getParaToInt("ContractId"));
+                        horizon.setSecContractId(getParaToInt("SecContractId"));
+                        if(getParaToInt("SecContractId") == 2) {
+                            horizon.setThirdContractId(getParaToInt("ThirdContractId"));
+                        }else{
+                            horizon.setThirdContractId(6);
+                        }
+                        horizon.setSignTime(new SimpleDateFormat("yyyy-MM-dd").parse(getPara("SignTime")));// parse方法可解析一个日期时间字符串
                         horizon.setContractFund(getPara("DevelopFund"));
-                        horizon.setBankName(getPara("BankName"));
-                        horizon.setBankAccount(getPara("BankAccount"));
                         horizon.setIsDutyFree(getParaToInt("isDutyFree"));
                         horizon.setDutyFreeId(getPara("DutyFreeId"));
                         horizon.setIsPromote(getParaToInt("isPromote"));
                         horizon.setContractDuty(getPara("ContractDuty"));
+                        horizon.setIntroduction(getPara("Introduction"));
 
                         horizon.setResearchFund(getPara("ResearchFund"));
                         horizon.setServiceFund(getPara("ServiceFund"));
                         horizon.setOtherFund(getPara("OtherFund"));
+                        horizon.setSoftwareFund(getPara("SoftwareFund"));
+                        horizon.setHardwareFund(getPara("HardwareFund"));
+                        horizon.setOutboundFund(getPara("OutboundFund"));
 
                         horizon.setBuyerName(getPara("BuyerName"));
                         horizon.setBuyerContinent(getPara("BuyerContinent"));
                         horizon.setBuyerType(getParaToInt("BuyerType"));
-                        horizon.setBuyerProvince(getParaToInt("BuyerProvince"));
-                        horizon.setBuyerCity(getParaToInt("BuyerCity"));
-                        horizon.setBuyerCounty(getParaToInt("BuyerCounty"));
-                        horizon.setBuyerCountry(getParaToInt("BuyerCountry"));
                         horizon.setBuyerPostCode(getPara("BuyerPostCode"));
                         horizon.setBuyerContact(getPara("BuyerContact"));
                         horizon.setBuyerTel(getPara("BuyerTel"));
@@ -412,6 +450,17 @@ public class SubjectController extends Controller {
                         horizon.setBuyerEmail(getPara("BuyerEmail"));
                         horizon.setBuyerRegisteredAddress(getPara("BuyerRegisteredAddress"));
                         horizon.setBuyerMailingAddress(getPara("BuyerMailingAddress"));
+
+                        horizon.setBuyerCountry(getParaToInt("BuyerCountry"));
+                        if(getParaToInt("BuyerCountry")==13) {
+                            horizon.setBuyerProvince(getParaToInt("BuyerProvince"));
+                            horizon.setBuyerCity(getParaToInt("BuyerCity"));
+                            horizon.setBuyerCounty(getParaToInt("BuyerCounty"));
+                        }else{
+                            horizon.setBuyerProvince(35);
+                            horizon.setBuyerCity(348);
+                            horizon.setBuyerCounty(3160);
+                        }
 
                         horizon.setPayId(getParaToInt("PayId"));
                         horizon.setEconomicId(getParaToInt("EconomicId"));
@@ -432,26 +481,10 @@ public class SubjectController extends Controller {
                                 renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功"));
                             }
                         } else {
-                            int id = new DbRecord(DbConfig.T_USER_SUBJECT)
-                                    .whereEqualTo("subjectNum", getPara("SubjectNum"))
-                                    .whereEqualTo("subjectName", getPara("SubjectName"))
-                                    .whereEqualTo("SubjectPlace", getPara("SubjectPlace"))
-                                    .queryFirst()
-                                    .getInt("id");
-                            if (Db.deleteById("T_USER_SUBJECT", id)) {
-                                renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
-                            }
-                        }
-                    } else {
-                        int id = new DbRecord(DbConfig.T_USER_SUBJECT)
-                                    .whereEqualTo("subjectNum", getPara("SubjectNum"))
-                                    .whereEqualTo("subjectName", getPara("SubjectName"))
-                                    .whereEqualTo("SubjectPlace", getPara("SubjectPlace"))
-                                    .queryFirst()
-                                    .getInt("id");
-                        if (Db.deleteById("T_USER_SUBJECT", id)) {
                             renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
                         }
+                    } else {
+                        renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
                     }
                 } else {
                     renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "项目编号重复，请重新输入"));
@@ -550,6 +583,10 @@ public class SubjectController extends Controller {
                                 .getInt("id");
                         SubjectSponsored sponsored = new SubjectSponsored();
                         sponsored.setSubjectId(SubjectId);
+                        sponsored.setCategoryId(getParaToInt("CategoryId"));
+                        sponsored.setSecCategoryId(getParaToInt("SecCategoryId"));
+
+                        //保存经费信息
                         sponsored.setDocumentFund(getPara("DocumentFund"));
                         sponsored.setDataFund(getPara("DataFund"));
                         sponsored.setOutboundFund(getPara("OutboundFund"));
@@ -560,38 +597,44 @@ public class SubjectController extends Controller {
                         sponsored.setLaborFund(getPara("LaborFund"));
                         sponsored.setMaterialFund(getPara("MaterialFund"));
                         sponsored.setPatentFund(getPara("PatentFund"));
+                        sponsored.setTravelFund(getPara("TravelFund"));
+                        sponsored.setDeviceFund(getPara("DeviceFund"));
+                        sponsored.setStaySchoolFund(getPara("StaySchoolFund"));
+
+
+
                         sponsored.setResearchId(getParaToInt("ResearchId"));
+                        sponsored.setAreaId(getParaToInt("AreaId"));
                         sponsored.setIsSecrecy(getParaToInt("isSecrecy"));
                         sponsored.setIsVoucher(getParaToInt("isVoucher"));
                         sponsored.setIsSubmitFill(getParaToInt("isSubmitFill"));
                         sponsored.setIsPromote(getParaToInt("isPromote"));
+
                         sponsored.setIsDutyFree(getParaToInt("isDutyFree"));
                         sponsored.setDutyFreeId(getParaToInt("DutyFreeId"));
                         sponsored.setBelongId(getParaToInt("BelongId"));
                         sponsored.setTypeId(getParaToInt("TypeId"));
+                        sponsored.setSecTypeId(getParaToInt("SecTypeId"));
+                        sponsored.setThirdTypeId(getParaToInt("ThirdTypeId"));
                         sponsored.setEntrustPlace(getPara("EntrustPlace"));
                         sponsored.setTopicId(getParaToInt("TopicId"));
+
                         sponsored.setMainProjectName(getPara("MainProjectName"));
+                        sponsored.setMainSubjectName(getPara("MainSubjectName"));
                         sponsored.setApplicationCode(getPara("ApplicationCode"));
+
                         sponsored.setIntroduction(getPara("Introduction"));
                         sponsored.setRemarks(getPara("Remarks"));
+                        sponsored.setCooperateName(getPara("CooperateName"));
                         sponsored.setCooperateId(getParaToInt("CooperateId"));
-                        sponsored.setContractId(getParaToInt("ContractId"));
-                        sponsored.setFundNum(getPara("FundNum"));
-                        sponsored.setContractNum(getPara("ContractNum"));
-                        sponsored.setContractName(getPara("ContractName"));
-                        sponsored.setContractId(getParaToInt("ContractId"));
-                        sponsored.setContractFund(getPara("ContractFund"));
                         sponsored.setCooperatePrincipal(getPara("CooperatePrincipal"));
+
+                        sponsored.setContractFund(getPara("ContractFund"));
                         sponsored.setBankName(getPara("BankName"));
                         sponsored.setBankAccount(getPara("BankAccount"));
-                        sponsored.setContractDuty(getPara("ContractDuty"));
-                        sponsored.setPayId(getParaToInt("PayId"));
                         sponsored.setEconomicId(getParaToInt("EconomicId"));
                         sponsored.setSocietyId(getParaToInt("SocietyId"));
                         sponsored.setSourceId(getParaToInt("SourceId"));
-                        sponsored.setTechnicalId(getParaToInt("TechnicalId"));
-                        sponsored.setPropertyId(getParaToInt("PropertyId"));
 
                         if (SubjectService.me.addSubject(ids, SubjectId)) {
                             if (sponsored.save()) {
@@ -605,26 +648,10 @@ public class SubjectController extends Controller {
                                 renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "上传成功"));
                             }
                         } else {
-                            int id = new DbRecord(DbConfig.T_USER_SUBJECT)
-                                    .whereEqualTo("subjectNum", getPara("SubjectNum"))
-                                    .whereEqualTo("subjectName", getPara("SubjectName"))
-                                    .whereEqualTo("SubjectPlace", getPara("SubjectPlace"))
-                                    .queryFirst()
-                                    .getInt("id");
-                            if (Db.deleteById("T_USER_SUBJECT", id)) {
-                                renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
-                            }
-                        }
-                    } else {
-                        int id = new DbRecord(DbConfig.T_USER_SUBJECT)
-                                    .whereEqualTo("subjectNum", getPara("SubjectNum"))
-                                    .whereEqualTo("subjectName", getPara("SubjectName"))
-                                    .whereEqualTo("SubjectPlace", getPara("SubjectPlace"))
-                                    .queryFirst()
-                                    .getInt("id");
-                        if (Db.deleteById("T_USER_SUBJECT", id)) {
                             renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
                         }
+                    } else {
+                        renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "上传失败"));
                     }
                 } else {
                     renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "项目编号重复，请重新输入"));
@@ -640,7 +667,7 @@ public class SubjectController extends Controller {
         }
     }
 
-
+    //输出项目类型列表
     public void listSubject() {
         int page = getParaToInt("page");
         int limit = getParaToInt("limit");

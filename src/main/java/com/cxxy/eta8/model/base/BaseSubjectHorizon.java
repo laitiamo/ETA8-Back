@@ -27,6 +27,24 @@ public abstract class BaseSubjectHorizon<M extends BaseSubjectHorizon<M>> extend
 		return getInt("SubjectId");
 	}
 
+	public M setBelongId(java.lang.Integer BelongId) {
+		set("BelongId", BelongId);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getBelongId() {
+		return getInt("BelongId");
+	}
+
+	public M setSignTime(java.util.Date SignTime) {
+		set("SignTime", SignTime);
+		return (M)this;
+	}
+	
+	public java.util.Date getSignTime() {
+		return get("SignTime");
+	}
+
 	public M setSoftwareFund(java.lang.String SoftwareFund) {
 		set("SoftwareFund", SoftwareFund);
 		return (M)this;
@@ -63,51 +81,6 @@ public abstract class BaseSubjectHorizon<M extends BaseSubjectHorizon<M>> extend
 		return getStr("Introduction");
 	}
 
-	public M setRelyCenterSubject(java.lang.String RelyCenterSubject) {
-		set("RelyCenterSubject", RelyCenterSubject);
-		return (M)this;
-	}
-	
-	public java.lang.String getRelyCenterSubject() {
-		return getStr("RelyCenterSubject");
-	}
-
-	public M setContractName(java.lang.String ContractName) {
-		set("ContractName", ContractName);
-		return (M)this;
-	}
-	
-	public java.lang.String getContractName() {
-		return getStr("ContractName");
-	}
-
-	public M setCooperatePrincipal(java.lang.String CooperatePrincipal) {
-		set("CooperatePrincipal", CooperatePrincipal);
-		return (M)this;
-	}
-	
-	public java.lang.String getCooperatePrincipal() {
-		return getStr("CooperatePrincipal");
-	}
-
-	public M setContractNum(java.lang.String ContractNum) {
-		set("ContractNum", ContractNum);
-		return (M)this;
-	}
-	
-	public java.lang.String getContractNum() {
-		return getStr("ContractNum");
-	}
-
-	public M setFundNum(java.lang.String FundNum) {
-		set("FundNum", FundNum);
-		return (M)this;
-	}
-	
-	public java.lang.String getFundNum() {
-		return getStr("FundNum");
-	}
-
 	public M setEntrustPlaceId(java.lang.Integer EntrustPlaceId) {
 		set("EntrustPlaceId", EntrustPlaceId);
 		return (M)this;
@@ -115,15 +88,6 @@ public abstract class BaseSubjectHorizon<M extends BaseSubjectHorizon<M>> extend
 	
 	public java.lang.Integer getEntrustPlaceId() {
 		return getInt("EntrustPlaceId");
-	}
-
-	public M setCooperateId(java.lang.Integer CooperateId) {
-		set("CooperateId", CooperateId);
-		return (M)this;
-	}
-	
-	public java.lang.Integer getCooperateId() {
-		return getInt("CooperateId");
 	}
 
 	public M setContractId(java.lang.Integer ContractId) {
@@ -135,6 +99,24 @@ public abstract class BaseSubjectHorizon<M extends BaseSubjectHorizon<M>> extend
 		return getInt("ContractId");
 	}
 
+	public M setSecContractId(java.lang.Integer SecContractId) {
+		set("SecContractId", SecContractId);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getSecContractId() {
+		return getInt("SecContractId");
+	}
+
+	public M setThirdContractId(java.lang.Integer ThirdContractId) {
+		set("ThirdContractId", ThirdContractId);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getThirdContractId() {
+		return getInt("ThirdContractId");
+	}
+
 	public M setContractFund(java.lang.String ContractFund) {
 		set("ContractFund", ContractFund);
 		return (M)this;
@@ -142,24 +124,6 @@ public abstract class BaseSubjectHorizon<M extends BaseSubjectHorizon<M>> extend
 	
 	public java.lang.String getContractFund() {
 		return getStr("ContractFund");
-	}
-
-	public M setBankName(java.lang.String BankName) {
-		set("BankName", BankName);
-		return (M)this;
-	}
-	
-	public java.lang.String getBankName() {
-		return getStr("BankName");
-	}
-
-	public M setBankAccount(java.lang.String BankAccount) {
-		set("BankAccount", BankAccount);
-		return (M)this;
-	}
-	
-	public java.lang.String getBankAccount() {
-		return getStr("BankAccount");
 	}
 
 	public M setIsDutyFree(java.lang.Integer isDutyFree) {

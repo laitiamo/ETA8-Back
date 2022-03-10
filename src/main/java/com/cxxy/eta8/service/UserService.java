@@ -93,13 +93,6 @@ public class UserService {
     }
 
     /**
-     * 公告
-     */
-    public Record getNotice() {
-        return new DbRecord(DbConfig.T_NOTICE).queryFirst();
-    }
-
-    /**
      * 重置用户密码
      */
     public boolean resetPassword(Integer[] ids) {

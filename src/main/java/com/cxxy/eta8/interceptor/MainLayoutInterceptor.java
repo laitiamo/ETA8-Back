@@ -16,7 +16,6 @@ public class MainLayoutInterceptor implements Interceptor {
 	public void intercept(Invocation inv) {
 		Controller c = inv.getController();
 		Record info = UserService.me.getCurrentUserInfo();
-		Record notice = UserService.me.getNotice();
 		Map<String, Object> attrMap = new HashMap<String, Object>();
 		attrMap.put("l_name", info.getStr("name"));
 		attrMap.put("l_username", (String) SecurityUtils.getSubject().getPrincipal());
@@ -28,7 +27,6 @@ public class MainLayoutInterceptor implements Interceptor {
 		attrMap.put("t_sector",info.getStr("sectorName"));
 		attrMap.put("l_class", info.getStr("className"));
 		attrMap.put("l_roleId", info.getInt("roleId"));
-		attrMap.put("l_notice", notice.getStr("content"));
 		c.setAttrs(attrMap);
 		inv.invoke();
 	}

@@ -27,4 +27,13 @@ public abstract class BaseSCooperate<M extends BaseSCooperate<M>> extends Model<
 		return getStr("CooperateName");
 	}
 
+	public M setLevelId(java.lang.Integer LevelId) {
+		set("LevelId", LevelId);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getLevelId() {
+		return getInt("LevelId");
+	}
+
 }

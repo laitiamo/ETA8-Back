@@ -21,6 +21,8 @@ public class ReviewRecordController extends Controller {
     public void index() {
         Map<String, Object> attrMap = new HashMap<String, Object>();
         attrMap.put("type", new DbRecord(DbConfig.T_TYPE).query());
+        attrMap.put("college", new DbRecord(DbConfig.T_COLLEGE).orderByASC("id").query());
+        attrMap.put("sector", new DbRecord(DbConfig.T_SECTOR).orderByASC("id").query());
         renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, JSON.toJSONString(attrMap)));
     }
 
@@ -30,6 +32,10 @@ public class ReviewRecordController extends Controller {
         Integer limit = getParaToInt("limit");
         Integer rankId = getParaToInt("rankId");
         Integer typeId = getParaToInt("typeId");
+        Integer collegeId = getParaToInt("collegeId");
+        Integer sectorId = getParaToInt("sectorId");
+        String keyUsername = getPara("keyUsername");
+        String keyName = getPara("keyName");
         String keyPaperNum = getPara("keyPaperNum");
         String keyPaperName = getPara("keyPaperName");
         String keyPaperPlace = getPara("keyPaperPlace");
@@ -39,13 +45,18 @@ public class ReviewRecordController extends Controller {
 
         Record info = UserService.me.getCurrentUserInfo();
         if(info.getStr("roleNameEn").equals(WebConfig.ROLE_ADMIN) ||info.getStr("roleNameEn").equals(WebConfig.ROLE_MANAGER)){//系统管理员和办公室主任审核全部成果
-            Page<Record> p = new DbRecord(DbConfig.V_PAPER_INFO)
+            Page<Record> p = new DbRecord(DbConfig.V_TEACHER_PAPER)
                     .whereEqualTo("reviewId", WebConfig.REVIEW_UNREAD)
+                    .whereContains("name", keyName)
+                    .whereEqualTo("username", keyUsername)
                     .whereEqualTo("rankId", rankId)
+                    .whereEqualTo("sectorId",sectorId)
+                    .whereEqualTo("collegeId",collegeId)
                     .whereEqualTo("typeId", typeId)
                     .whereContains("paperNum", keyPaperNum)
                     .whereContains("paperName", keyPaperName)
                     .whereContains("paperPlace", keyPaperPlace)
+                    .whereEqualTo("CandidateId",WebConfig.CANDIDATE_MAJOR)
                     .orderBySelect(field, order, defaultField).page(page, limit);
             renderJson(new LayUITableResult<Record>(AjaxResult.CODE_SUCCESS, "", p.getTotalRow(), p.getList()));
         }

@@ -46,26 +46,6 @@ public class MineController extends Controller {
         }
     }
 
-    public void listPaper() {
-        int page = getParaToInt("page");
-        int limit = getParaToInt("limit");
-        String order = getPara("order");
-        String field = getPara("field");
-        String defaultField = "createAt";
-        Page<Record> p = new DbRecord(DbConfig.V_TEACHER_PAPER)
-                .whereEqualTo("userId", UserService.me.getCurrentUser().getInt("id"))
-                .orderBySelect(field, order, defaultField).page(page, limit);
-        renderJson(new LayUITableResult<Record>(AjaxResult.CODE_SUCCESS, "", p.getTotalRow(), p.getList()));
-    }
-
-    public void listPerPaper() {
-        List<Record> p = new DbRecord(DbConfig.V_TEACHER_PAPER)
-                .whereEqualTo("userId", UserService.me.getCurrentUser().getInt("id"))
-                .query();
-        renderJson(p);
-    }
-
-
     public void listsubject() {
         int page = getParaToInt("page");
         int limit = getParaToInt("limit");
@@ -86,6 +66,26 @@ public class MineController extends Controller {
         renderJson(p);
     }
 
+    public void listPaper() {
+        int page = getParaToInt("page");
+        int limit = getParaToInt("limit");
+        String order = getPara("order");
+        String field = getPara("field");
+        String defaultField = "createAt";
+        Page<Record> p = new DbRecord(DbConfig.V_TEACHER_PAPER)
+                .whereEqualTo("userId", UserService.me.getCurrentUser().getInt("id"))
+                .orderBySelect(field, order, defaultField).page(page, limit);
+        renderJson(new LayUITableResult<Record>(AjaxResult.CODE_SUCCESS, "", p.getTotalRow(), p.getList()));
+    }
+
+    public void listPerPaper() {
+        List<Record> p = new DbRecord(DbConfig.V_TEACHER_PAPER)
+                .whereEqualTo("userId", UserService.me.getCurrentUser().getInt("id"))
+                .query();
+        renderJson(p);
+    }
+
+
     public void getPaperList() {
         Map<String, Object> attrMap = new HashMap<String, Object>();
         attrMap.put("rank3", new DbRecord(DbConfig.T_AWARD).whereEqualTo("awardTypeId", WebConfig.PAPER_TYPE_TEACHER).query());
@@ -97,7 +97,6 @@ public class MineController extends Controller {
         attrMap.put("rank3", new DbRecord(DbConfig.T_AWARD).whereEqualTo("awardTypeId", WebConfig.PAPER_TYPE_TEACHER).query());
         renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, JSON.toJSONString(attrMap)));
     }
-
 
     public void detail() {
         int id = getParaToInt("id");

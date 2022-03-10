@@ -97,11 +97,13 @@ public class TeacherController extends Controller {
 	public void update() {
 		String username = getPara("username");
 		String newName = getPara("newName");
+		Integer newSector = getParaToInt("newSector");
+		Integer newCollege = getParaToInt("newCollege");
 
 		Record id = new DbRecord(DbConfig.T_TEACHER).whereEqualTo("teaNo", username).queryFirst();
 		Integer ID = id.getInt("id");
 
-		boolean success = new Teacher().setId(ID).setTeaName(newName).update();
+		boolean success = new Teacher().setId(ID).setTeaName(newName).setSectorId(newSector).setCollegeId(newCollege).update();
 
 		if (success) {
 			renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "更新成功"));

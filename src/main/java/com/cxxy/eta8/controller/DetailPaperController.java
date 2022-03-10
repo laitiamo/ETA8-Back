@@ -1,6 +1,7 @@
 package com.cxxy.eta8.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.cxxy.eta8.common.WebConfig;
 import com.cxxy.eta8.db.DbConfig;
 import com.cxxy.eta8.db.DbRecord;
 import com.cxxy.eta8.interceptor.DetailPaperInterceptor;
@@ -20,11 +21,15 @@ public class DetailPaperController extends Controller {
     @Before(DetailPaperInterceptor.class)
     public void index() {
         Integer id = getParaToInt("id");
-        Record r = new DbRecord(DbConfig.V_TEACHER_PAPER).whereEqualTo("id", id).queryFirst();
-        List<Record> n = new DbRecord(DbConfig.V_TEACHER_PAPER).whereEqualTo("id", id).query();
+        Record r = new DbRecord(DbConfig.V_TEACHER_PAPER).whereEqualTo("id", id).whereEqualTo("CandidateId", WebConfig.CANDIDATE_MAJOR).queryFirst();
+        List<Record> n = new DbRecord(DbConfig.V_TEACHER_PAPER).whereEqualTo("id", id).whereEqualTo("CandidateId",WebConfig.CANDIDATE_PART).query();
         String name = "";
-        for (int i = 0; i < n.size(); i++) {
-            name += n.get(i).getStr("name") + " ";
+        if(n.size() != 0) {
+            for (int i = 0; i < n.size(); i++) {
+                name += n.get(i).getStr("name") + " ";
+            }
+        }else{
+            name = "无";
         }
         Map<String, Object> attrMap = new HashMap<String, Object>();
         //多图优化，字符分割 2020-10-20

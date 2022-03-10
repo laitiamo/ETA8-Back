@@ -28,7 +28,7 @@ public class StudentController extends Controller {
         Map<String, Object> attrMap = new HashMap<String, Object>();
         attrMap.put("grade", new DbRecord(DbConfig.T_GRADE).orderByASC("id").query());
         attrMap.put("major", new DbRecord(DbConfig.T_MAJOR).orderByASC("id").query());
-        attrMap.put("role", new DbRecord(DbConfig.T_ROLE).whereNotEqualTo("id", WebConfig.ROLE_ADMIN_ID).whereNotEqualTo("id", WebConfig.ROLE_LEADER_ID).whereNotEqualTo("id", WebConfig.ROLE_INSTRUCTOR_ID).whereNotEqualTo("id", WebConfig.ROLE_TEACHER_ID).query());
+        attrMap.put("role", new DbRecord(DbConfig.T_ROLE).whereNotEqualTo("id", WebConfig.ROLE_ADMIN_ID).whereNotEqualTo("id", WebConfig.ROLE_LEADER_ID).whereNotEqualTo("id", WebConfig.ROLE_INSTRUCTOR_ID).whereNotEqualTo("id", WebConfig.ROLE_TEACHER_ID).whereNotEqualTo("id",WebConfig.ROLE_MANAGER_ID).query());
         renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, JSON.toJSONString(attrMap)));
     }
 

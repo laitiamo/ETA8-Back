@@ -18,13 +18,13 @@ public abstract class BaseSSociety<M extends BaseSSociety<M>> extends Model<M> i
 		return getInt("id");
 	}
 
-	public M setTypeName(java.lang.String TypeName) {
-		set("TypeName", TypeName);
+	public M setTypeName(java.lang.String typeName) {
+		set("typeName", typeName);
 		return (M)this;
 	}
 	
 	public java.lang.String getTypeName() {
-		return getStr("TypeName");
+		return getStr("typeName");
 	}
 
 }

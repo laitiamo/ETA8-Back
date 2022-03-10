@@ -1,6 +1,7 @@
 package com.cxxy.eta8.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.cxxy.eta8.common.WebConfig;
 import com.cxxy.eta8.db.DbConfig;
 import com.cxxy.eta8.db.DbRecord;
 import com.cxxy.eta8.service.ExportService;
@@ -26,7 +27,9 @@ public class QueryPaperController extends Controller {
 //		setAttr("rank", new DbRecord(DbConfig.T_RANK).query());
 //		renderTemplate("query-tea.html");
         Map<String, Object> attrMap = new HashMap<String, Object>();
-        attrMap.put("rank", new DbRecord(DbConfig.T_TYPE).query());
+        attrMap.put("type", new DbRecord(DbConfig.T_TYPE).query());
+        attrMap.put("college", new DbRecord(DbConfig.T_COLLEGE).orderByASC("id").query());
+        attrMap.put("sector", new DbRecord(DbConfig.T_SECTOR).orderByASC("id").query());
         renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, JSON.toJSONString(attrMap)));
     }
 
@@ -35,6 +38,11 @@ public class QueryPaperController extends Controller {
         Integer limit = getParaToInt("limit");
         Integer typeId = getParaToInt("typeId");
         Integer rankId = getParaToInt("rankId");
+        Integer reviewId = getParaToInt("reviewId");
+        Integer collegeId = getParaToInt("collegeId");
+        Integer sectorId = getParaToInt("sectorId");
+        String keyUsername = getPara("keyUsername");
+        String keyName = getPara("keyName");
         String keyPaperNum = getPara("keyPaperNum");
         String keyPaperName = getPara("keyPaperName");
         String keyPaperPlace = getPara("keyPaperPlace");
@@ -42,12 +50,18 @@ public class QueryPaperController extends Controller {
         String field = getPara("field");
         String defaultField = "id";
 
-        Page<Record> p = new DbRecord(DbConfig.V_PAPER_INFO)
+        Page<Record> p = new DbRecord(DbConfig.V_TEACHER_PAPER)
                 .whereContains("paperNum", keyPaperNum)
                 .whereContains("paperName", keyPaperName)
                 .whereContains("paperPlace", keyPaperPlace)
+                .whereContains("name", keyName)
+                .whereEqualTo("username", keyUsername)
                 .whereEqualTo("rankId", rankId)
+                .whereEqualTo("sectorId",sectorId)
+                .whereEqualTo("collegeId",collegeId)
                 .whereEqualTo("typeId", typeId)
+                .whereEqualTo("ReviewId", reviewId)
+                .whereEqualTo("CandidateId",WebConfig.CANDIDATE_MAJOR)
                 .orderBySelect(field, order, defaultField)
                 .page(page, limit);
         renderJson(new LayUITableResult<Record>(AjaxResult.CODE_SUCCESS, "", p.getTotalRow(), p.getList()));
@@ -84,15 +98,24 @@ public class QueryPaperController extends Controller {
     public void exportXLS() {
         Integer rankId = getParaToInt("rankId");
         Integer typeId = getParaToInt("typeId");
+        Integer collegeId = getParaToInt("collegeId");
+        Integer sectorId = getParaToInt("sectorId");
+        String keyUsername = getPara("keyUsername");
+        String keyName = getPara("keyName");
         String keyPaperNum = getPara("keyPaperNum");
         String keyAwardName = getPara("keyAwardName");
         String keyAwardPlace = getPara("keyAwardPlace");
-        List<Record> records = new DbRecord(DbConfig.V_PAPER_INFO)
+        List<Record> records = new DbRecord(DbConfig.V_TEACHER_PAPER)
+                .whereContains("name", keyName)
+                .whereEqualTo("username", keyUsername)
                 .whereEqualTo("rankId", rankId)
+                .whereEqualTo("sectorId",sectorId)
+                .whereEqualTo("collegeId",collegeId)
                 .whereEqualTo("typeId", typeId)
                 .whereContains("paperNum", keyPaperNum)
                 .whereContains("paperName", keyAwardName)
                 .whereContains("paperPlace", keyAwardPlace)
+                .whereEqualTo("CandidateId", WebConfig.CANDIDATE_MAJOR)
                 .query();
         try {
             File downloadFile = ExportService.me.exportTeacherPaper(records);
@@ -108,11 +131,13 @@ public class QueryPaperController extends Controller {
         String keyPaperNum = getPara("keyPaperNum");
         String keyAwardName = getPara("keyAwardName");
         String keyAwardPlace = getPara("keyAwardPlace");
-        List<Record> records = new DbRecord(DbConfig.V_PAPER_INFO)
+        List<Record> records = new DbRecord(DbConfig.V_TEACHER_PAPER)
                 .whereEqualTo("rankId", rankId)
                 .whereEqualTo("typeId", typeId)
+                .whereContains("paperNum",keyPaperNum)
                 .whereContains("paperName", keyAwardName)
                 .whereContains("paperPlace", keyAwardPlace)
+                .whereEqualTo("CandidateId",WebConfig.CANDIDATE_MAJOR)
                 .query();
         try {
             File downloadFile = ExportService.me.exportTeacherZIP(records);

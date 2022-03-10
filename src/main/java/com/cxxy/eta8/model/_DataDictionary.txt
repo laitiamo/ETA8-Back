@@ -1,4 +1,4 @@
-Table: b_city
+Table: hor_city
 ------------+-------------+------+-----+---------+---------
  Field      | Type        | Null | Key | Default | Remarks 
 ------------+-------------+------+-----+---------+---------
@@ -7,7 +7,7 @@ Table: b_city
  ProvinceId | INT(10)     | YES  |     |         |         
 ------------+-------------+------+-----+---------+---------
 
-Table: b_country
+Table: hor_country
 ---------+-------------+------+-----+---------+---------
  Field   | Type        | Null | Key | Default | Remarks 
 ---------+-------------+------+-----+---------+---------
@@ -15,7 +15,7 @@ Table: b_country
  country | VARCHAR(20) | YES  |     |         |         
 ---------+-------------+------+-----+---------+---------
 
-Table: b_county
+Table: hor_county
 --------+-------------+------+-----+---------+---------
  Field  | Type        | Null | Key | Default | Remarks 
 --------+-------------+------+-----+---------+---------
@@ -24,7 +24,7 @@ Table: b_county
  CityId | INT(10)     | YES  |     |         |         
 --------+-------------+------+-----+---------+---------
 
-Table: b_province
+Table: hor_province
 ----------+-------------+------+-----+---------+---------
  Field    | Type        | Null | Key | Default | Remarks 
 ----------+-------------+------+-----+---------+---------
@@ -32,7 +32,7 @@ Table: b_province
  Province | VARCHAR(20) | YES  |     |         |         
 ----------+-------------+------+-----+---------+---------
 
-Table: b_type
+Table: hor_type
 -------+-------------+------+-----+---------+---------
  Field | Type        | Null | Key | Default | Remarks 
 -------+-------------+------+-----+---------+---------
@@ -54,7 +54,16 @@ Table: s_category
 --------------+--------------+------+-----+---------+---------
  id           | INT(10)      | NO   | PRI |         |         
  CategoryName | VARCHAR(255) | NO   |     |         |         
- TypeId       | INT(10)      | NO   |     |         |         
+ BelongId     | INT(10)      | NO   |     |         |         
+--------------+--------------+------+-----+---------+---------
+
+Table: s_category_second
+--------------+--------------+------+-----+---------+---------
+ Field        | Type         | Null | Key | Default | Remarks 
+--------------+--------------+------+-----+---------+---------
+ id           | INT(10)      | NO   | PRI |         |         
+ CategoryName | VARCHAR(255) | NO   |     |         |         
+ CategoryId   | INT(10)      | NO   |     |         |         
 --------------+--------------+------+-----+---------+---------
 
 Table: s_contract
@@ -62,7 +71,24 @@ Table: s_contract
  Field    | Type         | Null | Key | Default | Remarks 
 ----------+--------------+------+-----+---------+---------
  id       | INT(10)      | NO   | PRI |         |         
- typename | VARCHAR(255) | NO   |     |         |         
+ typeName | VARCHAR(255) | NO   |     |         |         
+----------+--------------+------+-----+---------+---------
+
+Table: s_contract_second
+------------+--------------+------+-----+---------+---------
+ Field      | Type         | Null | Key | Default | Remarks 
+------------+--------------+------+-----+---------+---------
+ id         | INT(10)      | NO   | PRI |         |         
+ typeName   | VARCHAR(255) | NO   |     |         |         
+ ContractId | INT(10)      | NO   |     |         |         
+------------+--------------+------+-----+---------+---------
+
+Table: s_contract_third
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ typeName | VARCHAR(255) | NO   |     |         |         
 ----------+--------------+------+-----+---------+---------
 
 Table: s_cooperate
@@ -71,6 +97,7 @@ Table: s_cooperate
 ---------------+--------------+------+-----+---------+---------
  id            | INT(10)      | NO   | PRI |         |         
  CooperateName | VARCHAR(255) | NO   |     |         | 项目来源    
+ LevelId       | INT(10)      | NO   |     |         |         
 ---------------+--------------+------+-----+---------+---------
 
 Table: s_economic
@@ -115,13 +142,29 @@ Table: s_rank
  rankName | VARCHAR(50) | NO   |     |         | 等级名称    
 ----------+-------------+------+-----+---------+---------
 
-Table: s_research
+Table: s_research_area
 ----------+--------------+------+-----+---------+---------
  Field    | Type         | Null | Key | Default | Remarks 
 ----------+--------------+------+-----+---------+---------
  id       | INT(10)      | NO   | PRI |         |         
  TypeName | VARCHAR(255) | NO   |     |         | 项目来源    
 ----------+--------------+------+-----+---------+---------
+
+Table: s_research_type
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ TypeName | VARCHAR(255) | NO   |     |         | 项目来源    
+----------+--------------+------+-----+---------+---------
+
+Table: s_school
+--------------+--------------+------+-----+---------+---------
+ Field        | Type         | Null | Key | Default | Remarks 
+--------------+--------------+------+-----+---------+---------
+ id           | INT(10)      | NO   | PRI |         |         
+ CategoryName | VARCHAR(255) | NO   |     |         |         
+--------------+--------------+------+-----+---------+---------
 
 Table: s_second
 ----------+--------------+------+-----+---------+---------
@@ -132,6 +175,14 @@ Table: s_second
  FirstId  | INT(10)      | NO   |     |         |         
 ----------+--------------+------+-----+---------+---------
 
+Table: s_society
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ typeName | VARCHAR(255) | NO   |     |         |         
+----------+--------------+------+-----+---------+---------
+
 Table: s_source
 ------------+--------------+------+-----+---------+---------
  Field      | Type         | Null | Key | Default | Remarks 
@@ -140,6 +191,32 @@ Table: s_source
  SourceName | VARCHAR(255) | NO   |     |         | 项目来源    
  levelId    | INT(10)      | NO   |     |         |         
 ------------+--------------+------+-----+---------+---------
+
+Table: s_subject_first
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ TypeName | VARCHAR(255) | NO   |     |         |         
+----------+--------------+------+-----+---------+---------
+
+Table: s_subject_second
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ TypeName | VARCHAR(255) | NO   |     |         |         
+ FirstId  | INT(10)      | NO   |     |         |         
+----------+--------------+------+-----+---------+---------
+
+Table: s_subject_third
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ TypeName | VARCHAR(255) | YES  |     |         |         
+ SecondId | INT(10)      | YES  |     |         |         
+----------+--------------+------+-----+---------+---------
 
 Table: s_technical
 ----------+--------------+------+-----+---------+---------
@@ -299,14 +376,6 @@ Table: t_major
  majorName | VARCHAR(50) | NO   |     |         | 专业名称    
 -----------+-------------+------+-----+---------+---------
 
-Table: t_notice
----------+--------------+------+-----+---------+---------
- Field   | Type         | Null | Key | Default | Remarks 
----------+--------------+------+-----+---------+---------
- id      | INT(10)      | NO   | PRI |         | 主键      
- content | VARCHAR(255) | YES  |     |         | 公告内容    
----------+--------------+------+-----+---------+---------
-
 Table: t_paper_link_teacher
 -------------+---------+------+-----+---------+---------
  Field       | Type    | Null | Key | Default | Remarks 
@@ -385,21 +454,17 @@ Table: t_subject_horizon
 ------------------------+--------------+------+-----+---------+---------
  id                     | INT(10)      | NO   | PRI |         |         
  SubjectId              | INT(10)      | NO   |     |         |         
+ BelongId               | INT(10)      | NO   |     |         |         
+ SignTime               | DATETIME(26) | YES  |     |         |         
  SoftwareFund           | VARCHAR(255) | YES  |     |         |         
  HardwareFund           | VARCHAR(255) | YES  |     |         |         
  OutboundFund           | VARCHAR(255) | YES  |     |         |         
  Introduction           | VARCHAR(255) | YES  |     |         |         
- RelyCenterSubject      | VARCHAR(255) | NO   |     |         |         
- ContractName           | VARCHAR(255) | NO   |     |         |         
- CooperatePrincipal     | VARCHAR(255) | NO   |     |         |         
- ContractNum            | VARCHAR(255) | NO   |     |         |         
- FundNum                | VARCHAR(255) | NO   |     |         |         
  EntrustPlaceId         | INT(10)      | NO   |     |         |         
- CooperateId            | INT(10)      | NO   |     |         |         
  ContractId             | INT(10)      | NO   |     |         |         
+ SecContractId          | INT(10)      | NO   |     |         |         
+ ThirdContractId        | INT(10)      | NO   |     |         |         
  ContractFund           | VARCHAR(255) | NO   |     |         |         
- BankName               | VARCHAR(255) | NO   |     |         |         
- BankAccount            | VARCHAR(255) | NO   |     |         |         
  isDutyFree             | INT(10)      | NO   |     |         |         
  DutyFreeId             | VARCHAR(255) | YES  |     |         |         
  isPromote              | INT(10)      | NO   |     |         |         
@@ -424,7 +489,7 @@ Table: t_subject_horizon
  BuyerEmail             | VARCHAR(255) | NO   |     |         |         
  BuyerRegisteredAddress | VARCHAR(255) | NO   |     |         |         
  BuyerMailingAddress    | VARCHAR(255) | NO   |     |         |         
- ResearchFund           | VARCHAR(255) | NO   |     |         |         
+ ResearchFund           | VARCHAR(255) | YES  |     |         |         
  ServiceFund            | VARCHAR(255) | YES  |     |         |         
  OtherFund              | VARCHAR(255) | YES  |     |         |         
 ------------------------+--------------+------+-----+---------+---------
@@ -485,16 +550,20 @@ Table: t_subject_sponsored
 --------------------+--------------+------+-----+---------+---------
  id                 | INT(10)      | NO   | PRI |         |         
  SubjectId          | INT(10)      | NO   |     |         |         
+ CategoryId         | INT(10)      | NO   |     |         |         
+ SecCategoryId      | INT(10)      | NO   |     |         |         
  DocumentFund       | VARCHAR(255) | YES  |     |         |         
  DataFund           | VARCHAR(255) | YES  |     |         |         
  OutboundFund       | VARCHAR(255) | YES  |     |         |         
  MeetingFund        | VARCHAR(255) | YES  |     |         |         
  InternationalFund  | VARCHAR(255) | YES  |     |         |         
  HardwareFund       | VARCHAR(255) | YES  |     |         |         
+ DeviceFund         | VARCHAR(255) | YES  |     |         |         
  ConsultFund        | VARCHAR(255) | YES  |     |         |         
  LaborFund          | VARCHAR(255) | YES  |     |         |         
  MaterialFund       | VARCHAR(255) | YES  |     |         |         
  PatentFund         | VARCHAR(255) | YES  |     |         |         
+ AreaId             | INT(10)      | NO   |     |         |         
  ResearchId         | INT(10)      | NO   |     |         |         
  isSecrecy          | INT(10)      | NO   |     |         |         
  isVoucher          | INT(10)      | NO   |     |         |         
@@ -504,28 +573,26 @@ Table: t_subject_sponsored
  DutyFreeId         | INT(10)      | YES  |     |         |         
  BelongId           | INT(10)      | NO   |     |         |         
  TypeId             | INT(10)      | NO   |     |         |         
+ SecTypeId          | INT(10)      | NO   |     |         |         
+ ThirdTypeId        | INT(10)      | NO   |     |         |         
  EntrustPlace       | VARCHAR(255) | NO   |     |         |         
  TopicId            | INT(10)      | NO   |     |         |         
+ MainSubjectName    | VARCHAR(255) | YES  |     |         |         
  MainProjectName    | VARCHAR(255) | YES  |     |         |         
  ApplicationCode    | VARCHAR(255) | YES  |     |         |         
  Introduction       | VARCHAR(255) | NO   |     |         |         
  Remarks            | VARCHAR(255) | YES  |     |         |         
+ CooperateName      | VARCHAR(255) | NO   |     |         |         
  CooperateId        | INT(10)      | NO   |     |         |         
- ContractNum        | VARCHAR(255) | NO   |     |         |         
- FundNum            | VARCHAR(255) | NO   |     |         |         
- ContractName       | VARCHAR(255) | NO   |     |         |         
- ContractId         | INT(10)      | NO   |     |         |         
  ContractFund       | VARCHAR(255) | NO   |     |         |         
  CooperatePrincipal | VARCHAR(255) | NO   |     |         |         
  BankName           | VARCHAR(255) | NO   |     |         |         
  BankAccount        | VARCHAR(255) | NO   |     |         |         
- ContractDuty       | VARCHAR(255) | NO   |     |         |         
- PayId              | INT(10)      | NO   |     |         |         
  EconomicId         | INT(10)      | NO   |     |         |         
  SocietyId          | INT(10)      | NO   |     |         |         
  SourceId           | INT(10)      | NO   |     |         |         
- TechnicalId        | INT(10)      | NO   |     |         |         
- PropertyId         | INT(10)      | NO   |     |         |         
+ StaySchoolFund     | VARCHAR(255) | YES  |     |         |         
+ TravelFund         | VARCHAR(255) | YES  |     |         |         
 --------------------+--------------+------+-----+---------+---------
 
 Table: t_teacher

@@ -16,23 +16,32 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 public class _MappingKit {
 	
 	public static void mapping(ActiveRecordPlugin arp) {
-		arp.addMapping("b_city", "id", BCity.class);
-		arp.addMapping("b_country", "id", BCountry.class);
-		arp.addMapping("b_county", "id", BCounty.class);
-		arp.addMapping("b_province", "id", BProvince.class);
-		arp.addMapping("b_type", "id", BType.class);
+		arp.addMapping("hor_city", "id", HorCity.class);
+		arp.addMapping("hor_country", "id", HorCountry.class);
+		arp.addMapping("hor_county", "id", HorCounty.class);
+		arp.addMapping("hor_province", "id", HorProvince.class);
+		arp.addMapping("hor_type", "id", HorType.class);
 		arp.addMapping("s_belong", "id", SBelong.class);
 		arp.addMapping("s_category", "id", SCategory.class);
+		arp.addMapping("s_category_second", "id", SCategorySecond.class);
 		arp.addMapping("s_contract", "id", SContract.class);
+		arp.addMapping("s_contract_second", "id", SContractSecond.class);
+		arp.addMapping("s_contract_third", "id", SContractThird.class);
 		arp.addMapping("s_cooperate", "id", SCooperate.class);
 		arp.addMapping("s_economic", "id", SEconomic.class);
 		arp.addMapping("s_entrust", "id", SEntrust.class);
 		arp.addMapping("s_first", "id", SFirst.class);
 		arp.addMapping("s_property", "id", SProperty.class);
 		arp.addMapping("s_rank", "id", SRank.class);
-		arp.addMapping("s_research", "id", SResearch.class);
+		arp.addMapping("s_research_area", "id", SResearchArea.class);
+		arp.addMapping("s_research_type", "id", SResearchType.class);
+		arp.addMapping("s_school", "id", SSchool.class);
 		arp.addMapping("s_second", "id", SSecond.class);
+		arp.addMapping("s_society", "id", SSociety.class);
 		arp.addMapping("s_source", "id", SSource.class);
+		arp.addMapping("s_subject_first", "id", SSubjectFirst.class);
+		arp.addMapping("s_subject_second", "id", SSubjectSecond.class);
+		arp.addMapping("s_subject_third", "id", SSubjectThird.class);
 		arp.addMapping("s_technical", "id", STechnical.class);
 		arp.addMapping("s_topic", "id", STopic.class);
 		arp.addMapping("s_type", "id", SType.class);
@@ -51,7 +60,6 @@ public class _MappingKit {
 		arp.addMapping("t_log_review", "id", LogReview.class);
 		arp.addMapping("t_log_type", "id", LogType.class);
 		arp.addMapping("t_major", "id", Major.class);
-		arp.addMapping("t_notice", "id", Notice.class);
 		arp.addMapping("t_paper_link_teacher", "id", PaperLinkTeacher.class);
 		arp.addMapping("t_paper_rank", "id", PaperRank.class);
 		arp.addMapping("t_picture", "id", Picture.class);

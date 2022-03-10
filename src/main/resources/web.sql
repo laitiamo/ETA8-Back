@@ -1,36 +1,36 @@
-#sql("b_country")
+#sql("hor_country")
 SELECT
 *
 FROM
-eta8.b_country
+eta8.hor_country
 #end
 
-#sql("b_type")
+#sql("hor_type")
 SELECT
 *
 FROM
-eta8.b_type
+eta8.hor_type
 #end
 
-#sql("b_province")
+#sql("hor_province")
 SELECT
 *
 FROM
-eta8.b_province
+eta8.hor_province
 #end
 
-#sql("b_city")
+#sql("hor_city")
 SELECT
 *
 FROM
-eta8.b_city
+eta8.hor_city
 #end
 
-#sql("b_county")
+#sql("hor_county")
 SELECT
 *
 FROM
-eta8.b_county
+eta8.hor_county
 #end
 
 #sql("sys_url_role")
@@ -217,6 +217,34 @@ FROM
 eta8.s_type
 #end
 
+#sql("s_society")
+SELECT
+*
+FROM
+eta8.s_society
+#end
+
+#sql("s_subject_first")
+SELECT
+*
+FROM
+eta8.s_subject_first
+#end
+
+#sql("s_subject_second")
+SELECT
+*
+FROM
+eta8.s_subject_second
+#end
+
+#sql("s_subject_third")
+SELECT
+*
+FROM
+eta8.s_subject_third
+#end
+
 #sql("s_topic")
 SELECT
 *
@@ -229,6 +257,20 @@ SELECT
 *
 FROM
 eta8.s_contract
+#end
+
+#sql("s_contract_second")
+SELECT
+*
+FROM
+eta8.s_contract_second
+#end
+
+#sql("s_contract_third")
+SELECT
+*
+FROM
+eta8.s_contract_third
 #end
 
 #sql("s_entrust")
@@ -329,11 +371,18 @@ FROM
 eta8.t_subject_link_paper
 #end
 
-#sql("s_research")
+#sql("s_research_type")
 SELECT
 *
 FROM
-eta8.s_research
+eta8.s_research_type
+#end
+
+#sql("s_research_area")
+SELECT
+*
+FROM
+eta8.s_research_area
 #end
 
 #sql("t_user_role")
@@ -371,11 +420,25 @@ FROM
 eta8.s_belong
 #end
 
+#sql("s_school")
+SELECT
+*
+FROM
+eta8.s_school
+#end
+
 #sql("s_category")
 SELECT
 *
 FROM
 eta8.s_category
+#end
+
+#sql("s_category_second")
+SELECT
+*
+FROM
+eta8.s_category_second
 #end
 
 #sql("s_cooperate")
@@ -390,13 +453,6 @@ SELECT
 *
 FROM
 eta8.t_log_type
-#end
-
-#sql("t_notice")
-SELECT
-*
-FROM
-eta8.t_notice
 #end
 
 #sql("t_inform")
@@ -418,20 +474,6 @@ SELECT
 *
 FROM
 eta8.v_award_info
-#end
-
-#sql("v_paper_info")
-SELECT
-*
-FROM
-eta8.v_paper_info
-#end
-
-#sql("v_student_info")
-SELECT
-*
-FROM
-eta8.v_student_info
 #end
 
 #sql("v_subject_link_school")
@@ -476,11 +518,11 @@ FROM
 eta8.v_subject_link_paper
 #end
 
-#sql("v_subject_info")
+#sql("v_student_info")
 SELECT
 *
 FROM
-eta8.v_subject_info
+eta8.v_student_info
 #end
 
 #sql("v_student_info_instructor")

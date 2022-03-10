@@ -74,8 +74,8 @@ public class UploadController extends Controller {
                         File.separator + className + "_" + username + "_" + getPara("awardName") + "_" + uploadDateTime;
             } else {
                 originPath = File.separator + "upload" +
-                        File.separator + "teacher" +
-                        File.separator + username + "_" + getPara("awardName") + "_" + uploadDateTime;
+                        File.separator + "teacher" + File.separator + "award" + File.separator + getPara("awardName") +
+                        File.separator + username + "_" + getPara("awardName") + "_" + getPara("awardPlace") + "_" + uploadDateTime;
                 //File.separator+username+"_"+getPara("awardName")+"_"+uploadDateTime;           17软件工程3班_10517325操守正_高等数学_2020_04_01_19_43_17
             } // 使用File.separator能确保在Linux和Windows下都使用了对应的文件分隔符
             if (allFiles.size() == 1) {

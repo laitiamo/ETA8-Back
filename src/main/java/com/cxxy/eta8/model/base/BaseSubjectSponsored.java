@@ -27,6 +27,24 @@ public abstract class BaseSubjectSponsored<M extends BaseSubjectSponsored<M>> ex
 		return getInt("SubjectId");
 	}
 
+	public M setCategoryId(java.lang.Integer CategoryId) {
+		set("CategoryId", CategoryId);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getCategoryId() {
+		return getInt("CategoryId");
+	}
+
+	public M setSecCategoryId(java.lang.Integer SecCategoryId) {
+		set("SecCategoryId", SecCategoryId);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getSecCategoryId() {
+		return getInt("SecCategoryId");
+	}
+
 	public M setDocumentFund(java.lang.String DocumentFund) {
 		set("DocumentFund", DocumentFund);
 		return (M)this;
@@ -81,6 +99,15 @@ public abstract class BaseSubjectSponsored<M extends BaseSubjectSponsored<M>> ex
 		return getStr("HardwareFund");
 	}
 
+	public M setDeviceFund(java.lang.String DeviceFund) {
+		set("DeviceFund", DeviceFund);
+		return (M)this;
+	}
+	
+	public java.lang.String getDeviceFund() {
+		return getStr("DeviceFund");
+	}
+
 	public M setConsultFund(java.lang.String ConsultFund) {
 		set("ConsultFund", ConsultFund);
 		return (M)this;
@@ -115,6 +142,15 @@ public abstract class BaseSubjectSponsored<M extends BaseSubjectSponsored<M>> ex
 	
 	public java.lang.String getPatentFund() {
 		return getStr("PatentFund");
+	}
+
+	public M setAreaId(java.lang.Integer AreaId) {
+		set("AreaId", AreaId);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getAreaId() {
+		return getInt("AreaId");
 	}
 
 	public M setResearchId(java.lang.Integer ResearchId) {
@@ -198,6 +234,24 @@ public abstract class BaseSubjectSponsored<M extends BaseSubjectSponsored<M>> ex
 		return getInt("TypeId");
 	}
 
+	public M setSecTypeId(java.lang.Integer SecTypeId) {
+		set("SecTypeId", SecTypeId);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getSecTypeId() {
+		return getInt("SecTypeId");
+	}
+
+	public M setThirdTypeId(java.lang.Integer ThirdTypeId) {
+		set("ThirdTypeId", ThirdTypeId);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getThirdTypeId() {
+		return getInt("ThirdTypeId");
+	}
+
 	public M setEntrustPlace(java.lang.String EntrustPlace) {
 		set("EntrustPlace", EntrustPlace);
 		return (M)this;
@@ -214,6 +268,15 @@ public abstract class BaseSubjectSponsored<M extends BaseSubjectSponsored<M>> ex
 	
 	public java.lang.Integer getTopicId() {
 		return getInt("TopicId");
+	}
+
+	public M setMainSubjectName(java.lang.String MainSubjectName) {
+		set("MainSubjectName", MainSubjectName);
+		return (M)this;
+	}
+	
+	public java.lang.String getMainSubjectName() {
+		return getStr("MainSubjectName");
 	}
 
 	public M setMainProjectName(java.lang.String MainProjectName) {
@@ -252,6 +315,15 @@ public abstract class BaseSubjectSponsored<M extends BaseSubjectSponsored<M>> ex
 		return getStr("Remarks");
 	}
 
+	public M setCooperateName(java.lang.String CooperateName) {
+		set("CooperateName", CooperateName);
+		return (M)this;
+	}
+	
+	public java.lang.String getCooperateName() {
+		return getStr("CooperateName");
+	}
+
 	public M setCooperateId(java.lang.Integer CooperateId) {
 		set("CooperateId", CooperateId);
 		return (M)this;
@@ -259,42 +331,6 @@ public abstract class BaseSubjectSponsored<M extends BaseSubjectSponsored<M>> ex
 	
 	public java.lang.Integer getCooperateId() {
 		return getInt("CooperateId");
-	}
-
-	public M setContractNum(java.lang.String ContractNum) {
-		set("ContractNum", ContractNum);
-		return (M)this;
-	}
-	
-	public java.lang.String getContractNum() {
-		return getStr("ContractNum");
-	}
-
-	public M setFundNum(java.lang.String FundNum) {
-		set("FundNum", FundNum);
-		return (M)this;
-	}
-	
-	public java.lang.String getFundNum() {
-		return getStr("FundNum");
-	}
-
-	public M setContractName(java.lang.String ContractName) {
-		set("ContractName", ContractName);
-		return (M)this;
-	}
-	
-	public java.lang.String getContractName() {
-		return getStr("ContractName");
-	}
-
-	public M setContractId(java.lang.Integer ContractId) {
-		set("ContractId", ContractId);
-		return (M)this;
-	}
-	
-	public java.lang.Integer getContractId() {
-		return getInt("ContractId");
 	}
 
 	public M setContractFund(java.lang.String ContractFund) {
@@ -333,24 +369,6 @@ public abstract class BaseSubjectSponsored<M extends BaseSubjectSponsored<M>> ex
 		return getStr("BankAccount");
 	}
 
-	public M setContractDuty(java.lang.String ContractDuty) {
-		set("ContractDuty", ContractDuty);
-		return (M)this;
-	}
-	
-	public java.lang.String getContractDuty() {
-		return getStr("ContractDuty");
-	}
-
-	public M setPayId(java.lang.Integer PayId) {
-		set("PayId", PayId);
-		return (M)this;
-	}
-	
-	public java.lang.Integer getPayId() {
-		return getInt("PayId");
-	}
-
 	public M setEconomicId(java.lang.Integer EconomicId) {
 		set("EconomicId", EconomicId);
 		return (M)this;
@@ -378,22 +396,22 @@ public abstract class BaseSubjectSponsored<M extends BaseSubjectSponsored<M>> ex
 		return getInt("SourceId");
 	}
 
-	public M setTechnicalId(java.lang.Integer TechnicalId) {
-		set("TechnicalId", TechnicalId);
+	public M setStaySchoolFund(java.lang.String StaySchoolFund) {
+		set("StaySchoolFund", StaySchoolFund);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getTechnicalId() {
-		return getInt("TechnicalId");
+	public java.lang.String getStaySchoolFund() {
+		return getStr("StaySchoolFund");
 	}
 
-	public M setPropertyId(java.lang.Integer PropertyId) {
-		set("PropertyId", PropertyId);
+	public M setTravelFund(java.lang.String TravelFund) {
+		set("TravelFund", TravelFund);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getPropertyId() {
-		return getInt("PropertyId");
+	public java.lang.String getTravelFund() {
+		return getStr("TravelFund");
 	}
 
 }

@@ -31,6 +31,8 @@ public class QuerySubjectController extends Controller {
         Map<String, Object> attrMap = new HashMap<String, Object>();
         attrMap.put("s_rank", new DbRecord(DbConfig.T_SUBJECT_RANK).query());
         attrMap.put("rank", new DbRecord(DbConfig.T_RANK).query());
+        attrMap.put("college", new DbRecord(DbConfig.T_COLLEGE).orderByASC("id").query());
+        attrMap.put("sector", new DbRecord(DbConfig.T_SECTOR).orderByASC("id").query());
         renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, JSON.toJSONString(attrMap)));
     }
 
@@ -40,6 +42,10 @@ public class QuerySubjectController extends Controller {
         Integer rankId = getParaToInt("rankId");
         Integer levelId = getParaToInt("levelId");
         Integer reviewId = getParaToInt("reviewId");
+        Integer collegeId = getParaToInt("collegeId");
+        Integer sectorId = getParaToInt("sectorId");
+        String keyUsername = getPara("keyUsername");
+        String keyName = getPara("keyName");
         String keySubjectNum = getPara("keySubjectNum");
         String keySubjectName = getPara("keySubjectName");
         String keySubjectPlace = getPara("keySubjectPlace");
@@ -47,13 +53,18 @@ public class QuerySubjectController extends Controller {
         String field = getPara("field");
         String defaultField = "id";
 
-        Page<Record> p = new DbRecord(DbConfig.V_SUBJECT_INFO)
+        Page<Record> p = new DbRecord(DbConfig.V_TEACHER_SUBJECT)
                 .whereContains("SubjectNum", keySubjectNum)
                 .whereContains("SubjectName", keySubjectName)
                 .whereContains("SubjectPlace", keySubjectPlace)
-                .whereEqualTo("RankId", rankId)
+                .whereContains("name", keyName)
+                .whereEqualTo("username", keyUsername)
+                .whereEqualTo("rankId", rankId)
+                .whereEqualTo("sectorId",sectorId)
+                .whereEqualTo("collegeId",collegeId)
                 .whereEqualTo("LevelId", levelId)
                 .whereEqualTo("ReviewId", reviewId)
+                .whereEqualTo("CandidateId",WebConfig.CANDIDATE_MAJOR)
                 .orderBySelect(field, order, defaultField)
                 .page(page, limit);
         renderJson(new LayUITableResult<Record>(AjaxResult.CODE_SUCCESS, "", p.getTotalRow(), p.getList()));
@@ -113,16 +124,25 @@ public class QuerySubjectController extends Controller {
         Integer rankId = getParaToInt("rankId");
         Integer levelId = getParaToInt("levelId");
         Integer reviewId = getParaToInt("reviewId");
+        Integer collegeId = getParaToInt("collegeId");
+        Integer sectorId = getParaToInt("sectorId");
+        String keyUsername = getPara("keyUsername");
+        String keyName = getPara("keyName");
         String keySubjectNum = getPara("keySubjectNum");
         String keySubjectName = getPara("keySubjectName");
         String keySubjectPlace = getPara("keySubjectPlace");
-        List<Record> records = new DbRecord(DbConfig.V_SUBJECT_INFO)
+        List<Record> records = new DbRecord(DbConfig.V_TEACHER_SUBJECT)
                 .whereContains("SubjectNum", keySubjectNum)
                 .whereContains("SubjectName", keySubjectName)
                 .whereContains("SubjectPlace", keySubjectPlace)
-                .whereEqualTo("RankId", rankId)
+                .whereContains("name", keyName)
+                .whereEqualTo("username", keyUsername)
+                .whereEqualTo("rankId", rankId)
+                .whereEqualTo("sectorId",sectorId)
+                .whereEqualTo("collegeId",collegeId)
                 .whereEqualTo("LevelId", levelId)
                 .whereEqualTo("ReviewId", reviewId)
+                .whereEqualTo("CandidateId",WebConfig.CANDIDATE_MAJOR)
                 .query();
         try {
             File downloadFile = ExportService.me.exportTeacherSubject(records);
@@ -153,16 +173,25 @@ public class QuerySubjectController extends Controller {
         Integer rankId = getParaToInt("rankId");
         Integer levelId = getParaToInt("levelId");
         Integer reviewId = getParaToInt("reviewId");
+        Integer collegeId = getParaToInt("collegeId");
+        Integer sectorId = getParaToInt("sectorId");
+        String keyUsername = getPara("keyUsername");
+        String keyName = getPara("keyName");
         String keySubjectNum = getPara("keySubjectNum");
         String keySubjectName = getPara("keySubjectName");
         String keySubjectPlace = getPara("keySubjectPlace");
-        List<Record> records = new DbRecord(DbConfig.V_SUBJECT_INFO)
+        List<Record> records = new DbRecord(DbConfig.V_TEACHER_SUBJECT)
                 .whereContains("SubjectNum", keySubjectNum)
                 .whereContains("SubjectName", keySubjectName)
                 .whereContains("SubjectPlace", keySubjectPlace)
-                .whereEqualTo("RankId", rankId)
+                .whereContains("name", keyName)
+                .whereEqualTo("username", keyUsername)
+                .whereEqualTo("rankId", rankId)
+                .whereEqualTo("sectorId",sectorId)
+                .whereEqualTo("collegeId",collegeId)
                 .whereEqualTo("LevelId", levelId)
                 .whereEqualTo("ReviewId", reviewId)
+                .whereEqualTo("CandidateId",WebConfig.CANDIDATE_MAJOR)
                 .query();
         try {
             File downloadFile = ExportService.me.exportTeacherZIP(records);
