@@ -29,7 +29,7 @@ public class QuerySubjectController extends Controller {
 //		setAttr("rank", new DbRecord(DbConfig.T_RANK).query());
 //		renderTemplate("query-tea.html");
         Map<String, Object> attrMap = new HashMap<String, Object>();
-        attrMap.put("s_rank", new DbRecord(DbConfig.T_SUBJECT_RANK).query());
+        attrMap.put("level", new DbRecord(DbConfig.T_LEVEL).query());
         attrMap.put("rank", new DbRecord(DbConfig.T_RANK).query());
         attrMap.put("college", new DbRecord(DbConfig.T_COLLEGE).orderByASC("id").query());
         attrMap.put("sector", new DbRecord(DbConfig.T_SECTOR).orderByASC("id").query());

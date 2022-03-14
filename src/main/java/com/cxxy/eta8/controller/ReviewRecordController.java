@@ -20,7 +20,7 @@ public class ReviewRecordController extends Controller {
 
     public void index() {
         Map<String, Object> attrMap = new HashMap<String, Object>();
-        attrMap.put("type", new DbRecord(DbConfig.T_TYPE).query());
+        attrMap.put("type", new DbRecord(DbConfig.T_TYPE).whereNotEqualTo("id",4).query());
         attrMap.put("college", new DbRecord(DbConfig.T_COLLEGE).orderByASC("id").query());
         attrMap.put("sector", new DbRecord(DbConfig.T_SECTOR).orderByASC("id").query());
         renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, JSON.toJSONString(attrMap)));

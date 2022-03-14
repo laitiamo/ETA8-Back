@@ -308,11 +308,11 @@ FROM
 eta8.s_economic
 #end
 
-#sql("t_subject_rank")
+#sql("t_level")
 SELECT
 *
 FROM
-eta8.t_subject_rank
+eta8.t_level
 #end
 
 #sql("t_subject_school")

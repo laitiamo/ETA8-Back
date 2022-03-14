@@ -29,7 +29,6 @@ import java.util.*;
 public class SubjectController extends Controller {
     public void index() {
         Map<String, Object> attrMap = new HashMap<String, Object>();
-        setAttr("rank", new DbRecord(DbConfig.T_SUBJECT_RANK).query());
         setAttr("teacher", new DbRecord(DbConfig.V_TEACHER_INFO).query());
         setAttr("ecofirst", new DbRecord(DbConfig.S_FIRST).whereEqualTo("RankId", WebConfig.RANK_ECONOMIC).query());
         setAttr("socfirst", new DbRecord(DbConfig.S_FIRST).whereEqualTo("RankId", WebConfig.RANK_SOCIETY).query());
@@ -675,7 +674,7 @@ public class SubjectController extends Controller {
         String field = getPara("field");
         String defaultField = "rankName";
         Page<Record> p = null;
-        p = new DbRecord(DbConfig.T_SUBJECT_RANK)
+        p = new DbRecord(DbConfig.T_LEVEL)
                 .orderBySelect(field, order, defaultField)
                 .page(page, limit);
         renderJson(new LayUITableResult<Record>(AjaxResult.CODE_SUCCESS, "", p.getTotalRow(), p.getList()));

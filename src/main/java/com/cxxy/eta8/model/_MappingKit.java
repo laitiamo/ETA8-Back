@@ -57,6 +57,7 @@ public class _MappingKit {
 		arp.addMapping("t_grade", "id", Grade.class);
 		arp.addMapping("t_inform", "id", Inform.class);
 		arp.addMapping("t_instructor_link_student", "id", InstructorLinkStudent.class);
+		arp.addMapping("t_level", "id", Level.class);
 		arp.addMapping("t_log_review", "id", LogReview.class);
 		arp.addMapping("t_log_type", "id", LogType.class);
 		arp.addMapping("t_major", "id", Major.class);
@@ -71,7 +72,6 @@ public class _MappingKit {
 		arp.addMapping("t_subject_horizon", "id", SubjectHorizon.class);
 		arp.addMapping("t_subject_link_paper", "id", SubjectLinkPaper.class);
 		arp.addMapping("t_subject_link_teacher", "id", SubjectLinkTeacher.class);
-		arp.addMapping("t_subject_rank", "id", SubjectRank.class);
 		arp.addMapping("t_subject_school", "id", SubjectSchool.class);
 		arp.addMapping("t_subject_sponsored", "id", SubjectSponsored.class);
 		arp.addMapping("t_teacher", "id", Teacher.class);

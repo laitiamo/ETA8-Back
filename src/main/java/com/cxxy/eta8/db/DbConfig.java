@@ -30,7 +30,7 @@ public class DbConfig {
 
 	public static final String T_USER_SUBJECT = "t_user_subject";
 	public static final String T_SUBJECT_LINK_TEACHER = "t_subject_link_teacher";
-	public static final String T_SUBJECT_RANK = "t_subject_rank";
+	public static final String T_LEVEL = "t_level";
 	public static final String T_SUBJECT_SCHOOL = "t_subject_school";
 	public static final String T_SUBJECT_SPONSORED = "t_subject_sponsored";
 	public static final String T_SUBJECT_HORIZON = "t_subject_horizon";

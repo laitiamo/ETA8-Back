@@ -61,6 +61,7 @@ public class ReviewSubjectController extends Controller {
         }
     }
 
+    //项目立项通过
     public void passSubject() {
         Integer id = getParaToInt("id");
         String reviewName = getPara("reviewer");
@@ -88,7 +89,7 @@ public class ReviewSubjectController extends Controller {
         r.set("reviewId", WebConfig.REVIEW_NOT_PASS);
         r.set("reviewAt", new Date(System.currentTimeMillis()));
         if (UserService.me.setLog(id, reviewType, reviewName)) {
-            if (Db.update(DbConfig.T_USER_AWARD, "id", r)) {
+            if (Db.update(DbConfig.T_USER_SUBJECT, "id", r)) {
                 renderJson(new AjaxResult(AjaxResult.CODE_SUCCESS, "操作成功！您的操作为：驳回立项"));
             } else {
                 renderJson(new AjaxResult(AjaxResult.CODE_ERROR, "操作失败"));
